@@ -1,0 +1,44 @@
+<?php
+/*
+Plugin Name: MF Navigation+
+Plugin URI: 
+Description:
+Version: 1.0.0
+Licence: GPLv2 or later
+Author: Martin Fors
+Author URI: https://martinfors.se
+Text Domain: lang_navigation
+Domain Path: /lang
+
+Depends: Meta Box, MF Base
+GitHub Plugin URI: 
+*/
+
+if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
+{
+	include_once("include/classes.php");
+
+	$obj_navigation = new mf_navigation();
+
+	add_action('init', array($obj_navigation, 'init'));
+
+	if(is_admin())
+	{
+		register_uninstall_hook(__FILE__, 'uninstall_navigation');
+
+		add_action('admin_init', array($obj_navigation, 'settings_navigation'));
+	}
+
+	load_plugin_textdomain('lang_navigation', false, dirname(plugin_basename(__FILE__))."/lang/");
+
+	function uninstall_navigation()
+	{
+		include_once("include/classes.php");
+
+		$obj_navigation = new mf_navigation();
+
+		mf_uninstall_plugin(array(
+			'options' => array('setting_navigation_background_color', 'setting_navigation_text_color', 'setting_navigation_breakpoint_tablet', 'setting_navigation_breakpoint_mobile'),
+		));
+	}
+}

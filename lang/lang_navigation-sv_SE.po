@@ -1,0 +1,476 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-10 12:50+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Martin Fors\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: sv_SE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: esc_html__;esc_html_e;esc_attr__;esc_attr_e;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../include/classes.php:121
+msgid "There is no menu here yet"
+msgstr "Det finns ingen meny ännu"
+
+#: ../include/classes.php:160
+msgid "Background Color"
+msgstr "Bakgrundsfärg"
+
+#: ../include/classes.php:161
+msgid "Text Color"
+msgstr "Textfärg"
+
+#: ../include/classes.php:162
+#: ../include/classes.php:163
+msgid "Breakpoint"
+msgstr "Brytpunkt"
+
+#: ../include/classes.php:162
+msgid "Tablet"
+msgstr "Platta"
+
+#: ../include/classes.php:163
+msgid "Mobile"
+msgstr "Mobil"
+
+#~ msgid "Expiry Date on %s"
+#~ msgstr "Utgångsdatum på %s"
+
+#~ msgid "%s expires %s"
+#~ msgstr "%s går ut %s"
+
+#~ msgid "Social Feeds"
+#~ msgstr "Sociala flöden"
+
+#~ msgid "Social Feed"
+#~ msgstr "Socialt flöde"
+
+#~ msgid "Posts"
+#~ msgstr "Inlägg"
+
+#~ msgid "Post"
+#~ msgstr "Inlägg"
+
+#~ msgid "API URL"
+#~ msgstr "API-länk"
+
+#~ msgid "Keep Posts"
+#~ msgstr "Behåll inlägg"
+
+#~ msgid "Interval to Fetch New"
+#~ msgstr "Intervall för att hämta nytt"
+
+#~ msgid "Deactivate on Error"
+#~ msgstr "Inaktivera vid fel"
+
+#~ msgid "Interval to Reload Site"
+#~ msgstr "Intervall för att ladda om sidan"
+
+#~ msgid "Debug"
+#~ msgstr "Felsök"
+
+#~ msgid "Design"
+#~ msgstr "Utseende"
+
+#~ msgid "Display Full Width on Large Screens"
+#~ msgstr "Visa fullbredd på stora skärmar"
+
+#~ msgid "Columns on Desktop"
+#~ msgstr "Kolumner på dator"
+
+#~ msgid "Columns on Tablets"
+#~ msgstr "Kolumner på plattor"
+
+#~ msgid "Display Border"
+#~ msgstr "Visa ram"
+
+#~ msgid "Client ID"
+#~ msgstr "Klient-ID"
+
+#~ msgid "Client Secret"
+#~ msgstr "Hemlig klientnyckel"
+
+#~ msgid "Redirect URL"
+#~ msgstr "Skicka vidare till URL"
+
+#~ msgid "Authorize"
+#~ msgstr "Auktorisera"
+
+#~ msgid "Email when Expired"
+#~ msgstr "Skicka e-post inför utgång"
+
+#~ msgid "Key"
+#~ msgstr "Nyckel"
+
+#~ msgid "Secret"
+#~ msgstr "Hemlig nyckel"
+
+#~ msgid "Access Token"
+#~ msgstr "Behörighetsnyckel"
+
+#~ msgid "Access Token Secret"
+#~ msgstr "Hemlig behörighetnyckel"
+
+#~ msgid "months"
+#~ msgstr "månader"
+
+#~ msgid "Between each API request"
+#~ msgstr "Mellan varje API-anrop"
+
+#~ msgid "no reload"
+#~ msgstr "ingen omladdning"
+
+#~ msgid "Square"
+#~ msgstr "Rutnät"
+
+#~ msgid "Default"
+#~ msgstr "Standard"
+
+#~ msgid "Masonry"
+#~ msgstr "Murverk"
+
+#~ msgid "Go to %s and log in"
+#~ msgstr "Gå till %s och logga in"
+
+#~ msgid "Create a new app if you do not have one already and edit the app"
+#~ msgstr "Skapa en ny app om du inte redan har det, och redigera appen"
+
+#~ msgid "Copy %s and %s to these fields"
+#~ msgstr "Kopiera %s och %s till dessa fält"
+
+#~ msgid "Make sure that %s is checked"
+#~ msgstr "Se till så att %s är markerad"
+
+#~ msgid "Add this URL to your Apps %s"
+#~ msgstr "Lägg till denna URL till din apps %s"
+
+#~ msgid "Click the tab %s"
+#~ msgstr "Klicka på tabben %s"
+
+#~ msgid "Copy %s, %s, %s and %s to paste here"
+#~ msgstr "Kopiera %s, %s, %s och %s för att klistra in här"
+
+#~ msgid ""
+#~ "Posts from social feeds are stored in the database to make it possible to "
+#~ "present them in the fastest way possible to you as a visitor."
+#~ msgstr ""
+#~ "Inlägg från sociala medier sparas i databasen för att göra det möjligt "
+#~ "att presentera dom på snabbast möjliga sätt för dig som besökare."
+
+#~ msgid "Errors"
+#~ msgstr "Fel"
+
+#~ msgid "Settings"
+#~ msgstr "Inställningar"
+
+#~ msgid "Posts can only be fetched from Facebook Pages, not personal Profiles"
+#~ msgstr ""
+#~ "Inlägg kan endast hämtas från sk. Facebook Pages, inte från personliga "
+#~ "profiler"
+
+#~ msgid "The access token will expire %s"
+#~ msgstr "Behörighetsnyckeln kommer att gå ut %s"
+
+#~ msgid "The access token expired %s"
+#~ msgstr "Behörighetsnyckeln gick ut %s"
+
+#~ msgid "Go to %s and log in to renew"
+#~ msgstr "Gå till %s och logga in för att förnya"
+
+#~ msgid "All Done!"
+#~ msgstr "Nu är allt klart!"
+
+#~ msgid "Go to %sSettings%s and add an API URL"
+#~ msgstr "Gå till %sInställningar%s och lägg till en API URL"
+
+#~ msgid "Posts can be fetched from @users"
+#~ msgstr "Inlägg kan hämtas från @användare"
+
+#~ msgid "Choose an Account"
+#~ msgstr "Välj ett konto"
+
+#~ msgid "I could not get the name for the business account"
+#~ msgstr "Jag kunde inte hämta namnet på företagskontot"
+
+#~ msgid "There are no business accounts connected to the login that you used"
+#~ msgstr ""
+#~ "Det finns inga företagskonton kopplade till den inloggning som du använde"
+
+#~ msgid "Go to %sSettings%s and add a %s"
+#~ msgstr "Gå till %sInställningar%s och lägg till %s"
+
+#~ msgid "Authorize Here"
+#~ msgstr "Auktorisera här"
+
+#~ msgid ""
+#~ "Posts can be fetched with company ID as seen in the URL when visiting the "
+#~ "page"
+#~ msgstr ""
+#~ "Inlägg kan hämtas med företags-ID som kan hittas i URLen när man besöker "
+#~ "sidan"
+
+#~ msgid "Posts can only be fetched by entering the full URL to the feed"
+#~ msgstr ""
+#~ "Inlägg kan endast hämtas genom att fylla i fullständiga URLen till flödet"
+
+#~ msgid "Posts can either be fetched from @users or #hashtags"
+#~ msgstr "Inlägg kan antingen hämtas från @användare eller #hashtaggar"
+
+#~ msgid "Service"
+#~ msgstr "Tjänst"
+
+#~ msgid "Search for"
+#~ msgstr "Sök efter"
+
+#~ msgid "page_name"
+#~ msgstr "sidnamn"
+
+#~ msgid "Report to"
+#~ msgstr "Rapportera till"
+
+#~ msgid "A message is sent when the access token is about to expire"
+#~ msgstr "Ett meddelande skickas när behörighetsnyckeln håller på att gå ut"
+
+#~ msgid "Include"
+#~ msgstr "Inkludera"
+
+#~ msgid "Others"
+#~ msgstr "Andras"
+
+#~ msgid "Name"
+#~ msgstr "Namn"
+
+#~ msgid "Username"
+#~ msgstr "Användarnamn"
+
+#~ msgid "Profile Picture"
+#~ msgstr "Profilbild"
+
+#~ msgid "Replies"
+#~ msgstr "Svar"
+
+#~ msgid "Choose a Social Feed"
+#~ msgstr "Välj ett socialt flöde"
+
+#~ msgid "In Use"
+#~ msgstr "Används"
+
+#~ msgid "Amount"
+#~ msgstr "Antal"
+
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgid "Image"
+#~ msgstr "Bild"
+
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgid "Will expire %s"
+#~ msgstr "Går ut %s"
+
+#~ msgid "Expired %s"
+#~ msgstr "Gick ut %s"
+
+#~ msgid "unknown"
+#~ msgstr "okänd"
+
+#~ msgid "Fetch"
+#~ msgstr "Hämta"
+
+#~ msgid "Fetched"
+#~ msgstr "Hämtad"
+
+#~ msgid "I got an error when accessing the feed"
+#~ msgstr "Jag fick ett fel när jag hämtade flödet"
+
+#~ msgid "I am waiting to get access to the feed"
+#~ msgstr "Jag väntar på att få tillgång till flödet"
+
+#~ msgid "Published"
+#~ msgstr "Publik"
+
+#~ msgid "Hidden"
+#~ msgstr "Dold"
+
+#~ msgid "Ignored"
+#~ msgstr "Ignorerad"
+
+#~ msgid "Latest"
+#~ msgstr "Senaste"
+
+#~ msgid "Owner"
+#~ msgstr "Ägare"
+
+#~ msgid "Not Owner"
+#~ msgstr "Inte ägare"
+
+#~ msgid "Answer"
+#~ msgstr "Svar"
+
+#~ msgid "Are you sure?"
+#~ msgstr "Är du säker?"
+
+#~ msgid "Hide"
+#~ msgstr "Dölj"
+
+#~ msgid ""
+#~ "Are you sure? This will make all future posts by %s to be ignored aswell!"
+#~ msgstr ""
+#~ "Är du säker? Detta kommer att göra så att alla framtida inlägg av %s "
+#~ "också kommer att ignoreras!"
+
+#~ msgid "Ignore Future Posts"
+#~ msgstr "Ignorera framtida inlägg"
+
+#~ msgid "There are no posts to display"
+#~ msgstr "Det finns inga inlägg att visa"
+
+#~ msgid "All"
+#~ msgstr "Alla"
+
+#~ msgid "Image for the post %s"
+#~ msgstr "Bild till inlägget %s"
+
+#~ msgid "View More"
+#~ msgstr "Se fler"
+
+#~ msgid "I have hidden the post for you now"
+#~ msgstr "Jag har dolt inlägget åt dig nu"
+
+#~ msgid ""
+#~ "I could not hide the post for you. If the problem persists, please "
+#~ "contact an admin"
+#~ msgstr ""
+#~ "Jag lyckades inte dölja inlägget åt dig. Om problemet kvarstår, var "
+#~ "vänlig kontakta en administratör"
+
+#~ msgid ""
+#~ "I have ignored the post for you now. This means that all future posts by "
+#~ "this user will be ignored aswell"
+#~ msgstr ""
+#~ "Jag har ignorerat inlägget åt dig nu. Detta betyder att alla framtida "
+#~ "inlägg av denna användare kommer att ignoreras"
+
+#~ msgid ""
+#~ "I could not ignore the post for you. If the problem persists, please "
+#~ "contact an admin"
+#~ msgstr ""
+#~ "Jag lyckades inte ignorera inlägget åt dig. Om problemet kvarstår, var "
+#~ "vänlig kontakta en administratör"
+
+#~ msgid "Generate new Access Token"
+#~ msgstr "Generera en ny behörighets-token"
+
+#~ msgid "Generate Access Token"
+#~ msgstr "Generera en behörighets-token"
+
+#~ msgid "You must authorize in order to use the API"
+#~ msgstr "Du måste auktorisera för att kunna använda APIet"
+
+#~ msgid "%s Access Token has Expired"
+#~ msgstr "%s behörighetsnyckeln har gått ut"
+
+#~ msgid "Please generate a new Access Token for %s %sHere%s"
+#~ msgstr "Var vänlig generera en ny Access Token för %s %shär%s"
+
+#~ msgid "Expires in %s days, %s hours"
+#~ msgstr "Går ut om %s dagar, %s timmar"
+
+#~ msgid "The Access Token has expired. Please generate a new"
+#~ msgstr "Behörighets-token har gått ut. Var vänlig generera en ny"
+
+#~ msgid "I could not update the Access Token for you"
+#~ msgstr "Jag kunde inte uppdatera behörighets-token åt dig"
+
+#~ msgid "I updated the Access Token for you"
+#~ msgstr "Jag uppdaterade behörighets-token åt dig"
+
+#~ msgid "An unknown error occurred"
+#~ msgstr "Ett okänt fel inträffade"
+
+#~ msgid ""
+#~ "The access token is not valid anymore. Renew it by editing this feed."
+#~ msgstr ""
+#~ "Behörighetsnyckeln är inte längre giltig. Förnya den genom att redigera "
+#~ "detta flöde."
+
+#~ msgid "The access token has expired. Renew it by editing this feed."
+#~ msgstr ""
+#~ "Behörighetsnyckeln har gått ut. Förnya den genom att redigera detta flöde."
+
+#~ msgid ""
+#~ "The access token was not accepted. Renew it by editing this feed and "
+#~ "logging in with an account that is admin on the page."
+#~ msgstr ""
+#~ "Behörighetsnyckeln godkändes inte. Förnya den genom att redigera detta "
+#~ "flöde och logga in med ett konto som är admin på sidan."
+
+#~ msgid "Edit and add an access token"
+#~ msgstr "Redigera och lägg till en access token"
+
+#~ msgid "The JSON I got back was not correct"
+#~ msgstr "Jag fick tillbaka JSON som inte var korrekt"
+
+#~ msgid "No key found"
+#~ msgstr "Ingen nyckel hittades"
+
+#~ msgid "Token has expired"
+#~ msgstr "Token har gått ut"
+
+#~ msgid "I could not find a feed"
+#~ msgstr "Jag kunde inte hitta ett flöde"
+
+#~ msgid "Display Social Feeds"
+#~ msgstr "Visa sociala flöden"
+
+#~ msgid "No"
+#~ msgstr "Nej"
+
+#~ msgid "Yes"
+#~ msgstr "Ja"
+
+#~ msgid "Individually"
+#~ msgstr "Individuellt"
+
+#~ msgid "Grouped"
+#~ msgstr "Grupperat"
+
+#~ msgid "Heading"
+#~ msgstr "Rubrik"
+
+#~ msgid "Feeds"
+#~ msgstr "Flöden"
+
+#~ msgid "Display Filter"
+#~ msgstr "Visa filter"
+
+#~ msgid "Load More Posts"
+#~ msgstr "Ladda fler inlägg"
+
+#~ msgid "Limit Source"
+#~ msgstr "Begränsa källa"
+
+#~ msgid ""
+#~ "This will prevent one source from taking over the whole feed if it is "
+#~ "posted to much more often than the other sources"
+#~ msgstr ""
+#~ "Detta stoppar en källa från att ta över hela flödet om det skrivs till "
+#~ "den mycket oftare än övriga källor"
+
+#~ msgid "Display Text"
+#~ msgstr "Visa text"
+
+#~ msgid "Display Read More"
+#~ msgstr "Visa Läs mer"
+
+#~ msgid "Display Likes"
+#~ msgstr "Visa Gilla"
