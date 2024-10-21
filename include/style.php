@@ -68,13 +68,13 @@ echo "@media all
 		
 			.widget.navigation .wp-block-navigation-item + .wp-block-navigation-item
 			{
-				margin-left: .2rem;
+				margin-left: .5rem;
 			}
 
 				.widget.navigation .wp-block-navigation-item a
 				{
 					border-radius: ".$nav_item_border_radius.";
-					display: inline-block;
+					/*display: inline-block;*/ /* Make this a setting? */
 					padding: ".$nav_item_padding.";
 				}
 
@@ -91,6 +91,7 @@ echo "@media all
 					.widget.navigation .wp-block-navigation-item.invert a
 					{
 						background-color: ".$setting_navigation_text_color." !important;
+						border: .1rem solid ".$setting_navigation_text_color." !important;
 					}
 
 	.is_mobile .widget.navigation .fa.fa-bars
@@ -195,6 +196,7 @@ echo "@media all
 							.widget.navigation.is_open .wp-block-navigation .wp-block-navigation-item.invert a
 							{
 								background-color: ".$setting_navigation_background_color." !important;
+								border: .1rem solid ".$setting_navigation_background_color." !important;
 								color: ".$setting_navigation_text_color." !important;
 							}
 }";

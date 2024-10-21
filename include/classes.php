@@ -8,44 +8,57 @@ class mf_navigation
 
 	function parse_navigation_menu($markup)
 	{
-		$menu = array();
-		$current_submenu = null;
+		$menu_items = $submenu_items = array();
+		$current_submenu = 0;
 		
-		$pattern = '/<!-- wp:navigation-(.*?) (.*?) \/-->/';
-		preg_match_all($pattern, $markup, $matches, PREG_SET_ORDER);
+		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $matches, PREG_SET_ORDER);
+
+		//echo var_export($matches, true);
 		
 		foreach($matches as $match)
 		{
-			$type = $match[1];
-			$data = json_decode($match[2], true);
+			$is_end = ($match[1] == "/");
+			$type = $match[2];
+			$data = json_decode($match[3], true);
+			$is_single = ($match[4] == "/");
 
 			switch($type)
 			{
-				case 'submenu':
-					$current_submenu = $data;
-					$current_submenu['children'] = array();
-					$menu[] = $current_submenu;
-				break;
-
-				case 'link':
-					if($current_submenu)
+				case 'navigation-submenu':
+					if($is_end)
 					{
-						$current_submenu['children'][] = $data;
+						$menu_items[] = $submenu_items;
+						$current_submenu = 0;
 					}
 
 					else
 					{
-						$menu[] = $data;
+						$current_submenu = $data['id'];
+
+						$submenu_items = $data;
+						$submenu_items['children'] = array();
+					}
+				break;
+
+				case 'navigation-link':
+					if($current_submenu > 0)
+					{
+						$submenu_items['children'][] = $data;
+					}
+
+					else
+					{
+						$menu_items[] = $data;
 					}
 				break;
 
 				default:
-					do_log(__FUNCTION__.": ".$type." has to be handled");
+					do_log(__FUNCTION__.": Unknown type ".$type);
 				break;
 			}
 		}
 		
-		return $menu;
+		return $menu_items;
 	}
 
 	function block_render_callback($attributes)
@@ -76,22 +89,42 @@ class mf_navigation
 
 				foreach($arr_menu as $arr_menu_object)
 				{
+					$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
+
 					$out_temp .= "<li class='wp-block-navigation-item"
 						.(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '' ? " ".$arr_menu_object['className'] : "")
-						.($arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
-					."'>" // wp-block-navigation-link
+						.(isset($post->ID) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
+						.($has_children ? " has-child" : "")
+					."'>"
 						."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>
 							<span class='wp-block-navigation-item__label'>".$arr_menu_object['label']."</span>
-						</a>
-					</li>";
+						</a>";
 
-					if(isset($arr_menu_object['children']))
-					{
-						do_log(__FUNCTION__.": Display submenu here");
-					}
+						if($has_children)
+						{
+							$out_temp .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>";
+							
+								foreach($arr_menu_object['children'] as $arr_submenu_object)
+								{
+									$out_temp .= "<li class='wp-block-navigation-item"
+										.(isset($arr_submenu_object['className']) && $arr_submenu_object['className'] != '' ? " ".$arr_submenu_object['className'] : "")
+										.(isset($post->ID) && $arr_submenu_object['id'] == $post->ID ? " current_menu_item" : "")
+									."'>" //has-small-font-size open-on-hover-click wp-block-navigation-submenu
+										."<a class='wp-block-navigation-item__content' href='".$arr_submenu_object['url']."'>
+											<span class='wp-block-navigation-item__label'>".$arr_submenu_object['label']."</span>
+										</a>
+									</li>";
+								}
+
+							$out_temp .= "</ul>";
+						}
+
+					$out_temp .= "</li>";
 				}
 
-				//$out_temp .= var_export($arr_menu, true).", ".var_export($post, true);
+				//$out_temp .= htmlspecialchars($post_content)."<br>";
+				//$out_temp .= var_export($arr_menu, true)."<br>";
+				//$out_temp .= var_export($post, true)."<br>";
 			}
 
 			if($out_temp != '')
