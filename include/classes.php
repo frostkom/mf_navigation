@@ -74,6 +74,7 @@ class mf_navigation
 			$plugin_include_url = plugin_dir_url(__FILE__);
 			$plugin_version = get_plugin_version(__FILE__);
 
+			mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css", $plugin_version);
 			mf_enqueue_style('style_navigation', $plugin_include_url."style.php", $plugin_version);
 			mf_enqueue_script('script_navigation', $plugin_include_url."script.js", $plugin_version);
 
@@ -167,7 +168,7 @@ class mf_navigation
 		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor'), $plugin_version);
 
 		$arr_data = array();
-		get_post_children(array('post_type' => $this->post_type, 'order_by' => 'post_title'), $arr_data);
+		get_post_children(array('post_type' => $this->post_type, 'order_by' => 'post_title', 'add_choose_here' => true), $arr_data);
 
 		wp_localize_script('script_navigation_block_wp', 'script_navigation_block_wp', array(
 			'arr_navigation' => $arr_data,
