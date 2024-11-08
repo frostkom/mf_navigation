@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-10 12:50+0100\n"
+"POT-Creation-Date: 2024-11-08 09:15+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,30 +15,53 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/classes.php:121
+#: ../include/classes.php:155
 msgid "There is no menu here yet"
 msgstr "Det finns ingen meny ännu"
 
-#: ../include/classes.php:160
+#: ../include/classes.php:194
 msgid "Background Color"
 msgstr "Bakgrundsfärg"
 
-#: ../include/classes.php:161
+#: ../include/classes.php:195
 msgid "Text Color"
 msgstr "Textfärg"
 
-#: ../include/classes.php:162
-#: ../include/classes.php:163
+#: ../include/classes.php:196
+#: ../include/classes.php:197
+msgid "Item Border Margin"
+msgstr "Tomrum utanför objekt med kant"
+
+#: ../include/classes.php:196
+msgid "Left"
+msgstr "Vänster"
+
+#: ../include/classes.php:197
+msgid "Right"
+msgstr "Höger"
+
+#: ../include/classes.php:198
+msgid "Item Border Radius"
+msgstr "Runda hörn på objekt"
+
+#: ../include/classes.php:199
+#: ../include/classes.php:200
+msgid "Item Padding"
+msgstr "Tomrum inuti objekt"
+
+#: ../include/classes.php:200
+#: ../include/classes.php:202
+msgid "Mobile"
+msgstr "Mobil"
+
+#: ../include/classes.php:201
+#: ../include/classes.php:202
 msgid "Breakpoint"
 msgstr "Brytpunkt"
 
-#: ../include/classes.php:162
+#: ../include/classes.php:201
 msgid "Tablet"
 msgstr "Platta"
-
-#: ../include/classes.php:163
-msgid "Mobile"
-msgstr "Mobil"
 
 #~ msgid "Expiry Date on %s"
 #~ msgstr "Utgångsdatum på %s"
@@ -304,9 +327,6 @@ msgstr "Mobil"
 #~ msgid "Ignored"
 #~ msgstr "Ignorerad"
 
-#~ msgid "Latest"
-#~ msgstr "Senaste"
-
 #~ msgid "Owner"
 #~ msgstr "Ägare"
 
@@ -443,9 +463,6 @@ msgstr "Mobil"
 
 #~ msgid "Grouped"
 #~ msgstr "Grupperat"
-
-#~ msgid "Heading"
-#~ msgstr "Rubrik"
 
 #~ msgid "Feeds"
 #~ msgstr "Flöden"

@@ -10,11 +10,11 @@ class mf_navigation
 	{
 		$menu_items = $submenu_items = array();
 		$current_submenu = 0;
-		
+
 		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $matches, PREG_SET_ORDER);
 
 		//echo var_export($matches, true);
-		
+
 		foreach($matches as $match)
 		{
 			$is_end = ($match[1] == "/");
@@ -57,7 +57,7 @@ class mf_navigation
 				break;
 			}
 		}
-		
+
 		return $menu_items;
 	}
 
@@ -104,7 +104,7 @@ class mf_navigation
 						if($has_children)
 						{
 							$out_temp .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>";
-							
+
 								foreach($arr_menu_object['children'] as $arr_submenu_object)
 								{
 									$out_temp .= "<li class='wp-block-navigation-item"
@@ -130,15 +130,20 @@ class mf_navigation
 
 			if($out_temp != '')
 			{
-				$out .= "<div class='widget navigation'>
-					<i class='fa fa-bars toggle_icon'></i>
-					<nav class='wp-block-navigation is-layout-flex'>" // wp-block-navigation-is-layout-flex wp-container-core-navigation-is-layout-1
+				$out .= "<div class='widget navigation".(isset($attributes['className']) && $attributes['className'] != '' ? " ".$attributes['className'] : "")."'>"
+					//."<i class='fa fa-bars toggle_icon'></i>"
+					."<div class='toggle_icon toggle_hamburger'>
+						<div class='toggle_line'></div>
+						<div class='toggle_line'></div>
+						<div class='toggle_line'></div>
+					</div>"
+					."<nav class='wp-block-navigation is-layout-flex'>" // wp-block-navigation-is-layout-flex wp-container-core-navigation-is-layout-1
 						."<div class='wp-block-navigation__responsive-container'>
 							<div class='wp-block-navigation__responsive-close'>
 								<div class='wp-block-navigation__responsive-dialog'>
-									<div class='wp-block-navigation__responsive-container-content'>
-										<i class='fa fa-times toggle_icon'></i>
-										<ul class='wp-block-navigation__container'>"
+									<div class='wp-block-navigation__responsive-container-content'>"
+										//."<i class='fa fa-times toggle_icon'></i>"
+										."<ul class='wp-block-navigation__container'>"
 											.$out_temp
 										."</ul>
 									</div>
@@ -193,6 +198,11 @@ class mf_navigation
 		$arr_settings = array();
 		$arr_settings['setting_navigation_background_color'] = __("Background Color", 'lang_navigation');
 		$arr_settings['setting_navigation_text_color'] = __("Text Color", 'lang_navigation');
+		$arr_settings['setting_navigation_item_border_margin_left'] = __("Item Border Margin", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
+		$arr_settings['setting_navigation_item_border_margin_right'] = __("Item Border Margin", 'lang_navigation')." (".__("Right", 'lang_navigation').")";
+		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
+		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation');
+		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		$arr_settings['setting_navigation_breakpoint_tablet'] = __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")";
 		$arr_settings['setting_navigation_breakpoint_mobile'] = __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 
@@ -220,6 +230,46 @@ class mf_navigation
 		$option = get_option($setting_key);
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_border_margin_left_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option($setting_key, "1rem");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_border_margin_right_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option($setting_key, "1rem");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_border_radius_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option($setting_key, ".33rem");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_padding_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option($setting_key, ".6rem 1rem");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_padding_mobile_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option($setting_key, ".3rem .6rem");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
 
 	function setting_navigation_breakpoint_tablet_callback()
