@@ -94,7 +94,7 @@ class mf_navigation
 
 					$out_temp .= "<li class='wp-block-navigation-item"
 						.(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '' ? " ".$arr_menu_object['className'] : "")
-						.(isset($post->ID) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
+						.(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
 						.($has_children ? " has-child" : "")
 					."'>"
 						."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>
