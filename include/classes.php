@@ -236,7 +236,7 @@ class mf_navigation
 	function setting_navigation_container_padding_mobile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, "4rem 2rem 2rem");
+		$option = get_option($setting_key, "6rem 2rem 2rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}

@@ -11,7 +11,7 @@ if(!defined('ABSPATH'))
 
 $setting_navigation_background_color = get_option('setting_navigation_background_color');
 $setting_navigation_text_color = get_option('setting_navigation_text_color');
-$setting_navigation_container_padding_mobile = get_option('setting_navigation_container_padding_mobile', "4rem 2rem 2rem");
+$setting_navigation_container_padding_mobile = get_option('setting_navigation_container_padding_mobile', "6rem 2rem 2rem");
 $setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1rem");
 $setting_navigation_item_border_margin_right = get_option_or_default('setting_navigation_item_border_margin_right', "1rem");
 $setting_navigation_item_border_radius = get_option_or_default('setting_navigation_item_border_radius', ".33rem");
