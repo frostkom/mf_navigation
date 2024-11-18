@@ -44,11 +44,6 @@ echo "@media all
 			.$transition
 		."}
 
-		.is_mobile.menu_is_open header .wp-block-site-title a
-		{"
-			.$transition
-		."}
-
 	.widget.navigation .toggle_icon
 	{
 		display: none;
@@ -65,34 +60,40 @@ echo "@media all
 			display: block;
 		}
 
-			.widget.navigation .wp-block-navigation-item.border, .widget.navigation .wp-block-navigation-item.invert
+			.widget.navigation .wp-block-navigation-item a
 			{
-				margin-left: ".$setting_navigation_item_border_margin_left.";
-				margin-right: ".$setting_navigation_item_border_margin_right.";
+				border-radius: ".$setting_navigation_item_border_radius.";
+				/*display: inline-block;*/ /* Make this a setting? */
+				padding: ".$setting_navigation_item_padding.";
 			}
 
-				.widget.navigation .wp-block-navigation-item a
+				.widget.navigation .wp-block-navigation .wp-block-navigation-item img
 				{
-					border-radius: ".$setting_navigation_item_border_radius.";
-					/*display: inline-block;*/ /* Make this a setting? */
-					padding: ".$setting_navigation_item_padding.";
+					display: block;
 				}
 
-				.widget.navigation .wp-block-navigation-item.border a
-				{
-					border: .1rem solid ".$setting_navigation_text_color.";
-				}
+	/* Invert/Border */
+	.widget.navigation .wp-block-navigation-item.border, .widget.navigation .wp-block-navigation-item.invert
+	{
+		margin-left: ".$setting_navigation_item_border_margin_left.";
+		margin-right: ".$setting_navigation_item_border_margin_right.";
+	}
 
-				.widget.navigation .wp-block-navigation-item.invert
-				{
-					color: ".$setting_navigation_background_color.";
-				}
+		.widget.navigation .wp-block-navigation-item.border a
+		{
+			border: .1rem solid ".$setting_navigation_text_color.";
+		}
 
-					.widget.navigation .wp-block-navigation-item.invert a
-					{
-						background-color: ".$setting_navigation_text_color." !important;
-						border: .1rem solid ".$setting_navigation_text_color." !important;
-					}
+		.widget.navigation .wp-block-navigation-item.invert
+		{
+			color: ".$setting_navigation_background_color.";
+		}
+
+			.widget.navigation .wp-block-navigation-item.invert a
+			{
+				background-color: ".$setting_navigation_text_color." !important;
+				border: .1rem solid ".$setting_navigation_text_color." !important;
+			}
 
 	/* Separate to left and right */
 	/*.is_desktop .has_item_left
@@ -160,6 +161,11 @@ echo "@media all
 		}
 
 	/* Mobile */
+	.is_mobile.menu_is_open header .wp-block-site-title a
+	{"
+		.$transition
+	."}
+
 	.is_mobile.menu_is_open
 	{
 		overflow: hidden;
@@ -302,6 +308,11 @@ echo "@media all
 								background-color: ".$setting_navigation_background_color." !important;
 								border: .1rem solid ".$setting_navigation_background_color." !important;
 								color: ".$setting_navigation_text_color." !important;
+							}
+
+							.is_mobile .widget.navigation .wp-block-navigation .wp-block-navigation-item img
+							{
+								display: inline;
 							}
 }";
 

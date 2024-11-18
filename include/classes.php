@@ -97,9 +97,9 @@ class mf_navigation
 						.(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
 						.($has_children ? " has-child" : "")
 					."'>"
-						."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>
-							<span class='wp-block-navigation-item__label'>".$arr_menu_object['label']."</span>
-						</a>";
+						."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>"
+							.$arr_menu_object['label'] // <span class='wp-block-navigation-item__label'></span>
+						."</a>";
 
 						if($has_children)
 						{
@@ -111,9 +111,9 @@ class mf_navigation
 										.(isset($arr_submenu_object['className']) && $arr_submenu_object['className'] != '' ? " ".$arr_submenu_object['className'] : "")
 										.(isset($post->ID) && $arr_submenu_object['id'] == $post->ID ? " current_menu_item" : "")
 									."'>" //has-small-font-size open-on-hover-click wp-block-navigation-submenu
-										."<a class='wp-block-navigation-item__content' href='".$arr_submenu_object['url']."'>
-											<span class='wp-block-navigation-item__label'>".$arr_submenu_object['label']."</span>
-										</a>
+										."<a class='wp-block-navigation-item__content' href='".$arr_submenu_object['url']."'>"
+											.$arr_submenu_object['label'] // <span class='wp-block-navigation-item__label'></span>
+										."</a>
 									</li>";
 								}
 
