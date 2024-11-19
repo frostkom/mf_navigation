@@ -1,16 +1,16 @@
 jQuery(function($)
 {
 	/* Breakpoint */
+	var breakpoints = 'is_mobile is_tablet is_desktop';
+
 	function set_breakpoint()
 	{
 		var dom_obj = $("body"),
 			value = window.getComputedStyle(document.querySelector("body"), ':before').getPropertyValue('content').replace(/\"/g, '');
 
-		dom_obj.removeClass('is_mobile is_tablet is_desktop');
-
 		if(typeof value !== 'undefined' && value != '')
 		{
-			dom_obj.addClass(value);
+			dom_obj.addClass(value).removeClass(breakpoints.replace(value, ''));
 		}
 	};
 
@@ -29,7 +29,12 @@ jQuery(function($)
 
 	$(".widget.navigation .wp-block-navigation-item.item_gap").each(function()
 	{
-		$(this).parents(".widget.navigation").parent(".wp-block-group").addClass('has_item_gap');
+		var dom_obj = $(this).parents(".widget.navigation").parent(".wp-block-group");
+
+		if(dom_obj.hasClass('has_item_gap') == false)
+		{
+			dom_obj.addClass('has_item_gap');
+		}
 	});
 
 	$(document).on('click', ".widget.navigation .toggle_icon", function()
