@@ -22,11 +22,6 @@ jQuery(function($)
 	});
 
 	/* Menu */
-	/*$(".widget.navigation .wp-block-navigation-item.left:first-of-type").each(function()
-	{
-		$(this).parents(".widget.navigation").parent(".wp-block-group").addClass('has_item_left');
-	});*/
-
 	$(".widget.navigation .wp-block-navigation-item.item_gap").each(function()
 	{
 		var dom_obj = $(this).parents(".widget.navigation").parent(".wp-block-group");
