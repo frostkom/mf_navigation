@@ -98,8 +98,18 @@ class mf_navigation
 						.($has_children ? " has-child" : "")
 					."'>"
 						."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>"
-							.$arr_menu_object['label'] // <span class='wp-block-navigation-item__label'></span>
-						."</a>";
+							.$arr_menu_object['label']; // <span class='wp-block-navigation-item__label'></span>
+
+							if($has_children)
+							{
+								$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle'>
+									<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
+										<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
+									</svg>
+								</button>";
+							}
+
+						$out_temp .= "</a>";
 
 						if($has_children)
 						{
@@ -220,7 +230,7 @@ class mf_navigation
 	function setting_navigation_background_color_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
+		$option = get_option($setting_key, "#fff");
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
 	}
@@ -228,7 +238,7 @@ class mf_navigation
 	function setting_navigation_text_color_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
+		$option = get_option($setting_key, "#000");
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
 	}
