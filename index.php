@@ -3,7 +3,7 @@
 Plugin Name: MF Navigation+
 Plugin URI: 
 Description:
-Version: 1.0.39
+Version: 1.1.0
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se

@@ -54,4 +54,21 @@ jQuery(function($)
 
 		return false;
 	});
+	
+	$(document).on('click', ".widget.navigation .has-child", function()
+	{
+		var dom_obj = $(this);
+
+		if(dom_obj.hasClass('is_open'))
+		{
+			/* Let the click go through */
+		}
+
+		else
+		{
+			dom_obj.addClass('is_open').siblings(".has-child").removeClass('is_open');
+
+			return false;
+		}
+	});
 });

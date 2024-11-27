@@ -31,13 +31,13 @@ echo "@media all
 	}
 
 	/* General */
-	header figure.wp-block-image, header .wp-block-site-title
+	header .wp-block-image, header .wp-block-site-logo, header .wp-block-site-title
 	{
 		position: relative;
 		z-index: 10000;
 	}
 
-		header figure.wp-block-image img
+		header .wp-block-image img
 		{
 			border-radius: ".$setting_navigation_item_border_radius.";
 			padding: 0;"
