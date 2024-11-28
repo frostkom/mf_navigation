@@ -9,16 +9,16 @@ if(!defined('ABSPATH'))
 	require_once($folder."wp-load.php");
 }
 
-$setting_navigation_background_color = get_option('setting_navigation_background_color', "#fff");
-$setting_navigation_text_color = get_option('setting_navigation_text_color', "#000");
-$setting_navigation_container_padding_mobile = get_option('setting_navigation_container_padding_mobile', "6rem 2rem 2rem");
+$setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#fff");
+$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
+$setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6rem 2rem 2rem");
 $setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1rem");
 $setting_navigation_item_border_margin_right = get_option_or_default('setting_navigation_item_border_margin_right', "1rem");
 $setting_navigation_item_border_radius = get_option_or_default('setting_navigation_item_border_radius', ".33rem");
 $setting_navigation_item_padding = get_option_or_default('setting_navigation_item_padding', ".6rem 1rem");
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3rem .6rem");
-$setting_navigation_breakpoint_tablet = get_option('setting_navigation_breakpoint_tablet', 1200);
-$setting_navigation_breakpoint_mobile = get_option('setting_navigation_breakpoint_mobile', 930);
+$setting_navigation_breakpoint_tablet = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
+$setting_navigation_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
 
 $transition = "transition: all .5s ease;";
 
@@ -44,6 +44,29 @@ echo "@media all
 			.$transition
 		."}
 
+		.wp-block-site-title.sup_ab
+		{
+			display: none;
+			white-space: nowrap;
+		}
+
+			.wp-block-site-title.sup_ab sup
+			{
+				opacity: 0;
+				font-size: .5em;"
+				.$transition
+			."}
+
+				header:hover .wp-block-site-title.sup_ab sup, footer:hover .wp-block-site-title.sup_ab sup
+				{
+					opacity: 1;
+				}
+
+		header .wp-block-site-title a
+		{
+			color: ".$setting_navigation_text_color.";
+		}
+
 	.widget.navigation .toggle_icon
 	{
 		display: none;
@@ -52,6 +75,7 @@ echo "@media all
 
 		.widget.navigation .wp-block-navigation
 		{
+			color: ".$setting_navigation_text_color.";
 			z-index: 1000;
 		}
 
@@ -67,10 +91,10 @@ echo "@media all
 				padding: ".$setting_navigation_item_padding.";
 			}
 
-				.widget.navigation .wp-block-navigation .wp-block-navigation-item img
-				{
-					display: block;
-				}
+			.widget.navigation .wp-block-navigation .wp-block-navigation-item img
+			{
+				display: block;
+			}
 
 			.widget.navigation .has-child > a > button
 			{
@@ -96,7 +120,7 @@ echo "@media all
 					color: ".$setting_navigation_text_color.";
 				}
 
-	/* Invert/Border */
+	/* Invert / Border */
 	.widget.navigation .wp-block-navigation-item.border, .widget.navigation .wp-block-navigation-item.invert
 	{
 		margin-left: ".$setting_navigation_item_border_margin_left.";
@@ -223,7 +247,7 @@ if($setting_navigation_breakpoint_mobile > 0)
 					height: .2rem;
 					margin: .3rem 0;"
 					.$transition
-					."width: 100%;
+					."width: 1.5rem;
 				}
 
 					.widget.navigation.is_open .toggle_line

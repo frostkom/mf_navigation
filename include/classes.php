@@ -230,7 +230,7 @@ class mf_navigation
 	function setting_navigation_background_color_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, "#fff");
+		$option = get_option_or_default($setting_key, "#fff");
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
 	}
@@ -238,7 +238,7 @@ class mf_navigation
 	function setting_navigation_text_color_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, "#000");
+		$option = get_option_or_default($setting_key, "#000");
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
 	}
@@ -246,7 +246,7 @@ class mf_navigation
 	function setting_navigation_container_padding_mobile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, "6rem 2rem 2rem");
+		$option = get_option_or_default($setting_key, "6rem 2rem 2rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -254,7 +254,7 @@ class mf_navigation
 	function setting_navigation_item_border_margin_left_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, "1rem");
+		$option = get_option_or_default($setting_key, "1rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -262,7 +262,7 @@ class mf_navigation
 	function setting_navigation_item_border_margin_right_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, "1rem");
+		$option = get_option_or_default($setting_key, "1rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -270,7 +270,7 @@ class mf_navigation
 	function setting_navigation_item_border_radius_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, ".33rem");
+		$option = get_option_or_default($setting_key, ".33rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -278,7 +278,7 @@ class mf_navigation
 	function setting_navigation_item_padding_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, ".6rem 1rem");
+		$option = get_option_or_default($setting_key, ".6rem 1rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -286,7 +286,7 @@ class mf_navigation
 	function setting_navigation_item_padding_mobile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, ".3rem .6rem");
+		$option = get_option_or_default($setting_key, ".3rem .6rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -294,7 +294,7 @@ class mf_navigation
 	function setting_navigation_breakpoint_tablet_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, 1200);
+		$option = get_option_or_default($setting_key, 1200);
 
 		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
 	}
@@ -302,7 +302,7 @@ class mf_navigation
 	function setting_navigation_breakpoint_mobile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key, 930);
+		$option = get_option_or_default($setting_key, 930);
 
 		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
 	}
