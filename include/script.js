@@ -21,21 +21,6 @@ jQuery(function($)
 		set_breakpoint();
 	});
 
-	/* Title */
-	$(".wp-block-site-title.sup_ab").each(function()
-	{
-		var dom_obj = $(this),
-			dom_obj_link = dom_obj.children("a"),
-			dom_obj_link_html = dom_obj_link.html();
-
-		if(dom_obj_link_html.match(/ AB$/))
-		{
-			dom_obj_link.html(dom_obj_link_html.replace(" AB", "<sup> AB</sup>"));
-		}
-
-		dom_obj.fadeIn();
-	});
-
 	/* Menu */
 	$(".widget.navigation .wp-block-navigation-item.item_gap").each(function()
 	{

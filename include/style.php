@@ -31,7 +31,7 @@ echo "@media all
 	}
 
 	/* General */
-	header .wp-block-image, header .wp-block-site-logo, header .wp-block-site-title
+	header .wp-block-image, header .wp-block-site-logo, header .wp-block-site-title, header .wp-block-site-tagline
 	{
 		position: relative;
 		z-index: 10000;
@@ -43,24 +43,6 @@ echo "@media all
 			padding: 0;"
 			.$transition
 		."}
-
-		.wp-block-site-title.sup_ab
-		{
-			display: none;
-			white-space: nowrap;
-		}
-
-			.wp-block-site-title.sup_ab sup
-			{
-				opacity: 0;
-				font-size: .5em;"
-				.$transition
-			."}
-
-				header:hover .wp-block-site-title.sup_ab sup, footer:hover .wp-block-site-title.sup_ab sup
-				{
-					opacity: 1;
-				}
 
 		header .wp-block-site-title a
 		{
