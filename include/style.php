@@ -103,7 +103,7 @@ echo "@media all
 				}
 
 	/* Invert / Border */
-	.widget.navigation .wp-block-navigation-item.border, .widget.navigation .wp-block-navigation-item.invert
+	.widget.navigation .wp-block-navigation-item.border:not(:last-of-type), .widget.navigation .wp-block-navigation-item.invert:not(:last-of-type)
 	{
 		margin-left: ".$setting_navigation_item_border_margin_left.";
 		margin-right: ".$setting_navigation_item_border_margin_right.";
