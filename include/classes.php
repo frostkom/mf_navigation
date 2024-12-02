@@ -140,7 +140,7 @@ class mf_navigation
 
 			if($out_temp != '')
 			{
-				$out .= "<div class='widget navigation".(isset($attributes['className']) && $attributes['className'] != '' ? " ".$attributes['className'] : "")."'>"
+				$out .= "<div".parse_block_attributes(array('class' => "widget navigation", 'attributes' => $attributes)).">"
 					//."<i class='fa fa-bars toggle_icon'></i>"
 					."<div class='toggle_icon toggle_hamburger'>
 						<div class='toggle_line'></div>

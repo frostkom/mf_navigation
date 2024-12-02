@@ -11,7 +11,7 @@
 		title: __("Navigation+", 'lang_navigation'),
 		description: __("Display a Navigation+", 'lang_navigation'),
 		icon: 'menu',
-		category: 'layout', /* common, formatting, layout, widgets, embed */
+		category: 'layout',
 		'attributes':
 		{
 			'align':
@@ -46,6 +46,10 @@
 			{
 				'fontSize': true,
 				'lineHeight': true
+			},
+			"__experimentalBorder":
+			{
+				"radius": true
 			}
 		},
 		edit: function(props)

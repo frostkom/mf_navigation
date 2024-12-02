@@ -54,7 +54,7 @@ jQuery(function($)
 
 		return false;
 	});
-	
+
 	$(document).on('click', ".widget.navigation .has-child", function()
 	{
 		var dom_obj = $(this);
