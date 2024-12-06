@@ -330,11 +330,12 @@ if($setting_navigation_breakpoint_mobile > 0)
 									display: inline;
 								}
 
-						.widget.navigation .has-child:hover .wp-block-navigation__submenu-container, .widget.navigation .has-child.is_open .wp-block-navigation__submenu-container
+						.widget.navigation .has-child:hover > .wp-block-navigation__submenu-container, .widget.navigation .has-child.is_open > .wp-block-navigation__submenu-container
 						{
 							background: none;
 							display: block;
 							height: auto;
+							left: 0;
 							opacity: 1;
 							position: relative;
 							visibility: visible;

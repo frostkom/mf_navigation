@@ -8,47 +8,65 @@ class mf_navigation
 
 	function parse_navigation_menu($markup)
 	{
-		$menu_items = $submenu_items = array();
-		$current_submenu = 0;
+		$menu_items = $current_menu = array();
 
-		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $matches, PREG_SET_ORDER);
+		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $arr_matches, PREG_SET_ORDER);
 
-		//echo var_export($matches, true);
+		//echo var_export($arr_matches, true);
+		$count_temp = count($arr_matches);
 
-		foreach($matches as $match)
+		for($i = 0; $i < $count_temp; $i++)
 		{
-			$is_end = ($match[1] == "/");
-			$type = $match[2];
-			$data = json_decode($match[3], true);
-			$is_single = ($match[4] == "/");
+			$is_end = ($arr_matches[$i][1] == "/");
+			$type = $arr_matches[$i][2];
+			$data = json_decode($arr_matches[$i][3], true);
+			$is_single = ($arr_matches[$i][4] == "/");
+
+			$current_level = count($current_menu);
 
 			switch($type)
 			{
 				case 'navigation-submenu':
 					if($is_end)
 					{
-						$menu_items[] = $submenu_items;
-						$current_submenu = 0;
+						unset($current_menu[$current_level - 1]);
 					}
 
 					else
 					{
-						$current_submenu = $data['id'];
+						switch($current_level)
+						{
+							case 0:
+								$menu_items[$i] = $data;
+							break;
 
-						$submenu_items = $data;
-						$submenu_items['children'] = array();
+							case 1:
+								$menu_items[$current_menu[0]]['children'][$i] = $data;
+							break;
+
+							case 2:
+								$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $data;
+							break;
+						}
+
+						$current_menu[$current_level] = $i;
 					}
 				break;
 
 				case 'navigation-link':
-					if($current_submenu > 0)
+					switch($current_level)
 					{
-						$submenu_items['children'][] = $data;
-					}
+						case 0:
+							$menu_items[$i] = $data;
+						break;
 
-					else
-					{
-						$menu_items[] = $data;
+						case 1:
+							$menu_items[$current_menu[0]]['children'][$i] = $data;
+						break;
+
+						case 2:
+							$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $data;
+						break;
 					}
 				break;
 
@@ -59,6 +77,46 @@ class mf_navigation
 		}
 
 		return $menu_items;
+	}
+	
+	function get_menu_children($arr_menu_object)
+	{
+		$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
+
+		$out_temp = "<li class='wp-block-navigation-item"
+			.(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '' ? " ".$arr_menu_object['className'] : "")
+			.(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
+			.($has_children ? " has-child" : "")
+		."'>"
+			."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>"
+				.$arr_menu_object['label']; // <span class='wp-block-navigation-item__label'></span>
+
+				if($has_children)
+				{
+					$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle'>
+						<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
+							<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
+						</svg>
+					</button>";
+				}
+
+			$out_temp .= "</a>";
+
+			if($has_children)
+			{
+				$out_temp .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>";
+
+					foreach($arr_menu_object['children'] as $arr_submenu_object)
+					{
+						$out_temp .= $this->get_menu_children($arr_submenu_object);
+					}
+
+				$out_temp .= "</ul>";
+			}
+
+		$out_temp .= "</li>";
+
+		return $out_temp;
 	}
 
 	function block_render_callback($attributes)
@@ -90,52 +148,12 @@ class mf_navigation
 
 				foreach($arr_menu as $arr_menu_object)
 				{
-					$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
-
-					$out_temp .= "<li class='wp-block-navigation-item"
-						.(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '' ? " ".$arr_menu_object['className'] : "")
-						.(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
-						.($has_children ? " has-child" : "")
-					."'>"
-						."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>"
-							.$arr_menu_object['label']; // <span class='wp-block-navigation-item__label'></span>
-
-							if($has_children)
-							{
-								$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle'>
-									<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
-										<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
-									</svg>
-								</button>";
-							}
-
-						$out_temp .= "</a>";
-
-						if($has_children)
-						{
-							$out_temp .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>";
-
-								foreach($arr_menu_object['children'] as $arr_submenu_object)
-								{
-									$out_temp .= "<li class='wp-block-navigation-item"
-										.(isset($arr_submenu_object['className']) && $arr_submenu_object['className'] != '' ? " ".$arr_submenu_object['className'] : "")
-										.(isset($post->ID) && $arr_submenu_object['id'] == $post->ID ? " current_menu_item" : "")
-									."'>" //has-small-font-size open-on-hover-click wp-block-navigation-submenu
-										."<a class='wp-block-navigation-item__content' href='".$arr_submenu_object['url']."'>"
-											.$arr_submenu_object['label'] // <span class='wp-block-navigation-item__label'></span>
-										."</a>
-									</li>";
-								}
-
-							$out_temp .= "</ul>";
-						}
-
-					$out_temp .= "</li>";
+					$out_temp .= $this->get_menu_children($arr_menu_object);
 				}
 
-				//$out_temp .= htmlspecialchars($post_content)."<br>";
-				//$out_temp .= var_export($arr_menu, true)."<br>";
-				//$out_temp .= var_export($post, true)."<br>";
+				//$out_temp .= htmlspecialchars($post_content)."<br><br>";
+				//$out_temp .= var_export($arr_menu, true)."<br><br>";
+				//$out_temp .= var_export($post, true)."<br><br>";
 			}
 
 			if($out_temp != '')
@@ -175,6 +193,8 @@ class mf_navigation
 
 	function init()
 	{
+		load_plugin_textdomain('lang_navigation', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
+
 		// Blocks
 		#######################
 		$plugin_include_url = plugin_dir_url(__FILE__);

@@ -3,7 +3,7 @@
 Plugin Name: MF Navigation+
 Plugin URI: 
 Description:
-Version: 1.1.10
+Version: 1.1.15
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -28,8 +28,6 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 
 		add_action('admin_init', array($obj_navigation, 'settings_navigation'));
 	}
-
-	load_plugin_textdomain('lang_navigation', false, dirname(plugin_basename(__FILE__))."/lang/");
 
 	function uninstall_navigation()
 	{
