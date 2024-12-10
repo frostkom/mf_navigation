@@ -67,7 +67,7 @@ jQuery(function($)
 		else
 		{
 			$(".widget.navigation .has-child").removeClass('is_open');
-			dom_obj.addClass('is_open');
+			dom_obj.addClass('is_open').parents(".has-child").addClass('is_open');
 
 			return false;
 		}

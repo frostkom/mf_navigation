@@ -78,8 +78,9 @@ echo "@media all
 				display: block;
 			}
 
-			.widget.navigation .has-child > a > button
+			.widget.navigation .has-child > a > button.wp-block-navigation__submenu-icon
 			{
+				margin-left: .25em !important;
 				transform: rotate(0deg) translateX(0);"
 				.$transition
 			."}
@@ -332,7 +333,8 @@ if($setting_navigation_breakpoint_mobile > 0)
 
 						.widget.navigation .has-child:hover > .wp-block-navigation__submenu-container, .widget.navigation .has-child.is_open > .wp-block-navigation__submenu-container
 						{
-							background: none;
+							background-color: transparent !important;
+							border: none;
 							display: block;
 							height: auto;
 							left: 0;
