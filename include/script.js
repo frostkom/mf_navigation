@@ -55,9 +55,9 @@ jQuery(function($)
 		return false;
 	});
 
-	$(document).on('click', ".widget.navigation .has-child", function()
+	$(document).on('click', ".widget.navigation .has-child > a", function()
 	{
-		var dom_obj = $(this);
+		var dom_obj = $(this).parent(".has-child");
 
 		if(dom_obj.hasClass('is_open'))
 		{

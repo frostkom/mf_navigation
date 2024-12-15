@@ -3,8 +3,23 @@
 class mf_navigation
 {
 	var $post_type = 'wp_navigation';
+	var $arr_settings = array();
 
 	function __construct(){}
+
+	function get_all_settings()
+	{
+		$this->arr_settings['background_color'] = get_option_or_default('setting_navigation_background_color', "#ffffff");
+		$this->arr_settings['text_color'] = get_option_or_default('setting_navigation_text_color', "#000000");
+		$this->arr_settings['container_padding_mobile'] = get_option_or_default('setting_navigation_container_padding_mobile', "6rem 2rem 2rem");
+		$this->arr_settings['item_border_margin_left'] = get_option_or_default('setting_navigation_item_border_margin_left', "1rem");
+		$this->arr_settings['item_border_margin_right'] = get_option_or_default('setting_navigation_item_border_margin_right', "1rem");
+		$this->arr_settings['item_border_radius'] = get_option_or_default('setting_navigation_item_border_radius', ".33rem");
+		$this->arr_settings['item_padding'] = get_option_or_default('setting_navigation_item_padding', ".6rem 1rem");
+		$this->arr_settings['item_padding_mobile'] = get_option_or_default('setting_navigation_item_padding_mobile', ".3rem .6rem");
+		$this->arr_settings['breakpoint_tablet'] = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
+		$this->arr_settings['breakpoint_mobile'] = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
+	}
 
 	function parse_navigation_menu($markup)
 	{
@@ -132,8 +147,10 @@ class mf_navigation
 			$plugin_include_url = plugin_dir_url(__FILE__);
 			$plugin_version = get_plugin_version(__FILE__);
 
+			$arr_settings = $this->get_all_settings();
+
 			mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css", $plugin_version);
-			mf_enqueue_style('style_navigation', $plugin_include_url."style.php", $plugin_version);
+			mf_enqueue_style('style_navigation', $plugin_include_url."style.php", $plugin_version."-".md5(var_export($arr_settings, true)));
 			mf_enqueue_script('script_navigation', $plugin_include_url."script.js", $plugin_version);
 
 			$out_temp = "";
@@ -250,7 +267,7 @@ class mf_navigation
 	function setting_navigation_background_color_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, "#fff");
+		$option = get_option_or_default($setting_key, "#ffffff");
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
 	}
@@ -258,7 +275,7 @@ class mf_navigation
 	function setting_navigation_text_color_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, "#000");
+		$option = get_option_or_default($setting_key, "#000000");
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
 	}
