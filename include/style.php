@@ -13,17 +13,6 @@ $obj_navigation = new mf_navigation();
 
 $obj_navigation->get_all_settings();
 
-/*$obj_navigation->arr_settings['background_color'] = get_option_or_default('setting_navigation_background_color', "#ffffff");
-$obj_navigation->arr_settings['text_color'] = get_option_or_default('setting_navigation_text_color', "#000000");
-$obj_navigation->arr_settings['container_padding_mobile'] = get_option_or_default('setting_navigation_container_padding_mobile', "6rem 2rem 2rem");
-$obj_navigation->arr_settings['item_border_margin_left'] = get_option_or_default('setting_navigation_item_border_margin_left', "1rem");
-$obj_navigation->arr_settings['item_border_margin_right'] = get_option_or_default('setting_navigation_item_border_margin_right', "1rem");
-$obj_navigation->arr_settings['item_border_radius'] = get_option_or_default('setting_navigation_item_border_radius', ".33rem");
-$obj_navigation->arr_settings['item_padding'] = get_option_or_default('setting_navigation_item_padding', ".6rem 1rem");
-$obj_navigation->arr_settings['item_padding_mobile'] = get_option_or_default('setting_navigation_item_padding_mobile', ".3rem .6rem");
-$obj_navigation->arr_settings['breakpoint_tablet'] = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
-$obj_navigation->arr_settings['breakpoint_mobile'] = get_option_or_default('setting_navigation_breakpoint_mobile', 930);*/
-
 $transition = "transition: all .5s ease;";
 
 echo "@media all
