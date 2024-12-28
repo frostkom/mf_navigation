@@ -246,7 +246,7 @@ if($obj_navigation->arr_settings['breakpoint_mobile'] > 0)
 							transform: rotate(-45deg) translate(.3rem, -.4rem);
 						}
 
-			.widget.navigation .wp-block-navigation
+			.widget.navigation.mobile_ready .wp-block-navigation
 			{
 				background: ".$obj_navigation->arr_settings['text_color'].";
 				color: ".$obj_navigation->arr_settings['background_color'].";
@@ -267,13 +267,13 @@ if($obj_navigation->arr_settings['breakpoint_mobile'] > 0)
 					transform: translate(0%, 0%);
 				}
 
-			.widget.navigation .wp-block-navigation__responsive-container-open
+			.widget.navigation.mobile_ready .wp-block-navigation__responsive-container-open
 			{
 				border-radius: ".$obj_navigation->arr_settings['item_border_radius'].";
 				padding: ".$obj_navigation->arr_settings['item_padding_mobile']." !important;
 			}
 
-				.widget.navigation .wp-block-navigation__responsive-container
+				.widget.navigation.mobile_ready .wp-block-navigation__responsive-container
 				{
 					display: none;
 				}
@@ -287,7 +287,7 @@ if($obj_navigation->arr_settings['breakpoint_mobile'] > 0)
 						right: 0;
 					}
 
-					.widget.navigation .wp-block-navigation__container
+					.widget.navigation.mobile_ready .wp-block-navigation__container
 					{
 						display: block;
 						padding: ".$obj_navigation->arr_settings['container_padding_mobile'].";
@@ -295,36 +295,36 @@ if($obj_navigation->arr_settings['breakpoint_mobile'] > 0)
 						width: 100%;
 					}
 
-						.widget.navigation .wp-block-navigation .wp-block-navigation-item
+						.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item
 						{
 							display: block;
 							float: none;
 						}
 
-							.widget.navigation .wp-block-navigation .wp-block-navigation-item + .wp-block-navigation-item
+							.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item + .wp-block-navigation-item
 							{
 								margin-top: .2rem;
 							}
 
-							.widget.navigation .wp-block-navigation .wp-block-navigation-item a
+							.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item a
 							{
 								border-radius: ".$obj_navigation->arr_settings['item_border_radius'].";
 								padding: ".$obj_navigation->arr_settings['item_padding_mobile']." !important;
 							}
 
-								.widget.navigation .wp-block-navigation .wp-block-navigation-item.invert a
+								.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
 								{
 									background-color: ".$obj_navigation->arr_settings['background_color']." !important;
 									border: .1rem solid ".$obj_navigation->arr_settings['background_color']." !important;
 									color: ".$obj_navigation->arr_settings['text_color']." !important;
 								}
 
-								.widget.navigation .wp-block-navigation .wp-block-navigation-item img
+								.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item img
 								{
 									display: inline;
 								}
 
-						.widget.navigation .has-child:hover > .wp-block-navigation__submenu-container, .widget.navigation .has-child.is_open > .wp-block-navigation__submenu-container
+						.widget.navigation.mobile_ready .has-child:hover > .wp-block-navigation__submenu-container, .widget.navigation.mobile_ready .has-child.is_open > .wp-block-navigation__submenu-container
 						{
 							background-color: transparent !important;
 							border: none;
@@ -337,14 +337,14 @@ if($obj_navigation->arr_settings['breakpoint_mobile'] > 0)
 							width: 100%;
 						}
 
-							.widget.navigation .has-child:hover .wp-block-navigation-item, .widget.navigation .has-child.is_open .wp-block-navigation-item
+							.widget.navigation.mobile_ready .has-child:hover .wp-block-navigation-item, .widget.navigation.mobile_ready .has-child.is_open .wp-block-navigation-item
 							{
 								border-radius: none;
 								background-color: ".$obj_navigation->arr_settings['text_color']." !important;
 								color: ".$obj_navigation->arr_settings['background_color']." !important;
 							}
 
-								.widget.navigation .has-child:hover .wp-block-navigation-item > a, .widget.navigation .has-child.is_open .wp-block-navigation-item > a
+								.widget.navigation.mobile_ready .has-child:hover .wp-block-navigation-item > a, .widget.navigation.mobile_ready .has-child.is_open .wp-block-navigation-item > a
 								{
 									display: block;
 								}

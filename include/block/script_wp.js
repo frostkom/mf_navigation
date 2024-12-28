@@ -1,6 +1,13 @@
 (function()
 {
 	var __ = wp.i18n.__,
+    el = wp.element.createElement,
+    registerBlockType = wp.blocks.registerBlockType,
+    SelectControl = wp.components.SelectControl,
+    TextControl = wp.components.TextControl,
+    InspectorControls = wp.blockEditor.InspectorControls;
+
+	var __ = wp.i18n.__,
 		el = wp.element.createElement,
 		registerBlockType = wp.blocks.registerBlockType,
 		SelectControl = wp.components.SelectControl,
@@ -23,7 +30,17 @@
 			{
                 'type': 'string',
                 'default': ''
-            }
+            },
+			'navigation_mobile_ready':
+			{
+                'type': 'string',
+                'default': ''
+            },
+			'navigation_link_color':
+			{
+                'type': 'string',
+                'default': ''
+            },
 		},
 		'supports':
 		{
@@ -54,41 +71,57 @@
 		},
 		edit: function(props)
 		{
-			var arr_out = [];
-
-			/* Select */
-			/* ################### */
-			var arr_options = [];
-
-			jQuery.each(script_navigation_block_wp.arr_navigation, function(index, value)
-			{
-				if(index == "")
-				{
-					index = 0;
-				}
-
-				arr_options.push({label: value, value: index});
-			});
-
-			arr_out.push(el(
+			return el(
 				'div',
-				{className: "wp_mf_block " + props.className},
-				el(
-					SelectControl,
-					{
-						label: __("Menu", 'lang_navigation'),
-						value: props.attributes.navigation_id,
-						options: arr_options,
-						onChange: function(value)
-						{
-							props.setAttributes({navigation_id: value});
-						}
-					}
-				)
-			));
-			/* ################### */
-
-			return arr_out;
+				{className: 'wp_mf_block_container'},
+				[
+					el(
+						InspectorControls,
+						'div',
+						el(
+							SelectControl,
+							{
+								label: __("Menu", 'lang_navigation'),
+								value: props.attributes.navigation_id,
+								options: convert_php_array_to_block_js(script_navigation_block_wp.arr_navigation),
+								onChange: function(value)
+								{
+									props.setAttributes({navigation_id: value});
+								}
+							}
+						),
+						el(
+							SelectControl,
+							{
+								label: __("Mobile Ready", 'lang_navigation'),
+								value: props.attributes.navigation_mobile_ready,
+								options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
+								onChange: function(value)
+								{
+									props.setAttributes({navigation_mobile_ready: value});
+								}
+							}
+						),
+						el(
+							TextControl,
+							{
+								label: __("Link Color", 'lang_navigation'),
+								type: 'text',
+								value: props.attributes.navigation_link_color,
+								onChange: function(value)
+								{
+									props.setAttributes({navigation_link_color: value});
+								}
+							}
+						)
+					),
+					el(
+						'strong',
+						{className: props.className},
+						wp.blocks.getBlockType(props.name).title
+					)
+				]
+			);
 		},
 		save: function()
 		{

@@ -42,6 +42,7 @@ class mf_navigation
 			switch($type)
 			{
 				case 'navigation-submenu':
+				//case 'page-list':
 					if($is_end)
 					{
 						unset($current_menu[$current_level - 1]);
@@ -86,7 +87,7 @@ class mf_navigation
 				break;
 
 				default:
-					do_log(__FUNCTION__.": Unknown type ".$type);
+					do_log(__FUNCTION__.": Unknown type ".$type." (".htmlspecialchars($markup)." -> ".var_export($arr_matches, true).")");
 				break;
 			}
 		}
@@ -98,24 +99,38 @@ class mf_navigation
 	{
 		$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
 
+		$is_button = (isset($arr_menu_object['className']) && strpos($arr_menu_object['className'], 'button') !== false);
+
 		$out_temp = "<li class='wp-block-navigation-item"
 			.(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '' ? " ".$arr_menu_object['className'] : "")
 			.(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
 			.($has_children ? " has-child" : "")
-		."'>"
-			."<a class='wp-block-navigation-item__content' href='".$arr_menu_object['url']."'>"
-				.$arr_menu_object['label']; // <span class='wp-block-navigation-item__label'></span>
+		."'>";
 
-				if($has_children)
-				{
-					$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle'>
-						<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
-							<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
-						</svg>
-					</button>";
-				}
+			if($is_button)
+			{
+				$out_temp .= "<div class='wp-block-button'>";
+			}
 
-			$out_temp .= "</a>";
+				$out_temp .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'>";
+
+					$out_temp .= $arr_menu_object['label']; // <span class='wp-block-navigation-item__label'></span>
+
+					if($has_children)
+					{
+						$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle'>
+							<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
+								<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
+							</svg>
+						</button>";
+					}
+
+				$out_temp .= "</a>";
+
+			if($is_button)
+			{
+				$out_temp .= "</div>";
+			}
 
 			if($has_children)
 			{
@@ -139,6 +154,8 @@ class mf_navigation
 		global $wpdb, $post;
 
 		if(!isset($attributes['navigation_id'])){			$attributes['navigation_id'] = 0;}
+		if(!isset($attributes['navigation_mobile_ready'])){	$attributes['navigation_mobile_ready'] = 'yes';}
+		if(!isset($attributes['navigation_link_color'])){	$attributes['navigation_link_color'] = "";}
 
 		$out = "";
 
@@ -148,6 +165,13 @@ class mf_navigation
 			$plugin_version = get_plugin_version(__FILE__);
 
 			$arr_settings = $this->get_all_settings();
+
+			$ul_style = "";
+
+			if($attributes['navigation_link_color'] != '')
+			{
+				$ul_style = " style='color: ".$attributes['navigation_link_color']."'";
+			}
 
 			mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css", $plugin_version);
 			mf_enqueue_style('style_navigation', $plugin_include_url."style.php", $plugin_version."-".md5(var_export($arr_settings, true)));
@@ -175,20 +199,23 @@ class mf_navigation
 
 			if($out_temp != '')
 			{
-				$out .= "<div".parse_block_attributes(array('class' => "widget navigation", 'attributes' => $attributes)).">"
-					//."<i class='fa fa-bars toggle_icon'></i>"
-					."<div class='toggle_icon toggle_hamburger'>
-						<div class='toggle_line'></div>
-						<div class='toggle_line'></div>
-						<div class='toggle_line'></div>
-					</div>"
-					."<nav class='wp-block-navigation is-layout-flex'>" // wp-block-navigation-is-layout-flex wp-container-core-navigation-is-layout-1
+				$out .= "<div".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : ""), 'attributes' => $attributes)).">";
+
+					if($attributes['navigation_mobile_ready'] == 'yes')
+					{
+						$out .= "<div class='toggle_icon toggle_hamburger'>
+							<div class='toggle_line'></div>
+							<div class='toggle_line'></div>
+							<div class='toggle_line'></div>
+						</div>";
+					}
+
+					$out .= "<nav class='wp-block-navigation is-layout-flex'>" // wp-block-navigation-is-layout-flex wp-container-core-navigation-is-layout-1
 						."<div class='wp-block-navigation__responsive-container'>
 							<div class='wp-block-navigation__responsive-close'>
 								<div class='wp-block-navigation__responsive-dialog'>
-									<div class='wp-block-navigation__responsive-container-content'>"
-										//."<i class='fa fa-times toggle_icon'></i>"
-										."<ul class='wp-block-navigation__container'>"
+									<div class='wp-block-navigation__responsive-container-content'>
+										<ul class='wp-block-navigation__container'".$ul_style.">"
 											.$out_temp
 										."</ul>
 									</div>
@@ -217,7 +244,7 @@ class mf_navigation
 		$plugin_include_url = plugin_dir_url(__FILE__);
 		$plugin_version = get_plugin_version(__FILE__);
 
-		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor'), $plugin_version);
+		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version);
 
 		$arr_data = array();
 		get_post_children(array('post_type' => $this->post_type, 'order_by' => 'post_title', 'add_choose_here' => true), $arr_data);
