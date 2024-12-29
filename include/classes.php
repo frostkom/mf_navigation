@@ -97,6 +97,8 @@ class mf_navigation
 	
 	function get_menu_children($arr_menu_object)
 	{
+		global $post;
+
 		$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
 
 		$is_button = (isset($arr_menu_object['className']) && strpos($arr_menu_object['className'], 'button') !== false);
@@ -237,21 +239,24 @@ class mf_navigation
 
 	function init()
 	{
-		load_plugin_textdomain('lang_navigation', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
-
 		// Blocks
 		#######################
 		$plugin_include_url = plugin_dir_url(__FILE__);
 		$plugin_version = get_plugin_version(__FILE__);
 
-		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version);
+		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version);
 
 		$arr_data = array();
 		get_post_children(array('post_type' => $this->post_type, 'order_by' => 'post_title', 'add_choose_here' => true), $arr_data);
 
 		wp_localize_script('script_navigation_block_wp', 'script_navigation_block_wp', array(
+			'block_title' => __("Navigation+", 'lang_navigation'),
+			'block_description' => __("Display a Navigation+", 'lang_navigation'),
+			'navigation_id_label' => __("Menu", 'lang_navigation'),
 			'arr_navigation' => $arr_data,
+			'navigation_mobile_ready_label' => __("Mobile Ready", 'lang_navigation'),
 			'yes_no_for_select' => get_yes_no_for_select(),
+			'navigation_link_color_label' => __("Link Color", 'lang_navigation'),
 		));
 
 		register_block_type('mf/navigation', array(

@@ -1,24 +1,17 @@
 (function()
 {
-	var __ = wp.i18n.__,
-    el = wp.element.createElement,
-    registerBlockType = wp.blocks.registerBlockType,
-    SelectControl = wp.components.SelectControl,
-    TextControl = wp.components.TextControl,
-    InspectorControls = wp.blockEditor.InspectorControls;
-
-	var __ = wp.i18n.__,
-		el = wp.element.createElement,
+	var el = wp.element.createElement,
 		registerBlockType = wp.blocks.registerBlockType,
 		SelectControl = wp.components.SelectControl,
-		TextControl = wp.components.TextControl;
+		TextControl = wp.components.TextControl,
+		InspectorControls = wp.blockEditor.InspectorControls;
 
 	registerBlockType('mf/navigation',
 	{
-		title: __("Navigation+", 'lang_navigation'),
-		description: __("Display a Navigation+", 'lang_navigation'),
+		title: script_navigation_block_wp.block_title,
+		description: script_navigation_block_wp.block_description,
 		icon: 'menu',
-		category: 'layout',
+		category: 'widgets',
 		'attributes':
 		{
 			'align':
@@ -81,7 +74,7 @@
 						el(
 							SelectControl,
 							{
-								label: __("Menu", 'lang_navigation'),
+								label: script_navigation_block_wp.navigation_id_label,
 								value: props.attributes.navigation_id,
 								options: convert_php_array_to_block_js(script_navigation_block_wp.arr_navigation),
 								onChange: function(value)
@@ -93,7 +86,7 @@
 						el(
 							SelectControl,
 							{
-								label: __("Mobile Ready", 'lang_navigation'),
+								label: script_navigation_block_wp.navigation_mobile_ready_label,
 								value: props.attributes.navigation_mobile_ready,
 								options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
 								onChange: function(value)
@@ -105,7 +98,7 @@
 						el(
 							TextControl,
 							{
-								label: __("Link Color", 'lang_navigation'),
+								label: script_navigation_block_wp.navigation_link_color_label,
 								type: 'text',
 								value: props.attributes.navigation_link_color,
 								onChange: function(value)
@@ -118,7 +111,7 @@
 					el(
 						'strong',
 						{className: props.className},
-						wp.blocks.getBlockType(props.name).title
+						script_navigation_block_wp.block_title
 					)
 				]
 			);
