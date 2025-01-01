@@ -41,8 +41,11 @@ class mf_navigation
 
 			switch($type)
 			{
+				case 'page-list':
+					do_log(__FUNCTION__.": Get all published pages with get_post_children()");
+				break;
+
 				case 'navigation-submenu':
-				//case 'page-list':
 					if($is_end)
 					{
 						unset($current_menu[$current_level - 1]);
