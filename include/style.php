@@ -57,6 +57,7 @@ echo "@media all
 		.widget.navigation .wp-block-navigation__responsive-container
 		{
 			display: block;
+			position: relative;
 		}
 
 			.widget.navigation .wp-block-navigation-item a
@@ -259,12 +260,14 @@ if($obj_navigation->arr_settings['breakpoint_mobile'] > 0)
 				.$transition
 				."transform: translate(0%, -100%);
 				width: 100vw;
+				z-index: 0;
 			}
 
 				.widget.navigation.is_open .wp-block-navigation
 				{
 					opacity: 1;
 					transform: translate(0%, 0%);
+					z-index: 1000;
 				}
 
 			.widget.navigation.mobile_ready .wp-block-navigation__responsive-container-open
@@ -276,6 +279,7 @@ if($obj_navigation->arr_settings['breakpoint_mobile'] > 0)
 				.widget.navigation.mobile_ready .wp-block-navigation__responsive-container
 				{
 					display: none;
+					position: fixed;
 				}
 
 					.widget.navigation .toggle_icon.fa-times
