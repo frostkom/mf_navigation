@@ -19,6 +19,11 @@
 				'type': 'string',
 				'default': ''
 			},
+			'navigation_is_in_header':
+			{
+                'type': 'string',
+                'default': ''
+            },
 			'navigation_id':
 			{
                 'type': 'string',
@@ -28,12 +33,17 @@
 			{
                 'type': 'string',
                 'default': ''
-            },
-			'navigation_link_color':
+            }/*,
+			'navigation_breakpoint_tablet':
 			{
                 'type': 'string',
                 'default': ''
             },
+			'navigation_breakpoint_mobile':
+			{
+                'type': 'string',
+                'default': ''
+            }*/
 		},
 		'supports':
 		{
@@ -74,6 +84,18 @@
 						el(
 							SelectControl,
 							{
+								label: script_navigation_block_wp.navigation_is_in_header_label,
+								value: props.attributes.navigation_mobile_ready,
+								options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
+								onChange: function(value)
+								{
+									props.setAttributes({navigation_is_in_header: value});
+								}
+							}
+						),
+						el(
+							SelectControl,
+							{
 								label: script_navigation_block_wp.navigation_id_label,
 								value: props.attributes.navigation_id,
 								options: convert_php_array_to_block_js(script_navigation_block_wp.arr_navigation),
@@ -94,19 +116,31 @@
 									props.setAttributes({navigation_mobile_ready: value});
 								}
 							}
+						)/*,
+						el(
+							TextControl,
+							{
+								label: script_navigation_block_wp.navigation_breakpoint_tablet_label,
+								type: 'number',
+								value: props.attributes.navigation_breakpoint_tablet,
+								onChange: function(value)
+								{
+									props.setAttributes({navigation_breakpoint_tablet: value});
+								}
+							}
 						),
 						el(
 							TextControl,
 							{
-								label: script_navigation_block_wp.navigation_link_color_label,
-								type: 'text',
-								value: props.attributes.navigation_link_color,
+								label: script_navigation_block_wp.navigation_breakpoint_mobile_label,
+								type: 'number',
+								value: props.attributes.navigation_breakpoint_mobile,
 								onChange: function(value)
 								{
-									props.setAttributes({navigation_link_color: value});
+									props.setAttributes({navigation_breakpoint_mobile: value});
 								}
 							}
-						)
+						)*/
 					),
 					el(
 						'strong',

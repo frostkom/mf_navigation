@@ -143,26 +143,17 @@ class mf_navigation
 	{
 		global $wpdb, $post;
 
-		if(!isset($attributes['navigation_id'])){			$attributes['navigation_id'] = 0;}
-		if(!isset($attributes['navigation_mobile_ready'])){	$attributes['navigation_mobile_ready'] = 'yes';}
-		if(!isset($attributes['navigation_link_color'])){	$attributes['navigation_link_color'] = "";}
+		if(!isset($attributes['navigation_is_in_header'])){			$attributes['navigation_is_in_header'] = 'yes';}
+		if(!isset($attributes['navigation_id'])){					$attributes['navigation_id'] = 0;}
+		if(!isset($attributes['navigation_mobile_ready'])){			$attributes['navigation_mobile_ready'] = 'yes';}
+		//if(!isset($attributes['navigation_breakpoint_tablet'])){	$attributes['navigation_breakpoint_tablet'] = "";}
+		//if(!isset($attributes['navigation_breakpoint_mobile'])){	$attributes['navigation_breakpoint_mobile'] = "";}
 
 		$out = "";
 
 		if($attributes['navigation_id'] > 0)
 		{
-			$plugin_include_url = plugin_dir_url(__FILE__);
-
-			$ul_style = "";
-
-			if($attributes['navigation_link_color'] != '')
-			{
-				$ul_style = " style='color: ".$attributes['navigation_link_color']."'";
-			}
-
-			mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css");
-			mf_enqueue_style('style_navigation', $plugin_include_url."style.php");
-			mf_enqueue_script('script_navigation', $plugin_include_url."script.js");
+			$widget_id = "widget_navigation_".md5(var_export($attributes, true));
 
 			$out_temp = "";
 
@@ -186,7 +177,149 @@ class mf_navigation
 
 			if($out_temp != '')
 			{
-				$out .= "<div".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : ""), 'attributes' => $attributes)).">";
+				$style = "";
+
+				/*if($attributes['navigation_link_color'] != '')
+				{
+					$style .= "color: ".$attributes['navigation_link_color'];
+				}*/
+
+				if(isset($attributes['style']) && is_array($attributes['style']))
+				{
+					//$out .= var_export($attributes, true);
+
+					foreach($attributes['style'] as $key_parent => $arr_value)
+					{
+						switch($key_parent)
+						{
+							case 'color':
+								// You need to use a unique ID/Class and override style.php for this to work
+								//$setting_navigation_breakpoint_mobile = ($attributes['navigation_breakpoint_mobile'] > 0 ? $attributes['navigation_breakpoint_mobile'] : get_option_or_default('setting_navigation_breakpoint_mobile', 930));
+								$setting_navigation_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
+
+								if(isset($arr_value['text']) && $arr_value['text'] != '')
+								{
+									if($attributes['navigation_is_in_header'] == 'yes')
+									{
+										$style .= "header .wp-block-site-title a
+										{
+											color: ".$arr_value['text'].";
+										}";
+									}
+									
+									$style .= "#".$widget_id." .wp-block-navigation, #".$widget_id." .has-child .wp-block-navigation-item
+									{
+										color: ".$arr_value['text'].";
+									}
+									
+									#".$widget_id." .wp-block-navigation-item.border a
+									{
+										border-color: ".$arr_value['text'].";
+									}
+									
+									#".$widget_id." .wp-block-navigation-item.invert a
+									{
+										background-color: ".$arr_value['text']." !important;
+										border-color: ".$arr_value['text']." !important;
+									}
+									
+									@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+									{
+										#".$widget_id." .toggle_line
+										{
+											background-color: ".$arr_value['text'].";
+										}
+
+										#".$widget_id.".mobile_ready .wp-block-navigation
+										{
+											background: ".$arr_value['text'].";
+										}
+
+										#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+										{
+											color: ".$arr_value['text']." !important;
+										}
+
+										#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+										{
+											background-color: ".$arr_value['text']." !important;
+										}
+									}";
+								}
+
+								if(isset($arr_value['background']) && $arr_value['background'] != '')
+								{
+									$style .= "#".$widget_id." .has-child .wp-block-navigation__submenu-container
+									{
+										background-color: ".$arr_value['background'].";
+									}
+									
+									#".$widget_id." .wp-block-navigation-item.invert
+									{
+										color: ".$arr_value['background'].";
+									}
+									
+									@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+									{
+										.menu_is_open header figure.wp-block-image img
+										{
+											background-color: ".$arr_value['background'].";
+										}
+
+										.menu_is_open header .wp-block-site-title a
+										{
+											color: ".$arr_value['background'].";
+										}
+
+										#".$widget_id.".is_open .toggle_line
+										{
+											background-color: ".$arr_value['background'].";
+										}
+
+										#".$widget_id.".mobile_ready .wp-block-navigation
+										{
+											color: ".$arr_value['background'].";
+										}
+
+										#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+										{
+											background-color: ".$arr_value['background']." !important;
+											border-color: ".$arr_value['background']." !important;
+										}
+
+										#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+										{
+											color: ".$arr_value['background']." !important;
+										}
+									}";
+								}
+
+								//$style .= $key_parent.": ".$arr_value['text'].";";
+							break;
+
+							case 'elements':
+								//array ( 'link' => array ( 'color' => array ( 'text' => '#ffffff', ), ), )
+							break;
+
+							default:
+								do_log(__FUNCTION__.": The key parent '".$key_parent."' with value '".var_export($arr_value, true)."' has to be taken care of");
+							break;
+						}
+					}
+				}
+
+				$plugin_include_url = plugin_dir_url(__FILE__);
+
+				mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css");
+				mf_enqueue_style('style_navigation', $plugin_include_url."style.php");
+				mf_enqueue_script('script_navigation', $plugin_include_url."script.js");
+
+				if($style != '')
+				{
+					$out .= "<style>".$style."</style>";
+				}
+
+				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : ""), 'attributes' => $attributes)).">";
 
 					if($attributes['navigation_mobile_ready'] == 'yes')
 					{
@@ -197,12 +330,12 @@ class mf_navigation
 						</div>";
 					}
 
-					$out .= "<nav class='wp-block-navigation is-layout-flex'>" // wp-block-navigation-is-layout-flex wp-container-core-navigation-is-layout-1
+					$out .= "<nav class='wp-block-navigation is-layout-flex'>"
 						."<div class='wp-block-navigation__responsive-container'>
 							<div class='wp-block-navigation__responsive-close'>
 								<div class='wp-block-navigation__responsive-dialog'>
 									<div class='wp-block-navigation__responsive-container-content'>
-										<ul class='wp-block-navigation__container'".$ul_style.">"
+										<ul class='wp-block-navigation__container'>"
 											.$out_temp
 										."</ul>
 									</div>
@@ -237,11 +370,13 @@ class mf_navigation
 		wp_localize_script('script_navigation_block_wp', 'script_navigation_block_wp', array(
 			'block_title' => __("Navigation+", 'lang_navigation'),
 			'block_description' => __("Display a Navigation+", 'lang_navigation'),
+			'navigation_is_in_header_label' => __("Is in Header", 'lang_navigation'),
 			'navigation_id_label' => __("Menu", 'lang_navigation'),
 			'arr_navigation' => $arr_data,
 			'navigation_mobile_ready_label' => __("Mobile Ready", 'lang_navigation'),
 			'yes_no_for_select' => get_yes_no_for_select(),
-			'navigation_link_color_label' => __("Link Color", 'lang_navigation'),
+			//'navigation_breakpoint_tablet' => __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")",
+			//'navigation_breakpoint_mobile' => __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")",
 		));
 
 		register_block_type('mf/navigation', array(
