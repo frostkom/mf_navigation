@@ -195,10 +195,10 @@ if($setting_navigation_breakpoint_mobile > 0)
 			.$transition
 		."}
 
-		.menu_is_open
+		/*.menu_is_open
 		{
-			overflow: hidden;
-		}
+			overflow: hidden; /* This will make the scroll bar disappear and the X to move to the right */
+		}*/
 
 			.menu_is_open header figure.wp-block-image img
 			{
@@ -266,7 +266,7 @@ if($setting_navigation_breakpoint_mobile > 0)
 				top: 0;"
 				.$transition
 				."transform: translate(0%, -100%);
-				width: 100vw;
+				width: 100%;
 				z-index: 0;
 			}
 
