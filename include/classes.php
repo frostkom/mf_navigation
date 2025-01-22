@@ -82,7 +82,7 @@ class mf_navigation
 
 		return $menu_items;
 	}
-	
+
 	function get_menu_children($arr_menu_object)
 	{
 		global $post;
@@ -145,6 +145,8 @@ class mf_navigation
 
 		if(!isset($attributes['navigation_is_in_header'])){			$attributes['navigation_is_in_header'] = 'yes';}
 		if(!isset($attributes['navigation_id'])){					$attributes['navigation_id'] = 0;}
+		if(!isset($attributes['navigation_id_logged_in'])){			$attributes['navigation_id_logged_in'] = 0;}
+		if(!isset($attributes['navigation_id_logged_in_cookie'])){	$attributes['navigation_id_logged_in_cookie'] = '';}
 		if(!isset($attributes['navigation_mobile_ready'])){			$attributes['navigation_mobile_ready'] = 'yes';}
 		//if(!isset($attributes['navigation_breakpoint_tablet'])){	$attributes['navigation_breakpoint_tablet'] = "";}
 		//if(!isset($attributes['navigation_breakpoint_mobile'])){	$attributes['navigation_breakpoint_mobile'] = "";}
@@ -155,7 +157,7 @@ class mf_navigation
 		{
 			$widget_id = "widget_navigation_".md5(var_export($attributes, true));
 
-			$out_temp = "";
+			$menu_items_public = $menu_items_logged_in = "";
 
 			$result = $wpdb->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = '%d'", $this->post_type, $attributes['navigation_id']));
 
@@ -167,17 +169,58 @@ class mf_navigation
 
 				foreach($arr_menu as $arr_menu_object)
 				{
-					$out_temp .= $this->get_menu_children($arr_menu_object);
+					$menu_items_public .= $this->get_menu_children($arr_menu_object);
 				}
 
-				//$out_temp .= htmlspecialchars($post_content)."<br><br>";
-				//$out_temp .= var_export($arr_menu, true)."<br><br>";
-				//$out_temp .= var_export($post, true)."<br><br>";
+				//$menu_items_public .= htmlspecialchars($post_content)."<br><br>";
+				//$menu_items_public .= var_export($arr_menu, true)."<br><br>";
+				//$menu_items_public .= var_export($post, true)."<br><br>";
 			}
 
-			if($out_temp != '')
+			if($menu_items_public != '')
 			{
-				$style = "";
+				$style = $script = "";
+
+				if($attributes['navigation_id_logged_in'] > 0)
+				{
+					$result = $wpdb->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = '%d'", $this->post_type, $attributes['navigation_id_logged_in']));
+
+					foreach($result as $r)
+					{
+						$post_content = $r->post_content;
+
+						$arr_menu = $this->parse_navigation_menu($post_content);
+
+						foreach($arr_menu as $arr_menu_object)
+						{
+							$menu_items_logged_in .= $this->get_menu_children($arr_menu_object);
+						}
+					}
+
+					if($attributes['navigation_id_logged_in_cookie'] != '')
+					{
+						$script .= "function is_logged_in_".$attributes['navigation_id_logged_in_cookie']."()
+						{
+							return document.cookie.split(';').some(function(item)
+							{
+								return (item.trim().indexOf('".$attributes['navigation_id_logged_in_cookie']."') == 0);
+							});
+						}
+
+						if(is_logged_in_".$attributes['navigation_id_logged_in_cookie']."())
+						{
+							var dom_obj_parent = document.getElementById('".$widget_id."'),
+								dom_obj_public = dom_obj_parent.querySelector('.menu_items_public'),
+								dom_obj_logged_in = dom_obj_parent.querySelector('.menu_items_logged_in');
+
+							if(dom_obj_public && dom_obj_logged_in)
+							{
+								dom_obj_public.classList.add('hide');
+								dom_obj_logged_in.classList.remove('hide');
+							}
+						}";
+					}
+				}
 
 				/*if($attributes['navigation_link_color'] != '')
 				{
@@ -206,23 +249,23 @@ class mf_navigation
 											color: ".$arr_value['text'].";
 										}";
 									}
-									
+
 									$style .= "#".$widget_id." .wp-block-navigation, #".$widget_id." .has-child .wp-block-navigation-item
 									{
 										color: ".$arr_value['text'].";
 									}
-									
+
 									#".$widget_id." .wp-block-navigation-item.border a
 									{
 										border-color: ".$arr_value['text'].";
 									}
-									
+
 									#".$widget_id." .wp-block-navigation-item.invert a
 									{
 										background-color: ".$arr_value['text']." !important;
 										border-color: ".$arr_value['text']." !important;
 									}
-									
+
 									@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
 									{
 										#".$widget_id." .toggle_line
@@ -253,12 +296,12 @@ class mf_navigation
 									{
 										background-color: ".$arr_value['background'].";
 									}
-									
+
 									#".$widget_id." .wp-block-navigation-item.invert
 									{
 										color: ".$arr_value['background'].";
 									}
-									
+
 									@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
 									{
 										.menu_is_open header figure.wp-block-image img
@@ -335,15 +378,28 @@ class mf_navigation
 							<div class='wp-block-navigation__responsive-close'>
 								<div class='wp-block-navigation__responsive-dialog'>
 									<div class='wp-block-navigation__responsive-container-content'>
-										<ul class='wp-block-navigation__container'>"
-											.$out_temp
-										."</ul>
-									</div>
+										<ul class='wp-block-navigation__container menu_items_public'>"
+											.$menu_items_public
+										."</ul>";
+
+										if($menu_items_logged_in != '')
+										{
+											$out .= "<ul class='wp-block-navigation__container menu_items_logged_in hide'>"
+												.$menu_items_logged_in
+											."</ul>";
+										}
+
+									$out .= "</div>
 								</div>
 							</div>
 						</div>
 					</nav>
 				</div>";
+
+				if($script != '')
+				{
+					$out .= "<script>".$script."</script>";
+				}
 			}
 		}
 
@@ -373,6 +429,8 @@ class mf_navigation
 			'navigation_is_in_header_label' => __("Is in Header", 'lang_navigation'),
 			'navigation_id_label' => __("Menu", 'lang_navigation'),
 			'arr_navigation' => $arr_data,
+			'navigation_id_logged_in_label' => " - ".__("Logged In", 'lang_navigation'),
+			'navigation_id_logged_in_cookie_label' => " - ".__("Cookie Key", 'lang_navigation'),
 			'navigation_mobile_ready_label' => __("Mobile Ready", 'lang_navigation'),
 			'yes_no_for_select' => get_yes_no_for_select(),
 			//'navigation_breakpoint_tablet' => __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")",
