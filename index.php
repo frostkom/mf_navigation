@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: MF Navigation+
-Plugin URI: 
+Plugin URI: https://github.com/frostkom/mf_navigation
 Description:
-Version: 1.2.18
+Version: 1.2.19
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -11,7 +11,7 @@ Text Domain: lang_navigation
 Domain Path: /lang
 
 Depends: Meta Box, MF Base
-GitHub Plugin URI: 
+GitHub Plugin URI: frostkom/mf_navigation
 */
 
 if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
