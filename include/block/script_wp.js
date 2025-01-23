@@ -137,7 +137,7 @@
 								{
 									props.setAttributes({navigation_id_logged_in_cookie: value});
 								},
-								placeholder: 'wordpress_logged_in_'
+								placeholder: 'wp-settings-time'
 							}
 						),
 						el(

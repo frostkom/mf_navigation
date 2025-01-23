@@ -199,7 +199,9 @@ class mf_navigation
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
 					{
-						$script .= "function is_logged_in_".$attributes['navigation_id_logged_in_cookie']."()
+						$function_name = "is_logged_in_".str_replace("-", "_", $attributes['navigation_id_logged_in_cookie']);
+
+						$script .= "function ".$function_name."()
 						{
 							return document.cookie.split(';').some(function(item)
 							{
@@ -207,7 +209,7 @@ class mf_navigation
 							});
 						}
 
-						if(is_logged_in_".$attributes['navigation_id_logged_in_cookie']."())
+						if(".$function_name."())
 						{
 							var dom_obj_parent = document.getElementById('".$widget_id."'),
 								dom_obj_public = dom_obj_parent.querySelector('.menu_items_public'),
@@ -219,6 +221,14 @@ class mf_navigation
 								dom_obj_logged_in.classList.remove('hide');
 							}
 						}";
+
+						if(IS_SUPER_ADMIN)
+						{
+							$script .= "else
+							{
+								console.log('The cookie can not be found...' , document.cookie);	
+							}";
+						}
 					}
 				}
 
