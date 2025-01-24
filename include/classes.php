@@ -181,7 +181,7 @@ class mf_navigation
 			{
 				$style = $script = "";
 
-				if($attributes['navigation_id_logged_in'] > 0)
+				if($attributes['navigation_id_logged_in'] > 0 && $attributes['navigation_id_logged_in'] != $attributes['navigation_id'])
 				{
 					$result = $wpdb->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = '%d'", $this->post_type, $attributes['navigation_id_logged_in']));
 
@@ -232,11 +232,6 @@ class mf_navigation
 					}
 				}
 
-				/*if($attributes['navigation_link_color'] != '')
-				{
-					$style .= "color: ".$attributes['navigation_link_color'];
-				}*/
-
 				if(isset($attributes['style']) && is_array($attributes['style']))
 				{
 					//$out .= var_export($attributes, true);
@@ -274,30 +269,33 @@ class mf_navigation
 									{
 										background-color: ".$arr_value['text']." !important;
 										border-color: ".$arr_value['text']." !important;
-									}
-
-									@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
-									{
-										#".$widget_id." .toggle_line
-										{
-											background-color: ".$arr_value['text'].";
-										}
-
-										#".$widget_id.".mobile_ready .wp-block-navigation
-										{
-											background: ".$arr_value['text'].";
-										}
-
-										#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
-										{
-											color: ".$arr_value['text']." !important;
-										}
-
-										#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
-										{
-											background-color: ".$arr_value['text']." !important;
-										}
 									}";
+
+									if($attributes['navigation_mobile_ready'] == 'yes')
+									{
+										$style .= "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+										{
+											#".$widget_id." .toggle_line
+											{
+												background-color: ".$arr_value['text'].";
+											}
+
+											#".$widget_id.".mobile_ready .wp-block-navigation
+											{
+												background: ".$arr_value['text'].";
+											}
+
+											#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+											{
+												color: ".$arr_value['text']." !important;
+											}
+
+											#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+											{
+												background-color: ".$arr_value['text']." !important;
+											}
+										}";
+									}
 								}
 
 								if(isset($arr_value['background']) && $arr_value['background'] != '')
@@ -310,41 +308,44 @@ class mf_navigation
 									#".$widget_id." .wp-block-navigation-item.invert
 									{
 										color: ".$arr_value['background'].";
-									}
-
-									@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
-									{
-										.menu_is_open header figure.wp-block-image img
-										{
-											background-color: ".$arr_value['background'].";
-										}
-
-										.menu_is_open header .wp-block-site-title a
-										{
-											color: ".$arr_value['background'].";
-										}
-
-										#".$widget_id.".is_open .toggle_line
-										{
-											background-color: ".$arr_value['background'].";
-										}
-
-										#".$widget_id.".mobile_ready .wp-block-navigation
-										{
-											color: ".$arr_value['background'].";
-										}
-
-										#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
-										{
-											background-color: ".$arr_value['background']." !important;
-											border-color: ".$arr_value['background']." !important;
-										}
-
-										#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
-										{
-											color: ".$arr_value['background']." !important;
-										}
 									}";
+
+									if($attributes['navigation_mobile_ready'] == 'yes')
+									{
+										$style .= "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+										{
+											.menu_is_open header figure.wp-block-image img
+											{
+												background-color: ".$arr_value['background'].";
+											}
+
+											.menu_is_open header .wp-block-site-title a
+											{
+												color: ".$arr_value['background'].";
+											}
+
+											#".$widget_id.".is_open .toggle_line
+											{
+												background-color: ".$arr_value['background'].";
+											}
+
+											#".$widget_id.".mobile_ready .wp-block-navigation
+											{
+												color: ".$arr_value['background'].";
+											}
+
+											#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+											{
+												background-color: ".$arr_value['background']." !important;
+												border-color: ".$arr_value['background']." !important;
+											}
+
+											#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+											{
+												color: ".$arr_value['background']." !important;
+											}
+										}";
+									}
 								}
 
 								//$style .= $key_parent.": ".$arr_value['text'].";";
@@ -435,8 +436,8 @@ class mf_navigation
 
 		wp_localize_script('script_navigation_block_wp', 'script_navigation_block_wp', array(
 			'block_title' => __("Navigation+", 'lang_navigation'),
-			'block_description' => __("Display a Navigation+", 'lang_navigation'),
-			'navigation_is_in_header_label' => __("Is in Header", 'lang_navigation'),
+			'block_description' => __("Display a Navigation", 'lang_navigation'),
+			'navigation_is_in_header_label' => __("Is next to logo", 'lang_navigation'),
 			'navigation_id_label' => __("Menu", 'lang_navigation'),
 			'arr_navigation' => $arr_data,
 			'navigation_id_logged_in_label' => " - ".__("Logged In", 'lang_navigation'),
