@@ -24,6 +24,12 @@ $transition = "transition: all .5s ease;";
 
 echo "@media all
 {
+	body:before
+	{
+		content: 'is_desktop';
+		display: none;
+	}
+
 	/* General */
 	header .wp-block-image, header .wp-block-site-logo, header .wp-block-site-title, header .wp-block-site-tagline
 	{
@@ -124,7 +130,7 @@ echo "@media all
 
 if($setting_navigation_breakpoint_tablet > 0)
 {
-	echo "\n@media screen and (min-width: ".$setting_navigation_breakpoint_tablet."px)
+	echo "@media screen and (min-width: ".$setting_navigation_breakpoint_tablet."px)
 	{
 		.widget.navigation .wp-block-navigation__responsive-container
 		{
@@ -156,8 +162,13 @@ if($setting_navigation_breakpoint_tablet > 0)
 
 if($setting_navigation_breakpoint_mobile > 0 && $setting_navigation_breakpoint_tablet > $setting_navigation_breakpoint_mobile)
 {
-	echo "\n@media screen and (min-width: ".$setting_navigation_breakpoint_mobile."px) and (max-width: ".($setting_navigation_breakpoint_tablet - 1)."px)
+	echo "@media screen and (min-width: ".$setting_navigation_breakpoint_mobile."px) and (max-width: ".($setting_navigation_breakpoint_tablet - 1)."px)
 	{
+		body:before
+		{
+			content: 'is_tablet';
+		}
+
 		.widget.navigation .wp-block-navigation__responsive-container-open
 		{
 			display: none !important;
@@ -172,8 +183,13 @@ if($setting_navigation_breakpoint_mobile > 0 && $setting_navigation_breakpoint_t
 
 if($setting_navigation_breakpoint_mobile > 0)
 {
-	echo "\n@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+	echo "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
 	{
+		body:before
+		{
+			content: 'is_mobile';
+		}
+
 		.menu_is_open header .wp-block-site-title a
 		{"
 			.$transition

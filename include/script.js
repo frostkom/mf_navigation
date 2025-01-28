@@ -1,5 +1,26 @@
 jQuery(function($)
 {
+	/* Breakpoint */
+	var breakpoints = 'is_mobile is_tablet is_desktop';
+
+	function set_breakpoint()
+	{
+		var dom_obj = $("body"),
+			value = window.getComputedStyle(document.querySelector("body"), ':before').getPropertyValue('content').replace(/\"/g, '');
+
+		if(typeof value !== 'undefined' && value != '')
+		{
+			dom_obj.addClass(value).removeClass(breakpoints.replace(value, ''));
+		}
+	};
+
+	set_breakpoint();
+
+	$(window).resize(function()
+	{
+		set_breakpoint();
+	});
+
 	/* Menu */
 	$(".widget.navigation .wp-block-navigation-item.item_gap").each(function()
 	{
