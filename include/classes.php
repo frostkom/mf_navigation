@@ -199,7 +199,7 @@ class mf_navigation
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
 					{
-						$function_name = "is_logged_in_".str_replace("-", "_", $attributes['navigation_id_logged_in_cookie']);
+						/*$function_name = "is_logged_in_".str_replace("-", "_", $attributes['navigation_id_logged_in_cookie']);
 
 						$script .= "function ".$function_name."()
 						{
@@ -228,7 +228,31 @@ class mf_navigation
 							{
 								console.log('The cookie can not be found...' , document.cookie);	
 							}";
-						}
+						}*/
+
+						$script .= "jQuery(function($)
+						{
+							function is_logged_in()
+							{
+								return document.cookie.split(';').some(function(item)
+								{
+									return (item.trim().indexOf('".$attributes['navigation_id_logged_in_cookie']."') == 0);
+								});
+							}
+
+							if(is_logged_in())
+							{
+								var dom_obj_parent = $('#".$widget_id."'),
+									dom_obj_public = dom_obj_parent.find('.menu_items_public'),
+									dom_obj_logged_in = dom_obj_parent.find('.menu_items_logged_in');
+
+								if(dom_obj_public && dom_obj_logged_in)
+								{
+									dom_obj_public.addClass('hide');
+									dom_obj_logged_in.removeClass('hide');
+								}
+							}
+						});";
 					}
 				}
 
