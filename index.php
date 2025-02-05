@@ -29,6 +29,11 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		add_action('admin_init', array($obj_navigation, 'settings_navigation'));
 	}
 
+	else
+	{
+		add_action('wp_footer', array($obj_navigation, 'wp_footer'), 100);
+	}
+
 	load_plugin_textdomain('lang_navigation', false, dirname(plugin_basename(__FILE__))."/lang/");
 
 	function uninstall_navigation()

@@ -3,6 +3,7 @@
 class mf_navigation
 {
 	var $post_type = 'wp_navigation';
+	var $footer_output = "";
 
 	function __construct(){}
 
@@ -171,10 +172,6 @@ class mf_navigation
 				{
 					$menu_items_public .= $this->get_menu_children($arr_menu_object);
 				}
-
-				//$menu_items_public .= htmlspecialchars($post_content)."<br><br>";
-				//$menu_items_public .= var_export($arr_menu, true)."<br><br>";
-				//$menu_items_public .= var_export($post, true)."<br><br>";
 			}
 
 			if($menu_items_public != '')
@@ -199,38 +196,30 @@ class mf_navigation
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
 					{
-						/*$function_name = "is_logged_in_".str_replace("-", "_", $attributes['navigation_id_logged_in_cookie']);
+						//$function_name = "is_logged_in_".str_replace("-", "_", $attributes['navigation_id_logged_in_cookie']);
 
-						$script .= "function ".$function_name."()
+						$script .= "(function()
 						{
-							return document.cookie.split(';').some(function(item)
+							function is_logged_in()
 							{
-								return (item.trim().indexOf('".$attributes['navigation_id_logged_in_cookie']."') == 0);
-							});
-						}
-
-						if(".$function_name."())
-						{
-							var dom_obj_parent = document.getElementById('".$widget_id."'),
-								dom_obj_public = dom_obj_parent.querySelector('.menu_items_public'),
-								dom_obj_logged_in = dom_obj_parent.querySelector('.menu_items_logged_in');
-
-							if(dom_obj_public && dom_obj_logged_in)
-							{
-								dom_obj_public.classList.add('hide');
-								dom_obj_logged_in.classList.remove('hide');
+								return document.cookie.split(';').some(function(item)
+								{
+									return (item.trim().indexOf('".$attributes['navigation_id_logged_in_cookie']."') == 0);
+								});
 							}
-						}";
 
-						if(IS_SUPER_ADMIN)
-						{
-							$script .= "else
+							if(is_logged_in())
 							{
-								console.log('The cookie can not be found...' , document.cookie);	
-							}";
-						}*/
+								document.body.classList.add('logged-in');
+							}
+							
+							else
+							{
+								document.body.classList.remove('logged-in');
+							}
+						})()";
 
-						$script .= "jQuery(function($)
+						/*$script .= "jQuery(function($)
 						{
 							function is_logged_in()
 							{
@@ -252,7 +241,7 @@ class mf_navigation
 									dom_obj_logged_in.removeClass('hide');
 								}
 							}
-						});";
+						});";*/
 					}
 				}
 
@@ -413,13 +402,13 @@ class mf_navigation
 							<div class='wp-block-navigation__responsive-close'>
 								<div class='wp-block-navigation__responsive-dialog'>
 									<div class='wp-block-navigation__responsive-container-content'>
-										<ul class='wp-block-navigation__container menu_items_public'>"
+										<ul class='wp-block-navigation__container".($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
 											.$menu_items_public
 										."</ul>";
 
 										if($menu_items_logged_in != '')
 										{
-											$out .= "<ul class='wp-block-navigation__container menu_items_logged_in hide'>"
+											$out .= "<ul class='wp-block-navigation__container menu_items_logged_in'>"
 												.$menu_items_logged_in
 											."</ul>";
 										}
@@ -433,7 +422,7 @@ class mf_navigation
 
 				if($script != '')
 				{
-					$out .= "<script>".$script."</script>";
+					$this->footer_output .= "<script id='script_navigation_inline-js'>".$script."</script>";
 				}
 			}
 		}
@@ -453,7 +442,7 @@ class mf_navigation
 		$plugin_include_url = plugin_dir_url(__FILE__);
 		$plugin_version = get_plugin_version(__FILE__);
 
-		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version);
+		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version, true);
 
 		$arr_data = array();
 		get_post_children(array('post_type' => $this->post_type, 'order_by' => 'post_title', 'add_choose_here' => true), $arr_data);
@@ -587,5 +576,13 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, 930);
 
 		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
+	}
+
+	function wp_footer()
+	{
+		if(isset($this->footer_output) && $this->footer_output != '')
+		{
+			echo $this->footer_output;
+		}
 	}
 }

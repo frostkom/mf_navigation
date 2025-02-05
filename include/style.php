@@ -30,6 +30,21 @@ echo "@media all
 		display: none;
 	}
 
+	body .menu_items_public, body .menu_items_logged_in
+	{
+		display: none;
+	}
+
+		body:not(.logged-in) .menu_items_public
+		{
+			display: flex;
+		}
+
+		body.logged-in .menu_items_logged_in
+		{
+			display: flex;
+		}
+
 	/* General */
 	header .wp-block-image, header .wp-block-site-logo, header .wp-block-site-title, header .wp-block-site-tagline
 	{

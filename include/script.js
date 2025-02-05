@@ -59,12 +59,7 @@ jQuery(function($)
 	{
 		var dom_obj = $(this).parent(".has-child");
 
-		if(dom_obj.hasClass('is_open'))
-		{
-			/* Let the click go through */
-		}
-
-		else
+		if(dom_obj.hasClass('is_open') == false)
 		{
 			$(".widget.navigation .has-child").removeClass('is_open');
 			dom_obj.addClass('is_open').parents(".has-child").addClass('is_open');
