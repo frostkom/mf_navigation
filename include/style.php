@@ -322,6 +322,16 @@ if($setting_navigation_breakpoint_mobile > 0)
 						width: 100%;
 					}
 
+						body:not(.logged-in) .widget.navigation.mobile_ready .menu_items_logged_in
+						{
+							display: none;
+						}
+
+						body.logged-in .widget.navigation.mobile_ready .menu_items_public
+						{
+							display: none;
+						}
+
 						.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item
 						{
 							display: block;
