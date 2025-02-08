@@ -35,7 +35,7 @@ echo "@media all
 		display: none;
 	}
 
-		body:not(.logged-in) .menu_items_public
+		body.not-logged-in .menu_items_public
 		{
 			display: flex;
 		}

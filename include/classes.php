@@ -210,12 +210,14 @@ class mf_navigation
 
 							if(is_logged_in())
 							{
+								document.body.classList.remove('not-logged-in');
 								document.body.classList.add('logged-in');
 							}
 							
 							else
 							{
 								document.body.classList.remove('logged-in');
+								document.body.classList.add('not-logged-in');
 							}
 						})()";
 
