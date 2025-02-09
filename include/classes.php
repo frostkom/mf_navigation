@@ -3,7 +3,6 @@
 class mf_navigation
 {
 	var $post_type = 'wp_navigation';
-	var $footer_output = "";
 
 	function __construct(){}
 
@@ -13,7 +12,6 @@ class mf_navigation
 
 		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $arr_matches, PREG_SET_ORDER);
 
-		//echo var_export($arr_matches, true);
 		$count_temp = count($arr_matches);
 
 		for($i = 0; $i < $count_temp; $i++)
@@ -196,8 +194,6 @@ class mf_navigation
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
 					{
-						//$function_name = "is_logged_in_".str_replace("-", "_", $attributes['navigation_id_logged_in_cookie']);
-
 						$script .= "(function()
 						{
 							function is_logged_in()
@@ -220,30 +216,6 @@ class mf_navigation
 								document.body.classList.add('not-logged-in');
 							}
 						})()";
-
-						/*$script .= "jQuery(function($)
-						{
-							function is_logged_in()
-							{
-								return document.cookie.split(';').some(function(item)
-								{
-									return (item.trim().indexOf('".$attributes['navigation_id_logged_in_cookie']."') == 0);
-								});
-							}
-
-							if(is_logged_in())
-							{
-								var dom_obj_parent = $('#".$widget_id."'),
-									dom_obj_public = dom_obj_parent.find('.menu_items_public'),
-									dom_obj_logged_in = dom_obj_parent.find('.menu_items_logged_in');
-
-								if(dom_obj_public && dom_obj_logged_in)
-								{
-									dom_obj_public.addClass('hide');
-									dom_obj_logged_in.removeClass('hide');
-								}
-							}
-						});";*/
 					}
 				}
 
@@ -424,7 +396,7 @@ class mf_navigation
 
 				if($script != '')
 				{
-					$this->footer_output .= "<script id='script_navigation_inline-js'>".$script."</script>";
+					$out .= "<script id='script_navigation_inline-js'>".$script."</script>";
 				}
 			}
 		}
@@ -578,13 +550,5 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, 930);
 
 		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
-	}
-
-	function wp_footer()
-	{
-		if(isset($this->footer_output) && $this->footer_output != '')
-		{
-			echo $this->footer_output;
-		}
 	}
 }
