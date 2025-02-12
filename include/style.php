@@ -24,11 +24,11 @@ $transition = "transition: all .5s ease;";
 
 echo "@media all
 {
-	body:before
+	/*body:before
 	{
 		content: 'is_desktop';
 		display: none;
-	}
+	}*/
 
 	body .menu_items_public, body .menu_items_logged_in
 	{
@@ -179,10 +179,10 @@ if($setting_navigation_breakpoint_mobile > 0 && $setting_navigation_breakpoint_t
 {
 	echo "@media screen and (min-width: ".$setting_navigation_breakpoint_mobile."px) and (max-width: ".($setting_navigation_breakpoint_tablet - 1)."px)
 	{
-		body:before
+		/*body:before
 		{
 			content: 'is_tablet';
-		}
+		}*/
 
 		.widget.navigation .wp-block-navigation__responsive-container-open
 		{
@@ -200,10 +200,10 @@ if($setting_navigation_breakpoint_mobile > 0)
 {
 	echo "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
 	{
-		body:before
+		/*body:before
 		{
 			content: 'is_mobile';
-		}
+		}*/
 
 		.menu_is_open header .wp-block-site-title a
 		{"

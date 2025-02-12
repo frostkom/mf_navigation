@@ -1,7 +1,7 @@
 jQuery(function($)
 {
 	/* Breakpoint */
-	var breakpoints = 'is_mobile is_tablet is_desktop';
+	/*var breakpoints = 'is_mobile is_tablet is_desktop';
 
 	function set_breakpoint()
 	{
@@ -19,7 +19,7 @@ jQuery(function($)
 	$(window).resize(function()
 	{
 		set_breakpoint();
-	});
+	});*/
 
 	/* Menu */
 	$(".widget.navigation .wp-block-navigation-item.item_gap").each(function()
