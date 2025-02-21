@@ -86,6 +86,8 @@ class mf_navigation
 	{
 		global $post;
 
+		$arr_menu_object = apply_filters('filter_navigation_menu_object', $arr_menu_object);
+
 		$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
 
 		$is_button = (isset($arr_menu_object['className']) && strpos($arr_menu_object['className'], 'button') !== false);
@@ -136,6 +138,29 @@ class mf_navigation
 		$out_temp .= "</li>";
 
 		return $out_temp;
+	}
+
+	function is_cookie_in_htaccess($cookie)
+	{
+		$setting_navigation_logged_in_cookies = get_option_or_default('setting_navigation_logged_in_cookies', array());
+
+		return in_array($cookie, $setting_navigation_logged_in_cookies);
+	}
+
+	function does_cookie_exist($cookie)
+	{
+		if(isset($_COOKIE) && count($_COOKIE) > 0)
+		{
+			foreach($_COOKIE as $cookie_key => $cookie_value)
+			{
+				if(substr($cookie_key, 0, strlen($cookie)) == $cookie)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	function block_render_callback($attributes)
@@ -194,28 +219,40 @@ class mf_navigation
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
 					{
-						$script .= "(function()
-						{
-							function is_logged_in()
-							{
-								return document.cookie.split(';').some(function(item)
-								{
-									return (item.trim().indexOf('".$attributes['navigation_id_logged_in_cookie']."') == 0);
-								});
-							}
+						$option_navigation_logged_in_cookies = get_option_or_default('option_navigation_logged_in_cookies', array());
 
-							if(is_logged_in())
+						if(!in_array($attributes['navigation_id_logged_in_cookie'], $option_navigation_logged_in_cookies))
+						{
+							$option_navigation_logged_in_cookies[] = $attributes['navigation_id_logged_in_cookie'];
+
+							update_option('option_navigation_logged_in_cookies', $option_navigation_logged_in_cookies);
+						}
+
+						if($this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']) == false)
+						{
+							$script .= "(function()
 							{
-								document.body.classList.remove('not-logged-in');
-								document.body.classList.add('logged-in');
-							}
-							
-							else
-							{
-								document.body.classList.remove('logged-in');
-								document.body.classList.add('not-logged-in');
-							}
-						})()";
+								function is_logged_in()
+								{
+									return document.cookie.split(';').some(function(item)
+									{
+										return (item.trim().indexOf('".$attributes['navigation_id_logged_in_cookie']."') == 0);
+									});
+								}
+
+								if(is_logged_in())
+								{
+									document.body.classList.remove('not-logged-in');
+									document.body.classList.add('logged-in');
+								}
+								
+								else
+								{
+									document.body.classList.remove('logged-in');
+									document.body.classList.add('not-logged-in');
+								}
+							})()";
+						}
 					}
 				}
 
@@ -375,16 +412,37 @@ class mf_navigation
 						."<div class='wp-block-navigation__responsive-container'>
 							<div class='wp-block-navigation__responsive-close'>
 								<div class='wp-block-navigation__responsive-dialog'>
-									<div class='wp-block-navigation__responsive-container-content'>
-										<ul class='wp-block-navigation__container".($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
-											.$menu_items_public
-										."</ul>";
+									<div class='wp-block-navigation__responsive-container-content'>";
 
-										if($menu_items_logged_in != '')
+										if($this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
 										{
-											$out .= "<ul class='wp-block-navigation__container menu_items_logged_in'>"
-												.$menu_items_logged_in
+											$out .= "<ul class='wp-block-navigation__container'>";
+
+												if($this->does_cookie_exist($attributes['navigation_id_logged_in_cookie']) == false)
+												{
+													$out .= $menu_items_public;
+												}
+
+												else
+												{
+													$out .= $menu_items_logged_in;
+												}
+
+											$out .= "</ul>";
+										}
+
+										else
+										{
+											$out .= "<ul class='wp-block-navigation__container".($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
+												.$menu_items_public
 											."</ul>";
+
+											if($menu_items_logged_in != '')
+											{
+												$out .= "<ul class='wp-block-navigation__container menu_items_logged_in'>"
+													.$menu_items_logged_in
+												."</ul>";
+											}
 										}
 
 									$out .= "</div>
@@ -461,6 +519,11 @@ class mf_navigation
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		$arr_settings['setting_navigation_breakpoint_tablet'] = __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")";
 		$arr_settings['setting_navigation_breakpoint_mobile'] = __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
+
+		if(count(get_option_or_default('option_navigation_logged_in_cookies', array())) > 0)
+		{
+			$arr_settings['setting_navigation_logged_in_cookies'] = __("Logged in Cookies", 'lang_navigation');
+		}
 
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
 	}
@@ -550,5 +613,39 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, 930);
 
 		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
+	}
+	
+	function get_logged_in_cookies_for_select()
+	{
+		$arr_data = array();
+
+		$option_navigation_logged_in_cookies = get_option_or_default('option_navigation_logged_in_cookies', array());
+
+		foreach($option_navigation_logged_in_cookies as $key => $value)
+		{
+			$arr_data[$value] = $value;
+		}
+
+		return $arr_data;
+	}
+
+	function setting_navigation_logged_in_cookies_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option_or_default($setting_key, array());
+
+		echo show_select(array('data' => $this->get_logged_in_cookies_for_select(), 'name' => $setting_key."[]", 'value' => $option));
+	}
+
+	function filter_cache_logged_in_cookies($arr_cookies)
+	{
+		$setting_navigation_logged_in_cookies = get_option_or_default('setting_navigation_logged_in_cookies', array());
+
+		foreach($setting_navigation_logged_in_cookies as $key => $value)
+		{
+			$arr_cookies[] = $value;
+		}
+
+		return $arr_cookies;
 	}
 }
