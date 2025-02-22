@@ -251,7 +251,7 @@ class mf_navigation
 									document.body.classList.remove('logged-in');
 									document.body.classList.add('not-logged-in');
 								}
-							})()";
+							})();";
 						}
 					}
 				}
