@@ -225,7 +225,7 @@ class mf_navigation
 						{
 							$option_navigation_logged_in_cookies[] = $attributes['navigation_id_logged_in_cookie'];
 
-							update_option('option_navigation_logged_in_cookies', $option_navigation_logged_in_cookies);
+							update_option('option_navigation_logged_in_cookies', $option_navigation_logged_in_cookies, false);
 						}
 
 						if($this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']) == false)
