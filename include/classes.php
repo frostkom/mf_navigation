@@ -26,7 +26,16 @@ class mf_navigation
 			switch($type)
 			{
 				case 'page-list':
-					do_log(__FUNCTION__.": Get all published pages with get_post_children()");
+					$arr_data = array();
+					get_post_children(array('add_choose_here' => false), $arr_data);
+
+					foreach($arr_data as $key => $value)
+					{
+						$menu_items[$key] = array(
+							'url' => get_permalink($key),
+							'label' => $value,
+						);
+					}
 				break;
 
 				case 'navigation-submenu':
@@ -245,7 +254,7 @@ class mf_navigation
 									document.body.classList.remove('not-logged-in');
 									document.body.classList.add('logged-in');
 								}
-								
+
 								else
 								{
 									document.body.classList.remove('logged-in');
@@ -461,7 +470,7 @@ class mf_navigation
 
 		else if(IS_SUPER_ADMIN)
 		{
-			$out .= __("There is no menu here yet", 'lang_navigation');
+			$out .= "<span class='grey'>(".__("There is no menu here yet", 'lang_navigation').")</span>";
 		}
 
 		return $out;
@@ -614,7 +623,7 @@ class mf_navigation
 
 		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
 	}
-	
+
 	function get_logged_in_cookies_for_select()
 	{
 		$arr_data = array();
