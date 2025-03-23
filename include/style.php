@@ -24,12 +24,6 @@ $transition = "transition: all .5s ease;";
 
 echo "@media all
 {
-	/*body:before
-	{
-		content: 'is_desktop';
-		display: none;
-	}*/
-
 	body .menu_items_public, body .menu_items_logged_in
 	{
 		display: none;
@@ -82,16 +76,26 @@ echo "@media all
 			position: relative;
 		}
 
-			.widget.navigation .wp-block-navigation-item a
+			.widget.navigation .wp-block-navigation-item > a
 			{
 				border-radius: ".$setting_navigation_item_border_radius.";
 				/*display: inline-block;*/ /* Make this a setting? */
 				padding: ".$setting_navigation_item_padding.";
 			}
 
-			.widget.navigation .wp-block-navigation .wp-block-navigation-item img
+			.widget.navigation .wp-block-navigation .wp-block-navigation-item > img
 			{
 				display: block;
+			}
+
+				.widget.navigation .wp-block-navigation-item.current_menu_item > a
+				{
+					font-weight: bold;
+				}
+
+			.widget.navigation .has-child.current_menu_parent > a
+			{
+				font-weight: bold;
 			}
 
 			.widget.navigation .has-child > a > button.wp-block-navigation__submenu-icon
@@ -100,6 +104,11 @@ echo "@media all
 				transform: rotate(0deg) translateX(0);"
 				.$transition
 			."}
+
+				.widget.navigation .has-child.current_menu_parent > a > button
+				{
+					transform: rotate(-".(360 + 90)."deg) translateY(-20%);
+				}
 
 				.widget.navigation .has-child:hover > a > button, .widget.navigation .has-child.is_open > a > button
 				{
@@ -179,11 +188,6 @@ if($setting_navigation_breakpoint_mobile > 0 && $setting_navigation_breakpoint_t
 {
 	echo "@media screen and (min-width: ".$setting_navigation_breakpoint_mobile."px) and (max-width: ".($setting_navigation_breakpoint_tablet - 1)."px)
 	{
-		/*body:before
-		{
-			content: 'is_tablet';
-		}*/
-
 		.widget.navigation .wp-block-navigation__responsive-container-open
 		{
 			display: none !important;
@@ -200,21 +204,10 @@ if($setting_navigation_breakpoint_mobile > 0)
 {
 	echo "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
 	{
-		/*body:before
-		{
-			content: 'is_mobile';
-		}*/
-
 		.menu_is_open header .wp-block-site-title a
 		{"
 			.$transition
 		."}
-
-		/* This will make the scroll bar disappear and the X to move to the right */
-		/*.menu_is_open
-		{
-			overflow: hidden;
-		}*/
 
 			.menu_is_open header figure.wp-block-image img
 			{

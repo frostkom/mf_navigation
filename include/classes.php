@@ -101,11 +101,32 @@ class mf_navigation
 
 		$is_button = (isset($arr_menu_object['className']) && strpos($arr_menu_object['className'], 'button') !== false);
 
-		$out_temp = "<li class='wp-block-navigation-item"
-			.(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '' ? " ".$arr_menu_object['className'] : "")
-			.(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID ? " current_menu_item" : "")
-			.($has_children ? " has-child" : "")
-		."'>";
+		$out_temp = "<li class='wp-block-navigation-item";
+
+			if(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '')
+			{
+				$out_temp .= " ".$arr_menu_object['className'];
+			}
+
+			if(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID)
+			{
+				$out_temp .= " current_menu_item";
+			}
+
+			if($has_children)
+			{
+				$out_temp .= " has-child";
+
+				foreach($arr_menu_object['children'] as $key_temp => $arr_value_temp)
+				{
+					if(isset($post->ID) && isset($arr_value_temp['id']) && $arr_value_temp['id'] == $post->ID)
+					{
+						$out_temp .= " current_menu_parent";
+					}
+				}
+			}
+
+		$out_temp .= "'>";
 
 			if($is_button)
 			{
