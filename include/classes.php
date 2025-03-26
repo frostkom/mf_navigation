@@ -135,7 +135,7 @@ class mf_navigation
 
 				$out_temp .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'>";
 
-					$out_temp .= $arr_menu_object['label']; // <span class='wp-block-navigation-item__label'></span>
+					$out_temp .= $arr_menu_object['label'];
 
 					if($has_children)
 					{
