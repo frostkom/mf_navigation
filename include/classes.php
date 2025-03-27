@@ -418,7 +418,8 @@ class mf_navigation
 
 				$plugin_include_url = plugin_dir_url(__FILE__);
 
-				mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css");
+				//mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css");
+				wp_enqueue_style('wp-block-navigation');
 				mf_enqueue_style('style_navigation', $plugin_include_url."style.php");
 				mf_enqueue_script('script_navigation', $plugin_include_url."script.js");
 
