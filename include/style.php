@@ -150,6 +150,29 @@ echo "@media all
 				background-color: ".$setting_navigation_text_color." !important;
 				border: .1rem solid ".$setting_navigation_text_color." !important;
 			}
+
+	/* Dim content when hovering header */
+	.wp-site-blocks::before
+	{
+		background: rgba(0, 0, 0, .5);
+		content: '';
+		opacity: 0;
+		position: absolute;
+		top: 0; left: 0; right: 0; bottom: 0;
+		transition: opacity 1s;
+		z-index: 1;
+	}
+
+		.wp-site-blocks:has(header:hover)::before
+		{
+			opacity: 1;
+		}
+
+	.wp-site-blocks header
+	{
+		position: relative;
+		z-index: 2;
+	}
 }";
 
 if($setting_navigation_breakpoint_tablet > 0)
