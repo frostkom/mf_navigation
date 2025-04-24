@@ -200,7 +200,7 @@ class mf_navigation
 		if(!isset($attributes['navigation_is_in_header'])){			$attributes['navigation_is_in_header'] = 'yes';}
 		if(!isset($attributes['navigation_id'])){					$attributes['navigation_id'] = 0;}
 		if(!isset($attributes['navigation_id_logged_in'])){			$attributes['navigation_id_logged_in'] = 0;}
-		if(!isset($attributes['navigation_id_logged_in_cookie'])){	$attributes['navigation_id_logged_in_cookie'] = '';}
+		if(!isset($attributes['navigation_id_logged_in_cookie'])){	$attributes['navigation_id_logged_in_cookie'] = 'wp-settings-time';}
 		if(!isset($attributes['navigation_mobile_ready'])){			$attributes['navigation_mobile_ready'] = 'yes';}
 		//if(!isset($attributes['navigation_breakpoint_tablet'])){	$attributes['navigation_breakpoint_tablet'] = "";}
 		//if(!isset($attributes['navigation_breakpoint_mobile'])){	$attributes['navigation_breakpoint_mobile'] = "";}
