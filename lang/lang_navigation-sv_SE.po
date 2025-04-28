@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-24 11:46+0100\n"
+"POT-Creation-Date: 2025-04-28 12:24+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,86 +15,94 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/classes.php:418
+#: ../include/classes.php:495
 msgid "There is no menu here yet"
 msgstr "Det finns ingen meny ännu"
 
-#: ../include/classes.php:437
+#: ../include/classes.php:514
 msgid "Navigation+"
 msgstr "Navigation+"
 
-#: ../include/classes.php:438
+#: ../include/classes.php:515
 msgid "Display a Navigation"
 msgstr "Visa en meny "
 
-#: ../include/classes.php:439
+#: ../include/classes.php:516
 msgid "Is next to logo"
 msgstr "Är bredvid logga"
 
-#: ../include/classes.php:440
+#: ../include/classes.php:517
 msgid "Menu"
 msgstr "Meny"
 
-#: ../include/classes.php:442
+#: ../include/classes.php:519
 msgid "Logged In"
 msgstr "Inloggad"
 
-#: ../include/classes.php:443
+#: ../include/classes.php:520
 msgid "Cookie Key"
 msgstr "Nyckel för kaka"
 
-#: ../include/classes.php:444
+#: ../include/classes.php:521
 msgid "Mobile Ready"
 msgstr "Mobilredo"
 
-#: ../include/classes.php:466
+#: ../include/classes.php:543
 msgid "Background Color"
 msgstr "Bakgrundsfärg"
 
-#: ../include/classes.php:467
+#: ../include/classes.php:544
 msgid "Text Color"
 msgstr "Textfärg"
 
-#: ../include/classes.php:468
+#: ../include/classes.php:545
 msgid "Container Padding"
 msgstr "Tomrum inuti meny"
 
-#: ../include/classes.php:468
-#: ../include/classes.php:473
-#: ../include/classes.php:475
+#: ../include/classes.php:545
+#: ../include/classes.php:550
+#: ../include/classes.php:553
 msgid "Mobile"
 msgstr "Mobil"
 
-#: ../include/classes.php:469
-#: ../include/classes.php:470
+#: ../include/classes.php:546
+#: ../include/classes.php:547
 msgid "Item Border Margin"
 msgstr "Tomrum utanför objekt med kant"
 
-#: ../include/classes.php:469
+#: ../include/classes.php:546
 msgid "Left"
 msgstr "Vänster"
 
-#: ../include/classes.php:470
+#: ../include/classes.php:547
 msgid "Right"
 msgstr "Höger"
 
-#: ../include/classes.php:471
+#: ../include/classes.php:548
 msgid "Item Border Radius"
 msgstr "Runda hörn på objekt"
 
-#: ../include/classes.php:472
-#: ../include/classes.php:473
+#: ../include/classes.php:549
+#: ../include/classes.php:550
 msgid "Item Padding"
 msgstr "Tomrum inuti objekt"
 
-#: ../include/classes.php:474
-#: ../include/classes.php:475
+#: ../include/classes.php:551
+msgid "Dim Content on Hover"
+msgstr "Dimma innehåll vid mus över"
+
+#: ../include/classes.php:552
+#: ../include/classes.php:553
 msgid "Breakpoint"
 msgstr "Brytpunkt"
 
-#: ../include/classes.php:474
+#: ../include/classes.php:552
 msgid "Tablet"
 msgstr "Platta"
+
+#: ../include/classes.php:557
+msgid "Logged in Cookies"
+msgstr "Kakor för inloggning"
 
 #~ msgid "Link Color"
 #~ msgstr "Textfärg"

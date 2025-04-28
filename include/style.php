@@ -17,6 +17,7 @@ $setting_navigation_item_border_margin_right = get_option_or_default('setting_na
 $setting_navigation_item_border_radius = get_option_or_default('setting_navigation_item_border_radius', ".33rem");
 $setting_navigation_item_padding = get_option_or_default('setting_navigation_item_padding', ".6rem 1rem");
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3rem .6rem");
+$setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
 $setting_navigation_breakpoint_tablet = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
 $setting_navigation_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
 
@@ -149,32 +150,36 @@ echo "@media all
 			{
 				background-color: ".$setting_navigation_text_color." !important;
 				border: .1rem solid ".$setting_navigation_text_color." !important;
-			}
+			}";
 
-	/* Dim content when hovering header */
-	.wp-site-blocks::before
+	if($setting_navigation_dim_content == 'yes')
 	{
-		background: rgba(0, 0, 0, .5);
-		content: '';
-		opacity: 0;
-		pointer-events: none;
-		position: absolute;
-		top: 0; left: 0; right: 0; bottom: 0;
-		transition: opacity 1s;
-		z-index: 1;
-	}
-
-		.wp-site-blocks:has(header:hover)::before
+		echo "/* Dim content when hovering header */
+		.wp-site-blocks::before
 		{
-			opacity: 1;
+			background: rgba(0, 0, 0, .5);
+			content: '';
+			opacity: 0;
+			pointer-events: none;
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			transition: opacity 1s;
+			z-index: 1;
 		}
 
-	.wp-site-blocks header
-	{
-		position: relative;
-		z-index: 2;
+			.wp-site-blocks:has(header:hover)::before
+			{
+				opacity: 1;
+			}
+
+		.wp-site-blocks header
+		{
+			position: relative;
+			z-index: 2;
+		}";
 	}
-}";
+
+echo "}";
 
 if($setting_navigation_breakpoint_tablet > 0)
 {

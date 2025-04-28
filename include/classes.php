@@ -548,6 +548,7 @@ class mf_navigation
 		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
 		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation');
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
+		$arr_settings['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
 		$arr_settings['setting_navigation_breakpoint_tablet'] = __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")";
 		$arr_settings['setting_navigation_breakpoint_mobile'] = __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 
@@ -628,6 +629,14 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, ".3rem .6rem");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_dim_content_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option_or_default($setting_key, 'yes');
+
+		echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 	}
 
 	function setting_navigation_breakpoint_tablet_callback()
