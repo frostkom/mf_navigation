@@ -266,11 +266,16 @@ if($setting_navigation_breakpoint_mobile > 0)
 				{
 					background-color: ".$setting_navigation_text_color.";
 					display: block;
-					height: .2rem;
-					margin: .3rem 0;"
+					height: .15rem;
+					margin: .4rem 0;"
 					.$transition
-					."width: 1.5rem;
+					."width: 1.6rem;
 				}
+
+					.widget.navigation .toggle_line:nth-child(2)
+					{
+						width: 1.3rem;
+					}
 
 					.widget.navigation.is_open .toggle_line
 					{
@@ -279,17 +284,17 @@ if($setting_navigation_breakpoint_mobile > 0)
 
 						.widget.navigation.is_open .toggle_icon.toggle_hamburger .toggle_line:nth-child(1)
 						{
-							transform: rotate(45deg) translate(.3rem, .4rem);
+							transform: rotate(45deg) translate(.4rem, .4rem);
 						}
 
 						.widget.navigation.is_open .toggle_icon.toggle_hamburger .toggle_line:nth-child(2)
 						{
-							opacity: 0; /* Hide the middle line */
+							opacity: 0;
 						}
 
 						.widget.navigation.is_open .toggle_icon.toggle_hamburger .toggle_line:nth-child(3)
 						{
-							transform: rotate(-45deg) translate(.3rem, -.4rem);
+							transform: rotate(-45deg) translate(.4rem, -.4rem);
 						}
 
 			.widget.navigation.mobile_ready .wp-block-navigation
