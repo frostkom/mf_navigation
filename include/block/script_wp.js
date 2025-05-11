@@ -43,6 +43,11 @@
 			{
                 'type': 'string',
                 'default': ''
+            },
+			'navigation_orientation':
+			{
+                'type': 'string',
+                'default': ''
             }/*,
 			'navigation_breakpoint_tablet':
 			{
@@ -149,6 +154,18 @@
 								onChange: function(value)
 								{
 									props.setAttributes({navigation_mobile_ready: value});
+								}
+							}
+						),
+						el(
+							SelectControl,
+							{
+								label: script_navigation_block_wp.navigation_orientation_label,
+								value: props.attributes.navigation_orientation,
+								options: convert_php_array_to_block_js(script_navigation_block_wp.navigation_orientation_for_select, false),
+								onChange: function(value)
+								{
+									props.setAttributes({navigation_orientation: value});
 								}
 							}
 						)/*,

@@ -3,7 +3,7 @@
 Plugin Name: MF Navigation+
 Plugin URI: https://github.com/frostkom/mf_navigation
 Description:
-Version: 1.3.16
+Version: 1.3.17
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se

@@ -202,6 +202,7 @@ class mf_navigation
 		if(!isset($attributes['navigation_id_logged_in'])){			$attributes['navigation_id_logged_in'] = 0;}
 		if(!isset($attributes['navigation_id_logged_in_cookie'])){	$attributes['navigation_id_logged_in_cookie'] = 'wp-settings-time';}
 		if(!isset($attributes['navigation_mobile_ready'])){			$attributes['navigation_mobile_ready'] = 'yes';}
+		if(!isset($attributes['navigation_orientation'])){			$attributes['navigation_orientation'] = 'horizontal';}
 		//if(!isset($attributes['navigation_breakpoint_tablet'])){	$attributes['navigation_breakpoint_tablet'] = "";}
 		//if(!isset($attributes['navigation_breakpoint_mobile'])){	$attributes['navigation_breakpoint_mobile'] = "";}
 
@@ -418,7 +419,6 @@ class mf_navigation
 
 				$plugin_include_url = plugin_dir_url(__FILE__);
 
-				//mf_enqueue_style('wp-block-navigation', "/wp-content/plugins/gutenberg/build/block-library/blocks/navigation/style.css");
 				wp_enqueue_style('wp-block-navigation');
 				mf_enqueue_style('style_navigation', $plugin_include_url."style.php");
 				mf_enqueue_script('script_navigation', $plugin_include_url."script.js");
@@ -426,6 +426,13 @@ class mf_navigation
 				if($style != '')
 				{
 					$out .= "<style>".$style."</style>";
+				}
+
+				$navigation_ul_class = "wp-block-navigation__container wp-block-navigation";
+
+				if($attributes['navigation_orientation'] == 'vertical')
+				{
+					$navigation_ul_class .= " is-vertical";
 				}
 
 				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : ""), 'attributes' => $attributes)).">";
@@ -447,7 +454,7 @@ class mf_navigation
 
 										if($this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
 										{
-											$out .= "<ul class='wp-block-navigation__container'>";
+											$out .= "<ul class='".$navigation_ul_class."'>";
 
 												if($this->does_cookie_exist($attributes['navigation_id_logged_in_cookie']) == false)
 												{
@@ -464,13 +471,13 @@ class mf_navigation
 
 										else
 										{
-											$out .= "<ul class='wp-block-navigation__container".($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
+											$out .= "<ul class='".$navigation_ul_class.($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
 												.$menu_items_public
 											."</ul>";
 
 											if($menu_items_logged_in != '')
 											{
-												$out .= "<ul class='wp-block-navigation__container menu_items_logged_in'>"
+												$out .= "<ul class='".$navigation_ul_class." menu_items_logged_in'>"
 													.$menu_items_logged_in
 												."</ul>";
 											}
@@ -520,6 +527,8 @@ class mf_navigation
 			'navigation_id_logged_in_cookie_label' => " - ".__("Cookie Key", 'lang_navigation'),
 			'navigation_mobile_ready_label' => __("Mobile Ready", 'lang_navigation'),
 			'yes_no_for_select' => get_yes_no_for_select(),
+			'navigation_orientation_label' => __("Mobile Ready", 'lang_navigation'),
+			'navigation_orientation_for_select' => array('horizontal' => __("Horizontal", 'lang_navigation'), 'vertical' => __("Vertical", 'lang_navigation')),
 			//'navigation_breakpoint_tablet' => __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")",
 			//'navigation_breakpoint_mobile' => __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")",
 		));

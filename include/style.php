@@ -80,9 +80,18 @@ echo "@media all
 			.widget.navigation .wp-block-navigation-item > a
 			{
 				border-radius: ".$setting_navigation_item_border_radius.";
-				/*display: inline-block;*/ /* Make this a setting? */
 				padding: ".$setting_navigation_item_padding.";
 			}
+
+				.widget.navigation .is-vertical > .wp-block-navigation-item:not(.invert) > a
+				{
+					padding-left: 0;
+				}
+
+				.widget.navigation .is-vertical > .wp-block-navigation-item.invert
+				{
+					margin-left: 0 !important;
+				}
 
 			.widget.navigation .wp-block-navigation .wp-block-navigation-item > img
 			{
