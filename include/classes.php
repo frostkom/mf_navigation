@@ -452,7 +452,7 @@ class mf_navigation
 								<div class='wp-block-navigation__responsive-dialog'>
 									<div class='wp-block-navigation__responsive-container-content'>";
 
-										if($this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
+										if($menu_items_logged_in != '' && $this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
 										{
 											$out .= "<ul class='".$navigation_ul_class."'>";
 
