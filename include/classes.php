@@ -203,8 +203,6 @@ class mf_navigation
 		if(!isset($attributes['navigation_id_logged_in_cookie'])){	$attributes['navigation_id_logged_in_cookie'] = 'wp-settings-time';}
 		if(!isset($attributes['navigation_mobile_ready'])){			$attributes['navigation_mobile_ready'] = 'yes';}
 		if(!isset($attributes['navigation_orientation'])){			$attributes['navigation_orientation'] = 'horizontal';}
-		//if(!isset($attributes['navigation_breakpoint_tablet'])){	$attributes['navigation_breakpoint_tablet'] = "";}
-		//if(!isset($attributes['navigation_breakpoint_mobile'])){	$attributes['navigation_breakpoint_mobile'] = "";}
 
 		$out = "";
 
@@ -296,9 +294,25 @@ class mf_navigation
 						switch($key_parent)
 						{
 							case 'color':
-								// You need to use a unique ID/Class and override style.php for this to work
-								//$setting_navigation_breakpoint_mobile = ($attributes['navigation_breakpoint_mobile'] > 0 ? $attributes['navigation_breakpoint_mobile'] : get_option_or_default('setting_navigation_breakpoint_mobile', 930));
-								$setting_navigation_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
+								$setting_breakpoint_tablet = apply_filters('get_styles_content', '', 'max_width');
+
+								if($setting_breakpoint_tablet != '')
+								{
+									preg_match('/^([0-9]*\.?[0-9]+)([a-zA-Z%]+)$/', $setting_breakpoint_tablet, $matches);
+
+									$setting_breakpoint_tablet = $matches[1];
+									$setting_breakpoint_suffix = $matches[2];
+
+									$setting_breakpoint_mobile = ($setting_breakpoint_tablet * .775);
+								}
+
+								else
+								{
+									$setting_breakpoint_tablet = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
+									$setting_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
+
+									$setting_breakpoint_suffix = "px";
+								}
 
 								if(isset($arr_value['text']) && $arr_value['text'] != '')
 								{
@@ -328,7 +342,7 @@ class mf_navigation
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
 									{
-										$style .= "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+										$style .= "@media screen and (max-width: ".($setting_breakpoint_mobile - 1).$setting_breakpoint_suffix.")
 										{
 											#".$widget_id." .toggle_line
 											{
@@ -367,7 +381,7 @@ class mf_navigation
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
 									{
-										$style .= "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+										$style .= "@media screen and (max-width: ".($setting_breakpoint_mobile - 1).$setting_breakpoint_suffix.")
 										{
 											.menu_is_open header figure.wp-block-image img
 											{
@@ -529,8 +543,6 @@ class mf_navigation
 			'yes_no_for_select' => get_yes_no_for_select(),
 			'navigation_orientation_label' => __("Mobile Ready", 'lang_navigation'),
 			'navigation_orientation_for_select' => array('horizontal' => __("Horizontal", 'lang_navigation'), 'vertical' => __("Vertical", 'lang_navigation')),
-			//'navigation_breakpoint_tablet' => __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")",
-			//'navigation_breakpoint_mobile' => __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")",
 		));
 
 		register_block_type('mf/navigation', array(
@@ -558,12 +570,27 @@ class mf_navigation
 		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation');
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		$arr_settings['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
-		$arr_settings['setting_navigation_breakpoint_tablet'] = __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")";
-		$arr_settings['setting_navigation_breakpoint_mobile'] = __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
+
+		if(apply_filters('get_styles_content', '', 'max_width') == '')
+		{
+			$arr_settings['setting_navigation_breakpoint_tablet'] = __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")";
+			$arr_settings['setting_navigation_breakpoint_mobile'] = __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
+		}
+
+		else
+		{
+			delete_option('setting_navigation_breakpoint_tablet');
+			delete_option('setting_navigation_breakpoint_mobile');
+		}
 
 		if(count(get_option_or_default('option_navigation_logged_in_cookies', array())) > 0)
 		{
 			$arr_settings['setting_navigation_logged_in_cookies'] = __("Logged in Cookies", 'lang_navigation');
+		}
+
+		else
+		{
+			delete_option('setting_navigation_logged_in_cookies');
 		}
 
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));

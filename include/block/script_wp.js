@@ -48,17 +48,7 @@
 			{
                 'type': 'string',
                 'default': ''
-            }/*,
-			'navigation_breakpoint_tablet':
-			{
-                'type': 'string',
-                'default': ''
-            },
-			'navigation_breakpoint_mobile':
-			{
-                'type': 'string',
-                'default': ''
-            }*/
+            }
 		},
 		'supports':
 		{
@@ -168,31 +158,7 @@
 									props.setAttributes({navigation_orientation: value});
 								}
 							}
-						)/*,
-						el(
-							TextControl,
-							{
-								label: script_navigation_block_wp.navigation_breakpoint_tablet_label,
-								type: 'number',
-								value: props.attributes.navigation_breakpoint_tablet,
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_breakpoint_tablet: value});
-								}
-							}
-						),
-						el(
-							TextControl,
-							{
-								label: script_navigation_block_wp.navigation_breakpoint_mobile_label,
-								type: 'number',
-								value: props.attributes.navigation_breakpoint_mobile,
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_breakpoint_mobile: value});
-								}
-							}
-						)*/
+						)
 					),
 					el(
 						'strong',

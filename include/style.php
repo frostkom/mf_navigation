@@ -18,8 +18,26 @@ $setting_navigation_item_border_radius = get_option_or_default('setting_navigati
 $setting_navigation_item_padding = get_option_or_default('setting_navigation_item_padding', ".6rem 1rem");
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3rem .6rem");
 $setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
-$setting_navigation_breakpoint_tablet = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
-$setting_navigation_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
+
+$setting_breakpoint_tablet = apply_filters('get_styles_content', '', 'max_width');
+
+if($setting_breakpoint_tablet != '')
+{
+	preg_match('/^([0-9]*\.?[0-9]+)([a-zA-Z%]+)$/', $setting_breakpoint_tablet, $matches);
+
+	$setting_breakpoint_tablet = $matches[1];
+	$setting_breakpoint_suffix = $matches[2];
+
+	$setting_breakpoint_mobile = ($setting_breakpoint_tablet * .775);
+}
+
+else
+{
+	$setting_breakpoint_tablet = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
+	$setting_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
+
+	$setting_breakpoint_suffix = "px";
+}
 
 $transition = "transition: all .5s ease;";
 
@@ -190,9 +208,9 @@ echo "@media all
 
 echo "}";
 
-if($setting_navigation_breakpoint_tablet > 0)
+if($setting_breakpoint_tablet > 0)
 {
-	echo "@media screen and (min-width: ".$setting_navigation_breakpoint_tablet."px)
+	echo "@media screen and (min-width: ".$setting_breakpoint_tablet.$setting_breakpoint_suffix.")
 	{
 		.widget.navigation .wp-block-navigation__responsive-container
 		{
@@ -222,9 +240,9 @@ if($setting_navigation_breakpoint_tablet > 0)
 	}";
 }
 
-if($setting_navigation_breakpoint_mobile > 0 && $setting_navigation_breakpoint_tablet > $setting_navigation_breakpoint_mobile)
+if($setting_breakpoint_mobile > 0 && $setting_breakpoint_tablet > $setting_breakpoint_mobile)
 {
-	echo "@media screen and (min-width: ".$setting_navigation_breakpoint_mobile."px) and (max-width: ".($setting_navigation_breakpoint_tablet - 1)."px)
+	echo "@media screen and (min-width: ".$setting_breakpoint_mobile.$setting_breakpoint_suffix.") and (max-width: ".($setting_breakpoint_tablet - 1).$setting_breakpoint_suffix.")
 	{
 		.widget.navigation .wp-block-navigation__responsive-container-open
 		{
@@ -238,9 +256,9 @@ if($setting_navigation_breakpoint_mobile > 0 && $setting_navigation_breakpoint_t
 	}";
 }
 
-if($setting_navigation_breakpoint_mobile > 0)
+if($setting_breakpoint_mobile > 0)
 {
-	echo "@media screen and (max-width: ".($setting_navigation_breakpoint_mobile - 1)."px)
+	echo "@media screen and (max-width: ".$setting_breakpoint_mobile.$setting_breakpoint_suffix.")
 	{
 		.menu_is_open header .wp-block-site-title a
 		{"
@@ -352,6 +370,7 @@ if($setting_navigation_breakpoint_mobile > 0)
 
 					.widget.navigation.mobile_ready .wp-block-navigation__container
 					{
+						box-sizing: border-box;
 						display: block;
 						padding: ".$setting_navigation_container_padding_mobile.";
 						text-align: center;
