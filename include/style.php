@@ -77,6 +77,11 @@ echo "@media all
 			color: ".$setting_navigation_text_color.";
 		}
 
+	.widget.navigation.is_centered .wp-block-navigation
+	{
+		text-align: center;
+	}
+
 	.widget.navigation .toggle_icon
 	{
 		display: none;
@@ -95,18 +100,28 @@ echo "@media all
 			position: relative;
 		}
 
+			.widget.navigation .is_vertical .wp-block-navigation-item
+			{
+				width: 100%;
+			}
+
+				.widget.navigation .is_vertical .wp-block-navigation-item > a
+				{
+					width: 100%;
+				}
+
+				.widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item:not(.invert) > a
+				{
+					padding-left: 0;
+				}
+
 			.widget.navigation .wp-block-navigation-item > a
 			{
 				border-radius: ".$setting_navigation_item_border_radius.";
 				padding: ".$setting_navigation_item_padding.";
 			}
 
-				.widget.navigation .is-vertical > .wp-block-navigation-item:not(.invert) > a
-				{
-					padding-left: 0;
-				}
-
-				.widget.navigation .is-vertical > .wp-block-navigation-item.invert
+				.widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item.invert
 				{
 					margin-left: 0 !important;
 				}

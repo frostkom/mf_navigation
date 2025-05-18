@@ -446,7 +446,7 @@ class mf_navigation
 
 				if($attributes['navigation_orientation'] == 'vertical')
 				{
-					$navigation_ul_class .= " is-vertical";
+					$navigation_ul_class .= " is_vertical";
 				}
 
 				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : ""), 'attributes' => $attributes)).">";
