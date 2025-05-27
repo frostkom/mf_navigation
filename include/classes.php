@@ -140,7 +140,7 @@ class mf_navigation
 					if($has_children)
 					{
 						$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle'>
-							<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
+							<svg xmlns='https://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
 								<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
 							</svg>
 						</button>";
@@ -569,7 +569,8 @@ class mf_navigation
 		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
 		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation');
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
-		$arr_settings['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
+		//$arr_settings'['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
+		delete_option('setting_navigation_dim_content');
 
 		if(apply_filters('get_styles_content', '', 'max_width') == '')
 		{
@@ -667,13 +668,13 @@ class mf_navigation
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
 
-	function setting_navigation_dim_content_callback()
+	/*function setting_navigation_dim_content_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
 		$option = get_option_or_default($setting_key, 'yes');
 
 		echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
-	}
+	}*/
 
 	function setting_navigation_breakpoint_tablet_callback()
 	{

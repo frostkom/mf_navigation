@@ -17,7 +17,7 @@ $setting_navigation_item_border_margin_right = get_option_or_default('setting_na
 $setting_navigation_item_border_radius = get_option_or_default('setting_navigation_item_border_radius', ".33rem");
 $setting_navigation_item_padding = get_option_or_default('setting_navigation_item_padding', ".6rem 1rem");
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3rem .6rem");
-$setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
+//$setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
 
 $setting_breakpoint_tablet = apply_filters('get_styles_content', '', 'max_width');
 
@@ -194,10 +194,9 @@ echo "@media all
 				border: .1rem solid ".$setting_navigation_text_color." !important;
 			}";
 
-	if($setting_navigation_dim_content == 'yes')
+	/*if($setting_navigation_dim_content == 'yes')
 	{
-		echo "/* Dim content when hovering header */
-		.wp-site-blocks::before
+		echo ".wp-site-blocks::before
 		{
 			background: rgba(0, 0, 0, .5);
 			content: '';
@@ -219,7 +218,7 @@ echo "@media all
 			position: relative;
 			z-index: 2;
 		}";
-	}
+	}*/
 
 echo "}";
 
