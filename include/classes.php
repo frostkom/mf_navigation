@@ -139,7 +139,7 @@ class mf_navigation
 
 					if($has_children)
 					{
-						$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle'>
+						$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
 							<svg xmlns='https://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
 								<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
 							</svg>
