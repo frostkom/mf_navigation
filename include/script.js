@@ -11,6 +11,18 @@ jQuery(function($)
 		}
 	});
 
+	function open_nav(parent_nav)
+	{
+		parent_nav.addClass('is_open').find(".wp-block-navigation__responsive-container").fadeIn();
+		$("body").addClass('menu_is_open');
+	}
+
+	function close_nav(parent_nav)
+	{
+		parent_nav.removeClass('is_open').find(".wp-block-navigation__responsive-container").fadeOut();
+		$("body").removeClass('menu_is_open');
+	}
+
 	$(document).on('click', ".widget.navigation .toggle_icon", function()
 	{
 		var dom_obj = $(this),
@@ -19,16 +31,17 @@ jQuery(function($)
 
 		if(is_open)
 		{
-			parent_nav.removeClass('is_open');
-			parent_nav.find(".wp-block-navigation__responsive-container").fadeOut();
-			$("body").removeClass('menu_is_open');
+			close_nav(parent_nav);
 		}
 
 		else
 		{
-			parent_nav.addClass('is_open');
-			parent_nav.find(".wp-block-navigation__responsive-container").fadeIn();
-			$("body").addClass('menu_is_open');
+			$(".widget.navigation.mobile_ready.is_open").each(function()
+			{
+				close_nav($(this));
+			});
+
+			open_nav(parent_nav);
 		}
 
 		return false;
