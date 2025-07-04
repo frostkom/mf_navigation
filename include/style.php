@@ -118,8 +118,12 @@ echo "@media all
 			.widget.navigation .wp-block-navigation-item > a
 			{
 				border-radius: ".$setting_navigation_item_border_radius.";
-				padding: ".$setting_navigation_item_padding.";
 			}
+
+				.widget.navigation .is_horizontal .wp-block-navigation-item > a
+				{
+					padding: ".$setting_navigation_item_padding.";
+				}
 
 				.widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item.invert
 				{

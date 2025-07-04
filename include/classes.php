@@ -442,12 +442,7 @@ class mf_navigation
 					$out .= "<style>".$style."</style>";
 				}
 
-				$navigation_ul_class = "wp-block-navigation__container wp-block-navigation";
-
-				if($attributes['navigation_orientation'] == 'vertical')
-				{
-					$navigation_ul_class .= " is_vertical";
-				}
+				$navigation_ul_class = "wp-block-navigation__container wp-block-navigation ".($attributes['navigation_orientation'] == 'vertical' ? "is_vertical" : "is_horizontal");
 
 				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : ""), 'attributes' => $attributes)).">";
 
