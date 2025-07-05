@@ -536,7 +536,7 @@ class mf_navigation
 			'navigation_id_logged_in_cookie_label' => " - ".__("Cookie Key", 'lang_navigation'),
 			'navigation_mobile_ready_label' => __("Mobile Ready", 'lang_navigation'),
 			'yes_no_for_select' => get_yes_no_for_select(),
-			'navigation_orientation_label' => __("Mobile Ready", 'lang_navigation'),
+			'navigation_orientation_label' => __("Orientation", 'lang_navigation'),
 			'navigation_orientation_for_select' => array('horizontal' => __("Horizontal", 'lang_navigation'), 'vertical' => __("Vertical", 'lang_navigation')),
 		));
 
