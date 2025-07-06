@@ -90,6 +90,20 @@ class mf_navigation
 
 		return $menu_items;
 	}
+	
+	function loop_through_menu($arr_menu)
+	{
+		$out = "";
+
+		$arr_menu = apply_filters('filter_navigation_menu', $arr_menu);
+
+		foreach($arr_menu as $arr_submenu_object)
+		{
+			$out .= $this->get_menu_children($arr_submenu_object);
+		}
+
+		return $out;
+	}
 
 	function get_menu_children($arr_menu_object)
 	{
@@ -155,14 +169,9 @@ class mf_navigation
 
 			if($has_children)
 			{
-				$out_temp .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>";
-
-					foreach($arr_menu_object['children'] as $arr_submenu_object)
-					{
-						$out_temp .= $this->get_menu_children($arr_submenu_object);
-					}
-
-				$out_temp .= "</ul>";
+				$out_temp .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>"
+					.$this->loop_through_menu($arr_menu_object['children'])
+				."</ul>";
 			}
 
 		$out_temp .= "</li>";
@@ -220,10 +229,7 @@ class mf_navigation
 
 				$arr_menu = $this->parse_navigation_menu($post_content);
 
-				foreach($arr_menu as $arr_menu_object)
-				{
-					$menu_items_public .= $this->get_menu_children($arr_menu_object);
-				}
+				$menu_items_public .= $this->loop_through_menu($arr_menu);
 			}
 
 			if($menu_items_public != '')
@@ -240,10 +246,7 @@ class mf_navigation
 
 						$arr_menu = $this->parse_navigation_menu($post_content);
 
-						foreach($arr_menu as $arr_menu_object)
-						{
-							$menu_items_logged_in .= $this->get_menu_children($arr_menu_object);
-						}
+						$menu_items_logged_in .= $this->loop_through_menu($arr_menu);
 					}
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
@@ -562,7 +565,8 @@ class mf_navigation
 		$arr_settings['setting_navigation_item_border_margin_left'] = __("Item Border Margin", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_border_margin_right'] = __("Item Border Margin", 'lang_navigation')." (".__("Right", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
-		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation');
+		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation')." (".__("Horizontal", 'lang_navigation').")";
+		$arr_settings['setting_navigation_item_padding_vertical'] = __("Item Padding", 'lang_navigation')." (".__("Vertical", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		//$arr_settings'['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
 		delete_option('setting_navigation_dim_content');
@@ -651,6 +655,14 @@ class mf_navigation
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
 		$option = get_option_or_default($setting_key, ".6rem 1rem");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_padding_vertical_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option_or_default($setting_key);
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
