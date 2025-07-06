@@ -23,7 +23,7 @@ jQuery(function($)
 		$("body").removeClass('menu_is_open');
 	}
 
-	$(document).on('click', ".widget.navigation .toggle_icon", function()
+	$(document).on('click', ".widget.navigation .toggle_hamburger", function()
 	{
 		var dom_obj = $(this),
 			parent_nav = dom_obj.parents(".widget.navigation"),

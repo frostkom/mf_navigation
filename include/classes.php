@@ -8,7 +8,7 @@ class mf_navigation
 
 	function parse_navigation_menu($markup)
 	{
-		$menu_items = $current_menu = array();
+		$menu_items = $current_menu = [];
 
 		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $arr_matches, PREG_SET_ORDER);
 
@@ -26,7 +26,7 @@ class mf_navigation
 			switch($type)
 			{
 				case 'page-list':
-					$arr_data = array();
+					$arr_data = [];
 					get_post_children(array('add_choose_here' => false), $arr_data);
 
 					foreach($arr_data as $key => $value)
@@ -181,7 +181,7 @@ class mf_navigation
 
 	function is_cookie_in_htaccess($cookie)
 	{
-		$setting_navigation_logged_in_cookies = get_option_or_default('setting_navigation_logged_in_cookies', array());
+		$setting_navigation_logged_in_cookies = get_option_or_default('setting_navigation_logged_in_cookies', []);
 
 		return in_array($cookie, $setting_navigation_logged_in_cookies);
 	}
@@ -251,7 +251,7 @@ class mf_navigation
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
 					{
-						$option_navigation_logged_in_cookies = get_option_or_default('option_navigation_logged_in_cookies', array());
+						$option_navigation_logged_in_cookies = get_option_or_default('option_navigation_logged_in_cookies', []);
 
 						if(!in_array($attributes['navigation_id_logged_in_cookie'], $option_navigation_logged_in_cookies))
 						{
@@ -451,7 +451,7 @@ class mf_navigation
 
 					if($attributes['navigation_mobile_ready'] == 'yes')
 					{
-						$out .= "<div class='toggle_icon toggle_hamburger'>
+						$out .= "<div class='toggle_hamburger'>
 							<div class='toggle_line'></div>
 							<div class='toggle_line'></div>
 							<div class='toggle_line'></div>
@@ -526,7 +526,7 @@ class mf_navigation
 
 		wp_register_script('script_navigation_block_wp', $plugin_include_url."block/script_wp.js", array('wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor'), $plugin_version, true);
 
-		$arr_data = array();
+		$arr_data = [];
 		get_post_children(array('post_type' => $this->post_type, 'order_by' => 'post_title', 'add_choose_here' => true), $arr_data);
 
 		wp_localize_script('script_navigation_block_wp', 'script_navigation_block_wp', array(
@@ -558,7 +558,7 @@ class mf_navigation
 
 		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
-		$arr_settings = array();
+		$arr_settings = [];
 		$arr_settings['setting_navigation_background_color'] = __("Background Color", 'lang_navigation');
 		$arr_settings['setting_navigation_text_color'] = __("Text Color", 'lang_navigation');
 		$arr_settings['setting_navigation_container_padding_mobile'] = __("Container Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
@@ -583,7 +583,7 @@ class mf_navigation
 			delete_option('setting_navigation_breakpoint_mobile');
 		}
 
-		if(count(get_option_or_default('option_navigation_logged_in_cookies', array())) > 0)
+		if(count(get_option_or_default('option_navigation_logged_in_cookies', [])) > 0)
 		{
 			$arr_settings['setting_navigation_logged_in_cookies'] = __("Logged in Cookies", 'lang_navigation');
 		}
@@ -701,9 +701,9 @@ class mf_navigation
 
 	function get_logged_in_cookies_for_select()
 	{
-		$arr_data = array();
+		$arr_data = [];
 
-		$option_navigation_logged_in_cookies = get_option_or_default('option_navigation_logged_in_cookies', array());
+		$option_navigation_logged_in_cookies = get_option_or_default('option_navigation_logged_in_cookies', []);
 
 		foreach($option_navigation_logged_in_cookies as $key => $value)
 		{
@@ -716,14 +716,14 @@ class mf_navigation
 	function setting_navigation_logged_in_cookies_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, array());
+		$option = get_option_or_default($setting_key, []);
 
 		echo show_select(array('data' => $this->get_logged_in_cookies_for_select(), 'name' => $setting_key."[]", 'value' => $option));
 	}
 
 	function filter_cache_logged_in_cookies($arr_cookies)
 	{
-		$setting_navigation_logged_in_cookies = get_option_or_default('setting_navigation_logged_in_cookies', array());
+		$setting_navigation_logged_in_cookies = get_option_or_default('setting_navigation_logged_in_cookies', []);
 
 		foreach($setting_navigation_logged_in_cookies as $key => $value)
 		{

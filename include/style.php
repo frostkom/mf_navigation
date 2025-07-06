@@ -11,13 +11,13 @@ if(!defined('ABSPATH'))
 
 $setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#ffffff");
 $setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000000");
-$setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6rem 2rem 2rem");
-$setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1rem");
-$setting_navigation_item_border_margin_right = get_option_or_default('setting_navigation_item_border_margin_right', "1rem");
-$setting_navigation_item_border_radius = get_option_or_default('setting_navigation_item_border_radius', ".33rem");
-$setting_navigation_item_padding = get_option_or_default('setting_navigation_item_padding', ".6rem 1rem");
+$setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
+$setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1em");
+$setting_navigation_item_border_margin_right = get_option_or_default('setting_navigation_item_border_margin_right', "1em");
+$setting_navigation_item_border_radius = get_option_or_default('setting_navigation_item_border_radius', ".33em");
+$setting_navigation_item_padding = get_option_or_default('setting_navigation_item_padding', ".6em 1em");
 $setting_navigation_item_padding_vertical = get_option_or_default('setting_navigation_item_padding_vertical');
-$setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3rem .6rem");
+$setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
 //$setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
 
 $setting_breakpoint_tablet = apply_filters('get_styles_content', '', 'max_width');
@@ -86,10 +86,10 @@ echo "@media all
 		text-align: center;
 	}
 
-	.widget.navigation .toggle_icon
+	.widget.navigation .toggle_hamburger
 	{
 		display: none;
-		padding: .3rem 1rem;
+		padding: .3em 1em;
 	}
 
 		.widget.navigation .wp-block-navigation
@@ -143,7 +143,15 @@ echo "@media all
 					}";
 				}
 
-				echo ".widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item.invert
+				echo ".widget.navigation .wp-block-navigation-item > a img
+				{
+					display: inline-block;
+					margin-right: .3em;
+					margin-bottom: -.2em;
+					max-width: 1.2em;
+				}
+					
+				.widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item.invert
 				{
 					margin-left: 0 !important;
 				}
@@ -204,7 +212,7 @@ echo "@media all
 		{
 			echo ".widget.navigation .wp-block-navigation-item.border a
 			{
-				border: .1rem solid ".$setting_navigation_text_color.";
+				border: .1em solid ".$setting_navigation_text_color.";
 			}";
 		}
 
@@ -219,7 +227,7 @@ echo "@media all
 			echo ".widget.navigation .wp-block-navigation-item.invert a
 			{
 				background-color: ".$setting_navigation_text_color." !important;
-				border: .1rem solid ".$setting_navigation_text_color." !important;
+				border: .1em solid ".$setting_navigation_text_color." !important;
 			}";
 
 	/*if($setting_navigation_dim_content == 'yes')
@@ -310,7 +318,7 @@ if($setting_breakpoint_mobile > 0)
 			.menu_is_open header figure.wp-block-image img
 			{
 				background-color: ".$setting_navigation_background_color.";
-				padding: .2rem;
+				padding: .2em;
 			}";
 
 			if($setting_navigation_background_color != '')
@@ -321,32 +329,33 @@ if($setting_breakpoint_mobile > 0)
 				}";
 			}
 
-			echo ".widget.navigation .toggle_icon
+			echo ".widget.navigation .toggle_hamburger
 			{
 				display: block;
 			}
 
-			.widget.navigation .toggle_icon.toggle_hamburger
+			.widget.navigation .toggle_hamburger
 			{
 				cursor: pointer;
 				position: relative;
-				width: 1.5rem;
+				width: 1.5em;
 				z-index: 10000;
 			}
 
 				.widget.navigation .toggle_line
 				{
 					background-color: ".$setting_navigation_text_color.";
+					border-radius: 2em;
 					display: block;
-					height: .15rem;
-					margin: .4rem 0;"
+					height: .15em;
+					margin: .4em 0;"
 					.$transition
-					."width: 1.6rem;
+					."width: 1.6em;
 				}
 
 					.widget.navigation .toggle_line:nth-child(2)
 					{
-						width: 1.3rem;
+						width: 1.3em;
 					}";
 
 					if($setting_navigation_background_color != '')
@@ -357,19 +366,19 @@ if($setting_breakpoint_mobile > 0)
 						}";
 					}
 
-						echo ".widget.navigation.is_open .toggle_icon.toggle_hamburger .toggle_line:nth-child(1)
+						echo ".widget.navigation.is_open .toggle_hamburger .toggle_line:nth-child(1)
 						{
-							transform: rotate(45deg) translate(.4rem, .4rem);
+							transform: rotate(45deg) translate(.4em, .4em);
 						}
 
-						.widget.navigation.is_open .toggle_icon.toggle_hamburger .toggle_line:nth-child(2)
+						.widget.navigation.is_open .toggle_hamburger .toggle_line:nth-child(2)
 						{
 							opacity: 0;
 						}
 
-						.widget.navigation.is_open .toggle_icon.toggle_hamburger .toggle_line:nth-child(3)
+						.widget.navigation.is_open .toggle_hamburger .toggle_line:nth-child(3)
 						{
-							transform: rotate(-45deg) translate(.4rem, -.4rem);
+							transform: rotate(-45deg) translate(.4em, -.4em);
 						}
 
 			.widget.navigation.mobile_ready .wp-block-navigation
@@ -407,15 +416,6 @@ if($setting_breakpoint_mobile > 0)
 					position: fixed;
 				}
 
-					.widget.navigation .toggle_icon.fa-times
-					{
-						display: block;
-						padding: 1.5rem;
-						position: absolute;
-						top: 0;
-						right: 0;
-					}
-
 					.widget.navigation.mobile_ready .wp-block-navigation__container
 					{
 						box-sizing: border-box;
@@ -443,7 +443,7 @@ if($setting_breakpoint_mobile > 0)
 
 							.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item + .wp-block-navigation-item
 							{
-								margin-top: .2rem;
+								margin-top: .2em;
 							}
 
 							.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item a
@@ -455,7 +455,7 @@ if($setting_breakpoint_mobile > 0)
 								.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
 								{
 									background-color: ".$setting_navigation_background_color." !important;
-									border: .1rem solid ".$setting_navigation_background_color." !important;
+									border: .1em solid ".$setting_navigation_background_color." !important;
 									color: ".$setting_navigation_text_color." !important;
 								}
 
