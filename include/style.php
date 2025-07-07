@@ -355,8 +355,23 @@ if($setting_breakpoint_mobile > 0)
 
 					.widget.navigation .toggle_line:nth-child(2)
 					{
-						width: 1.3em;
-					}";
+						width: 1.1em;
+					}
+
+						.widget.navigation:hover .toggle_line:nth-child(2)
+						{
+							width: 1.4em;
+						}
+					
+					.widget.navigation .toggle_line:nth-child(3)
+					{
+						width: 1.4em;
+					}
+					
+						.widget.navigation:hover .toggle_line:nth-child(3)
+						{
+							width: 1.6em;
+						}";
 
 					if($setting_navigation_background_color != '')
 					{
