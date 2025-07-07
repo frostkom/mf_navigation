@@ -109,8 +109,6 @@ class mf_navigation
 	{
 		global $post;
 
-		$arr_menu_object = apply_filters('filter_navigation_menu_object', $arr_menu_object);
-
 		$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
 
 		$is_button = (isset($arr_menu_object['className']) && strpos($arr_menu_object['className'], 'button') !== false);
@@ -347,7 +345,7 @@ class mf_navigation
 									{
 										$style .= "@media screen and (max-width: ".($setting_breakpoint_mobile - 1).$setting_breakpoint_suffix.")
 										{
-											#".$widget_id." .toggle_line
+											#".$widget_id." .toggle_hamburger > div
 											{
 												background-color: ".$arr_value['text'].";
 											}
@@ -396,7 +394,7 @@ class mf_navigation
 												color: ".$arr_value['background'].";
 											}
 
-											#".$widget_id.".is_open .toggle_line
+											#".$widget_id.".is_open .toggle_hamburger > div
 											{
 												background-color: ".$arr_value['background'].";
 											}
@@ -451,11 +449,7 @@ class mf_navigation
 
 					if($attributes['navigation_mobile_ready'] == 'yes')
 					{
-						$out .= "<div class='toggle_hamburger'>
-							<div class='toggle_line'></div>
-							<div class='toggle_line'></div>
-							<div class='toggle_line'></div>
-						</div>";
+						$out .= "<div class='toggle_hamburger'><div></div><div></div><div></div></div>";
 					}
 
 					$out .= "<nav class='wp-block-navigation is-layout-flex'>"
