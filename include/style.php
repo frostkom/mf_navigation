@@ -353,22 +353,22 @@ if($setting_breakpoint_mobile > 0)
 					."width: 1.6em;
 				}
 
-					.widget.navigation .toggle_line:nth-child(2)
+					.widget.navigation:not(.is_open) .toggle_line:nth-child(2)
 					{
 						width: 1.1em;
 					}
 
-						.widget.navigation:hover .toggle_line:nth-child(2)
+						.widget.navigation:not(.is_open):hover .toggle_line:nth-child(2)
 						{
 							width: 1.4em;
 						}
 					
-					.widget.navigation .toggle_line:nth-child(3)
+					.widget.navigation:not(.is_open) .toggle_line:nth-child(3)
 					{
 						width: 1.4em;
 					}
 					
-						.widget.navigation:hover .toggle_line:nth-child(3)
+						.widget.navigation:not(.is_open):hover .toggle_line:nth-child(3)
 						{
 							width: 1.6em;
 						}";
@@ -393,7 +393,7 @@ if($setting_breakpoint_mobile > 0)
 
 						.widget.navigation.is_open .toggle_hamburger .toggle_line:nth-child(3)
 						{
-							transform: rotate(-45deg) translate(.4em, -.4em);
+							transform: rotate(-45deg) translate(.35em, -.35em);
 						}
 
 			.widget.navigation.mobile_ready .wp-block-navigation
