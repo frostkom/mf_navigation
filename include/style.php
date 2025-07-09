@@ -381,22 +381,83 @@ if($setting_breakpoint_mobile > 0)
 						}";
 					}
 
+						// Original
 						echo ".widget.navigation.is_open .toggle_hamburger > div:nth-child(1)
 						{
 							transform: rotate(45deg) translate(.4em, .4em);
+							width: 1.6em;
 						}
 
 						.widget.navigation.is_open .toggle_hamburger > div:nth-child(2)
 						{
-							opacity: 0;
+							margin-left: .8em;
+							width: 0;
 						}
 
 						.widget.navigation.is_open .toggle_hamburger > div:nth-child(3)
 						{
-							transform: rotate(-45deg) translate(.35em, -.35em);
+							transform: rotate(-45deg) translate(.4em, -.4em);
+							width: 1.6em;
+						}";
+
+						// Cross
+						/*echo ".widget.navigation.is_open .toggle_hamburger > div:nth-child(1)
+						{
+							transform: rotate(-135deg) translate(-.4em, -.4em);
+							width: 1.6em;
 						}
 
-			.widget.navigation.mobile_ready .wp-block-navigation
+						.widget.navigation.is_open .toggle_hamburger > div:nth-child(2)
+						{
+							margin-left: .8em;
+							width: 0;
+						}
+
+						.widget.navigation.is_open .toggle_hamburger > div:nth-child(3)
+						{
+							transform: rotate(135deg) translate(-.4em, .4em);
+							width: 1.6em;
+						}";*/
+
+						// Rotate
+						/*echo ".widget.navigation.is_open .toggle_hamburger > div:nth-child(1)
+						{
+							transform: rotate(45deg) translate(.4em, .4em);
+							width: 1.6em;
+						}
+
+						.widget.navigation.is_open .toggle_hamburger > div:nth-child(2)
+						{
+							margin-left: .8em;
+							width: 0;
+						}
+
+						.widget.navigation.is_open .toggle_hamburger > div:nth-child(3)
+						{
+							transform: rotate(135deg) translate(-.4em, .4em);
+							width: 1.6em;
+						}";*/
+
+						// Arrow
+						/*echo ".widget.navigation.is_open .toggle_hamburger > div:nth-child(1)
+						{
+							transform: rotate(135deg) translate(.8em, -1.2em);
+							width: .8em;
+						}
+
+						.widget.navigation.is_open .toggle_hamburger > div:nth-child(2)
+						{
+							transform: rotate(90deg) translate(.4em, .4em);
+							width: 1.6em;
+						}
+
+						.widget.navigation.is_open .toggle_hamburger > div:nth-child(3)
+						{
+							transform: rotate(45deg) translate(0, .4em);
+							width: .8em;
+						}";*/
+
+			echo ".widget.navigation.mobile_ready .wp-block-navigation
 			{
 				background: ".$setting_navigation_text_color.";
 				color: ".$setting_navigation_background_color.";
