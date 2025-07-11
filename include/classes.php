@@ -90,7 +90,7 @@ class mf_navigation
 
 		return $menu_items;
 	}
-	
+
 	function loop_through_menu($arr_menu)
 	{
 		$out = "";
@@ -511,10 +511,8 @@ class mf_navigation
 		return $out;
 	}
 
-	function init()
+	function enqueue_block_editor_assets()
 	{
-		// Blocks
-		#######################
 		$plugin_include_url = plugin_dir_url(__FILE__);
 		$plugin_version = get_plugin_version(__FILE__);
 
@@ -536,14 +534,16 @@ class mf_navigation
 			'navigation_orientation_label' => __("Orientation", 'lang_navigation'),
 			'navigation_orientation_for_select' => array('horizontal' => __("Horizontal", 'lang_navigation'), 'vertical' => __("Vertical", 'lang_navigation')),
 		));
+	}
 
+	function init()
+	{
 		register_block_type('mf/navigation', array(
 			'editor_script' => 'script_navigation_block_wp',
 			'editor_style' => 'style_base_block_wp',
 			'render_callback' => array($this, 'block_render_callback'),
 			//'style' => 'style_base_block_wp',
 		));
-		#######################
 	}
 
 	function settings_navigation()

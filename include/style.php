@@ -150,7 +150,7 @@ echo "@media all
 					margin-bottom: -.2em;
 					max-width: 1.2em;
 				}
-					
+
 				.widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item.invert
 				{
 					margin-left: 0 !important;
@@ -362,12 +362,12 @@ if($setting_breakpoint_mobile > 0)
 						{
 							width: 1.4em;
 						}
-					
+
 					.widget.navigation:not(.is_open) .toggle_hamburger > div:nth-child(3)
 					{
 						width: 1.4em;
 					}
-					
+
 						.widget.navigation:not(.is_open):hover .toggle_hamburger > div:nth-child(3)
 						{
 							width: 1.6em;

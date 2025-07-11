@@ -3,7 +3,7 @@
 Plugin Name: MF Navigation+
 Plugin URI: https://github.com/frostkom/mf_navigation
 Description:
-Version: 1.3.34
+Version: 1.4.0
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -20,6 +20,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 
 	$obj_navigation = new mf_navigation();
 
+	add_action('enqueue_block_editor_assets', array($obj_navigation, 'enqueue_block_editor_assets'));
 	add_action('init', array($obj_navigation, 'init'));
 
 	if(is_admin())
