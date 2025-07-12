@@ -109,72 +109,74 @@ class mf_navigation
 	{
 		global $post;
 
-		$has_children = (isset($arr_menu_object['children']) && count($arr_menu_object['children']) > 0);
+		if(!isset($arr_menu_object['id'])){			$arr_menu_object['id'] = "";}
+		if(!isset($arr_menu_object['className'])){	$arr_menu_object['className'] = "";}
+		if(!isset($arr_menu_object['children'])){	$arr_menu_object['children'] = [];}
 
-		$is_button = (isset($arr_menu_object['className']) && strpos($arr_menu_object['className'], 'button') !== false);
+		$has_children = (count($arr_menu_object['children']) > 0);
+		$is_button = (strpos($arr_menu_object['className'], 'button') !== false);
 
-		$out_temp = "<li class='wp-block-navigation-item";
+		$out = "<li class='wp-block-navigation-item";
 
-			if(isset($arr_menu_object['className']) && $arr_menu_object['className'] != '')
+			if($arr_menu_object['className'] != '')
 			{
-				$out_temp .= " ".$arr_menu_object['className'];
+				$out .= " ".$arr_menu_object['className'];
 			}
 
-			if(isset($post->ID) && isset($arr_menu_object['id']) && $arr_menu_object['id'] == $post->ID)
+			if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http")."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']))
 			{
-				$out_temp .= " current_menu_item";
+				$out .= " current_menu_item";
 			}
 
 			if($has_children)
 			{
-				$out_temp .= " has-child";
+				$out .= " has-child";
 
 				foreach($arr_menu_object['children'] as $key_temp => $arr_value_temp)
 				{
 					if(isset($post->ID) && isset($arr_value_temp['id']) && $arr_value_temp['id'] == $post->ID)
 					{
-						$out_temp .= " current_menu_parent";
+						$out .= " current_menu_parent";
 					}
 				}
 			}
 
-		$out_temp .= "'>";
+		$out .= "'>";
 
 			if($is_button)
 			{
-				$out_temp .= "<div class='wp-block-button'>";
+				$out .= "<div class='wp-block-button'>";
 			}
 
-				$out_temp .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'>";
-
-					$out_temp .= $arr_menu_object['label'];
+				$out .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'>"
+					.$arr_menu_object['label'];
 
 					if($has_children)
 					{
-						$out_temp .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
+						$out .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
 							<svg xmlns='https://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
 								<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
 							</svg>
 						</button>";
 					}
 
-				$out_temp .= "</a>";
+				$out .= "</a>";
 
 			if($is_button)
 			{
-				$out_temp .= "</div>";
+				$out .= "</div>";
 			}
 
 			if($has_children)
 			{
-				$out_temp .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>"
+				$out .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>"
 					.$this->loop_through_menu($arr_menu_object['children'])
 				."</ul>";
 			}
 
-		$out_temp .= "</li>";
+		$out .= "</li>";
 
-		return $out_temp;
+		return $out;
 	}
 
 	function is_cookie_in_htaccess($cookie)
@@ -558,6 +560,7 @@ class mf_navigation
 		$arr_settings['setting_navigation_container_padding_mobile'] = __("Container Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_border_margin_left'] = __("Item Border Margin", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_border_margin_right'] = __("Item Border Margin", 'lang_navigation')." (".__("Right", 'lang_navigation').")";
+		$arr_settings['setting_navigation_item_vertical_padding_left'] = __("Item Vertical Padding", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
 		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation')." (".__("Horizontal", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_padding_vertical'] = __("Item Padding", 'lang_navigation')." (".__("Vertical", 'lang_navigation').")";
@@ -633,6 +636,14 @@ class mf_navigation
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
 		$option = get_option_or_default($setting_key, "1rem");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_vertical_padding_left_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option_or_default($setting_key, "0");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}

@@ -14,9 +14,10 @@ $setting_navigation_text_color = get_option_or_default('setting_navigation_text_
 $setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
 $setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1em");
 $setting_navigation_item_border_margin_right = get_option_or_default('setting_navigation_item_border_margin_right', "1em");
-$setting_navigation_item_border_radius = get_option_or_default('setting_navigation_item_border_radius', ".33em");
-$setting_navigation_item_padding = get_option_or_default('setting_navigation_item_padding', ".6em 1em");
-$setting_navigation_item_padding_vertical = get_option_or_default('setting_navigation_item_padding_vertical');
+$setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
+$setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left', "0");
+$setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
+$setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical');
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
 //$setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
 
@@ -71,17 +72,14 @@ echo "@media all
 			border-radius: ".$setting_navigation_item_border_radius.";
 			padding: 0;"
 			.$transition
-		."}";
+		."}
 
-		if($setting_navigation_text_color != '')
+		header .wp-block-site-title a
 		{
-			echo "header .wp-block-site-title a
-			{
-				color: ".$setting_navigation_text_color.";
-			}";
+			color: ".$setting_navigation_text_color.";
 		}
 
-	echo ".widget.navigation.is_centered .wp-block-navigation
+	.widget.navigation.is_centered .wp-block-navigation
 	{
 		text-align: center;
 	}
@@ -112,20 +110,20 @@ echo "@media all
 				.widget.navigation .is_vertical .wp-block-navigation-item > a
 				{
 					width: 100%;
+				}";
+
+				if($setting_navigation_item_vertical_padding_left != '')
+				{
+					echo ".widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item:not(.invert) > a
+					{
+						padding-left: ".$setting_navigation_item_vertical_padding_left.";
+					}";
 				}
 
-				.widget.navigation:not(.is_centered) .is_vertical > .wp-block-navigation-item:not(.invert) > a
-				{
-					padding-left: 0;
-				}";
-
-			if($setting_navigation_item_border_radius != '')
+			echo ".widget.navigation .wp-block-navigation-item > a
 			{
-				echo ".widget.navigation .wp-block-navigation-item > a
-				{
-					border-radius: ".$setting_navigation_item_border_radius.";
-				}";
-			}
+				border-radius: ".$setting_navigation_item_border_radius.";
+			}";
 
 				if($setting_navigation_item_padding != '')
 				{
@@ -206,25 +204,19 @@ echo "@media all
 	{
 		margin-left: ".$setting_navigation_item_border_margin_left.";
 		margin-right: ".$setting_navigation_item_border_margin_right.";
-	}";
+	}
 
-		if($setting_navigation_text_color != '')
+		.widget.navigation .wp-block-navigation-item.border a
 		{
-			echo ".widget.navigation .wp-block-navigation-item.border a
-			{
-				border: .1em solid ".$setting_navigation_text_color.";
-			}";
+			border: .1em solid ".$setting_navigation_text_color.";
 		}
 
-		if($setting_navigation_background_color != '')
+		.widget.navigation .wp-block-navigation-item.invert
 		{
-			echo ".widget.navigation .wp-block-navigation-item.invert
-			{
-				color: ".$setting_navigation_background_color.";
-			}";
+			color: ".$setting_navigation_background_color.";
 		}
 
-			echo ".widget.navigation .wp-block-navigation-item.invert a
+			.widget.navigation .wp-block-navigation-item.invert a
 			{
 				background-color: ".$setting_navigation_text_color." !important;
 				border: .1em solid ".$setting_navigation_text_color." !important;
@@ -319,17 +311,14 @@ if($setting_breakpoint_mobile > 0)
 			{
 				background-color: ".$setting_navigation_background_color.";
 				padding: .2em;
-			}";
-
-			if($setting_navigation_background_color != '')
-			{
-				echo ".menu_is_open header .wp-block-site-title a
-				{
-					color: ".$setting_navigation_background_color.";
-				}";
 			}
 
-			echo ".widget.navigation .toggle_hamburger
+			.menu_is_open header .wp-block-site-title a
+			{
+				color: ".$setting_navigation_background_color.";
+			}
+
+			.widget.navigation .toggle_hamburger
 			{
 				display: block;
 			}
@@ -371,15 +360,12 @@ if($setting_breakpoint_mobile > 0)
 						.widget.navigation:not(.is_open):hover .toggle_hamburger > div:nth-child(3)
 						{
 							width: 1.6em;
-						}";
+						}
 
-					if($setting_navigation_background_color != '')
-					{
-						echo ".widget.navigation.is_open .toggle_hamburger > div
+						.widget.navigation.is_open .toggle_hamburger > div
 						{
 							background-color: ".$setting_navigation_background_color.";
 						}";
-					}
 
 						// Original
 						echo ".widget.navigation.is_open .toggle_hamburger > div:nth-child(1)
