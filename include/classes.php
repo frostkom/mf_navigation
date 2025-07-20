@@ -619,7 +619,7 @@ class mf_navigation
 	function setting_navigation_container_padding_mobile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, "6rem 2rem 2rem");
+		$option = get_option_or_default($setting_key, "6em 2em 2em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -627,7 +627,7 @@ class mf_navigation
 	function setting_navigation_item_border_margin_left_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, "1rem");
+		$option = get_option_or_default($setting_key, "1em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -635,7 +635,7 @@ class mf_navigation
 	function setting_navigation_item_border_margin_right_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, "1rem");
+		$option = get_option_or_default($setting_key, "1em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -651,7 +651,7 @@ class mf_navigation
 	function setting_navigation_item_border_radius_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, ".33rem");
+		$option = get_option_or_default($setting_key, ".33em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -659,7 +659,7 @@ class mf_navigation
 	function setting_navigation_item_padding_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, ".6rem 1rem");
+		$option = get_option_or_default($setting_key, ".6em 1em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
@@ -675,7 +675,7 @@ class mf_navigation
 	function setting_navigation_item_padding_mobile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, ".3rem .6rem");
+		$option = get_option_or_default($setting_key, ".3em .6em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
