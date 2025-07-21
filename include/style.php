@@ -15,7 +15,7 @@ $setting_navigation_container_padding_mobile = get_option_or_default('setting_na
 $setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1em");
 $setting_navigation_item_border_margin_right = get_option_or_default('setting_navigation_item_border_margin_right', "1em");
 $setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
-$setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left', "0");
+$setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left');
 $setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
 $setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical');
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
@@ -220,7 +220,42 @@ echo "@media all
 			{
 				background-color: ".$setting_navigation_text_color." !important;
 				border: .1em solid ".$setting_navigation_text_color." !important;
-			}";
+			}
+			
+	/* Separator */
+	.widget.navigation .is_horizontal .wp-block-navigation-item.separator
+	{
+		padding-left: 2em;
+	}
+
+	.widget.navigation .is_vertical .wp-block-navigation-item.separator
+	{
+		padding-top: 1em;
+	}
+
+	.widget.navigation .wp-block-navigation-item.separator:before
+	{
+		background: #ccc;
+		content: '';
+		margin: ".$setting_navigation_item_padding.";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+
+		.widget.navigation .is_horizontal .wp-block-navigation-item.separator:before
+		{
+			height: auto;
+			width: .05em;
+		}
+		
+		.widget.navigation .is_vertical .wp-block-navigation-item.separator:before
+		{
+			height: .05em;
+			width: auto;
+		}";
 
 	/*if($setting_navigation_dim_content == 'yes')
 	{

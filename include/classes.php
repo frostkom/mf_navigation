@@ -643,7 +643,7 @@ class mf_navigation
 	function setting_navigation_item_vertical_padding_left_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, "0");
+		$option = get_option($setting_key);
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
