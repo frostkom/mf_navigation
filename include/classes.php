@@ -445,9 +445,9 @@ class mf_navigation
 					$out .= "<style>".$style."</style>";
 				}
 
-				$navigation_ul_class = "wp-block-navigation__container wp-block-navigation ".($attributes['navigation_orientation'] == 'vertical' ? "is_vertical" : "is_horizontal");
+				//$out .= var_export($attributes, true);
 
-				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : ""), 'attributes' => $attributes)).">";
+				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : "")." ".($attributes['navigation_orientation'] == 'vertical' ? "is_vertical" : "is_horizontal"), 'attributes' => $attributes)).">";
 
 					if($attributes['navigation_mobile_ready'] == 'yes')
 					{
@@ -462,7 +462,7 @@ class mf_navigation
 
 										if($menu_items_logged_in != '' && $this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
 										{
-											$out .= "<ul class='".$navigation_ul_class."'>";
+											$out .= "<ul class='wp-block-navigation__container wp-block-navigation'>";
 
 												if($this->does_cookie_exist($attributes['navigation_id_logged_in_cookie']) == false)
 												{
@@ -479,13 +479,13 @@ class mf_navigation
 
 										else
 										{
-											$out .= "<ul class='".$navigation_ul_class.($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
+											$out .= "<ul class='wp-block-navigation__container wp-block-navigation".($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
 												.$menu_items_public
 											."</ul>";
 
 											if($menu_items_logged_in != '')
 											{
-												$out .= "<ul class='".$navigation_ul_class." menu_items_logged_in'>"
+												$out .= "<ul class='wp-block-navigation__container wp-block-navigation menu_items_logged_in'>"
 													.$menu_items_logged_in
 												."</ul>";
 											}
