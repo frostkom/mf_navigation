@@ -544,7 +544,6 @@ class mf_navigation
 			'editor_script' => 'script_navigation_block_wp',
 			'editor_style' => 'style_base_block_wp',
 			'render_callback' => array($this, 'block_render_callback'),
-			//'style' => 'style_base_block_wp',
 		));
 	}
 
@@ -554,16 +553,109 @@ class mf_navigation
 
 		add_settings_section($options_area, "", array($this, $options_area."_callback"), BASE_OPTIONS_PAGE);
 
+		$has_horizontal_menu = $has_vertical_menu = $has_item_with_border = false;
+
+		// Check if there are horizontal or vertical menus
+		######################
+		$block_code = '<!-- wp:mf/navigation {%} /-->';
+		$arr_ids = apply_filters('get_page_from_block_code', [], $block_code);
+
+		foreach($arr_ids as $post_id)
+		{
+			$post_content = mf_get_post_content($post_id);
+
+			if(preg_match('/<!--\s*wp:mf\/navigation\s*(\{.*?\})\s*\/-->/s', $post_content, $matches))
+			{
+				if(isset($matches[1]))
+				{
+					$arr_json = json_decode($matches[1], true);
+
+					if(isset($arr_json['navigation_orientation']))
+					{
+						if($arr_json['navigation_orientation'] == 'horizontal')
+						{
+							$has_horizontal_menu = true;
+						}
+
+						else if($arr_json['navigation_orientation'] == 'vertical')
+						{
+							$has_vertical_menu = true;
+						}
+					}
+
+					else
+					{
+						$has_horizontal_menu = true;
+					}
+				}
+			}
+		}
+		######################
+
+		// Check if there are menu items with border as class
+		######################
+		$block_code = '<!-- wp:navigation-link {%} /-->';
+		$arr_ids = apply_filters('get_page_from_block_code', [], $block_code);
+
+		foreach($arr_ids as $post_id)
+		{
+			$post_content = mf_get_post_content($post_id);
+
+			if(preg_match('/<!--\s*wp:mf\/navigation-link\s*(\{.*?\})\s*\/-->/s', $post_content, $matches))
+			{
+				if(isset($matches[1]))
+				{
+					$arr_json = json_decode($matches[1], true);
+
+					if(isset($arr_json['className']) && preg_match("/(border|invert)/", $arr_json['className']))
+					{
+						$has_item_with_border = true;
+					}
+				}
+			}
+		}
+		######################
+
 		$arr_settings = [];
 		$arr_settings['setting_navigation_background_color'] = __("Background Color", 'lang_navigation');
 		$arr_settings['setting_navigation_text_color'] = __("Text Color", 'lang_navigation');
 		$arr_settings['setting_navigation_container_padding_mobile'] = __("Container Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
-		$arr_settings['setting_navigation_item_border_margin_left'] = __("Item Border Margin", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
-		$arr_settings['setting_navigation_item_border_margin_right'] = __("Item Border Margin", 'lang_navigation')." (".__("Right", 'lang_navigation').")";
+
+		if($has_item_with_border == true)
+		{
+			$arr_settings['setting_navigation_item_border_margin_left'] = __("Item Border Margin", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
+			$arr_settings['setting_navigation_item_border_margin_right'] = __("Item Border Margin", 'lang_navigation')." (".__("Right", 'lang_navigation').")";
+		}
+
+		else
+		{
+			delete_option('setting_navigation_item_border_margin_left');
+			delete_option('setting_navigation_item_border_margin_right');
+		}
+
 		$arr_settings['setting_navigation_item_vertical_padding_left'] = __("Item Vertical Padding", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
-		$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation')." (".__("Horizontal", 'lang_navigation').")";
-		$arr_settings['setting_navigation_item_padding_vertical'] = __("Item Padding", 'lang_navigation')." (".__("Vertical", 'lang_navigation').")";
+
+		if($has_horizontal_menu == true)
+		{
+			$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation')." (".__("Horizontal", 'lang_navigation').")";
+		}
+
+		else
+		{
+			delete_option('setting_navigation_item_padding');
+		}
+
+		if($has_vertical_menu == true)
+		{
+			$arr_settings['setting_navigation_item_padding_vertical'] = __("Item Padding", 'lang_navigation')." (".__("Vertical", 'lang_navigation').")";
+		}
+
+		else
+		{
+			delete_option('setting_navigation_item_padding_vertical');
+		}
+
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		//$arr_settings'['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
 		delete_option('setting_navigation_dim_content');

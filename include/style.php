@@ -218,14 +218,27 @@ echo "@media all
 					color: ".$setting_navigation_text_color.";
 				}
 
-	/* Invert / Border */
-	.widget.navigation .wp-block-navigation-item.border:not(:last-of-type), .widget.navigation .wp-block-navigation-item.invert:not(:last-of-type)
+	/* Invert / Border */";
+
+	if($setting_navigation_item_border_margin_left != '' && $setting_navigation_item_border_margin_right != '')
 	{
-		margin-left: ".$setting_navigation_item_border_margin_left.";
-		margin-right: ".$setting_navigation_item_border_margin_right.";
+		echo ".widget.navigation .wp-block-navigation-item.border:not(:last-of-type), .widget.navigation .wp-block-navigation-item.invert:not(:last-of-type)
+		{";
+
+			if($setting_navigation_item_border_margin_left != '')
+			{
+				echo "margin-left: ".$setting_navigation_item_border_margin_left.";";
+			}
+
+			if($setting_navigation_item_border_margin_right != '')
+			{
+				echo "margin-right: ".$setting_navigation_item_border_margin_right.";";
+			}
+
+		echo "}";
 	}
 
-		.widget.navigation .wp-block-navigation-item.border a
+		echo ".widget.navigation .wp-block-navigation-item.border a
 		{
 			border: .1em solid ".$setting_navigation_text_color.";
 		}
