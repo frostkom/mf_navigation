@@ -427,6 +427,10 @@ class mf_navigation
 								//array ( 'link' => array ( 'color' => array ( 'text' => '#ffffff', ), ), )
 							break;
 
+							case 'border':
+								// Do nothing. Already taken care of in parse_block_attributes()
+							break;
+
 							default:
 								do_log(__FUNCTION__.": The key parent '".$key_parent."' with value '".var_export($arr_value, true)."' has to be taken care of");
 							break;
