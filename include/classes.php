@@ -124,7 +124,7 @@ class mf_navigation
 			}
 
 			$http_protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
-			$http_host = ($_SERVER['HTTP_HOST'] ?: get_site_url());
+			$http_host = ($_SERVER['HTTP_HOST'] ?: remove_protocol(array('url' => get_site_url(), 'clean' => true)));
 			$http_request = ($_SERVER['REQUEST_URI'] ?? '');
 
 			if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == $http_protocol."://".$http_host.$http_request))
