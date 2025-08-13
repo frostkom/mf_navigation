@@ -123,7 +123,11 @@ class mf_navigation
 				$out .= " ".$arr_menu_object['className'];
 			}
 
-			if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http")."://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']))
+			$http_protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+			$http_host = ($_SERVER['HTTP_HOST'] ?: get_site_url());
+			$http_request = ($_SERVER['REQUEST_URI'] ?? '');
+
+			if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == $http_protocol."://".$http_host.$http_request))
 			{
 				$out .= " current_menu_item";
 			}
