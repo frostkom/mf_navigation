@@ -61,13 +61,13 @@ echo "@media all
 		}
 
 	/* General */
-	header .wp-block-image, header .wp-block-site-logo, header .wp-block-site-title, header .wp-block-site-tagline
+	header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-logo, header .wp-block-site-title, header .wp-block-site-tagline
 	{
 		position: relative;
-		z-index: 10000;
+		z-index: 1001;
 	}
 
-		header .wp-block-image img
+		header .wp-block-group-is-layout-flex .wp-block-image img
 		{
 			border-radius: ".$setting_navigation_item_border_radius.";
 			padding: 0;"
@@ -374,7 +374,7 @@ if($setting_breakpoint_mobile > 0)
 			.$transition
 		."}
 
-			.menu_is_open header figure.wp-block-image img
+			.menu_is_open header .wp-block-group-is-layout-flex figure.wp-block-image img
 			{
 				background-color: ".$setting_navigation_background_color.";
 				padding: .2em;
