@@ -21,6 +21,8 @@ $setting_navigation_item_padding_vertical = get_option('setting_navigation_item_
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
 //$setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
 
+// Same as in News and Social Feed
+##########################
 $setting_breakpoint_tablet = apply_filters('get_styles_content', '', 'max_width');
 
 if($setting_breakpoint_tablet != '')
@@ -40,6 +42,7 @@ else
 
 	$setting_breakpoint_suffix = "px";
 }
+##########################
 
 $transition = "transition: all .5s ease;";
 
