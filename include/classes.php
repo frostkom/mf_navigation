@@ -6,6 +6,23 @@ class mf_navigation
 
 	function __construct(){}
 
+	function cron_base()
+	{
+		global $wpdb, $obj_group;
+
+		$obj_cron = new mf_cron();
+		$obj_cron->start(__CLASS__);
+
+		if($obj_cron->is_running == false)
+		{
+			mf_uninstall_plugin(array(
+				'options' => array('setting_navigation_dim_content', 'setting_navigation_breakpoint_tablet', 'setting_navigation_breakpoint_mobile'),
+			));
+		}
+
+		$obj_cron->end();
+	}
+
 	function parse_navigation_menu($markup)
 	{
 		$menu_items = $current_menu = [];
@@ -301,25 +318,7 @@ class mf_navigation
 						switch($key_parent)
 						{
 							case 'color':
-								$setting_breakpoint_tablet = apply_filters('get_styles_content', '', 'max_width');
-
-								if($setting_breakpoint_tablet != '')
-								{
-									preg_match('/^([0-9]*\.?[0-9]+)([a-zA-Z%]+)$/', $setting_breakpoint_tablet, $matches);
-
-									$setting_breakpoint_tablet = $matches[1];
-									$setting_breakpoint_suffix = $matches[2];
-
-									$setting_breakpoint_mobile = ($setting_breakpoint_tablet * .775);
-								}
-
-								else
-								{
-									$setting_breakpoint_tablet = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
-									$setting_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
-
-									$setting_breakpoint_suffix = "px";
-								}
+								$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
 
 								if(isset($arr_value['text']) && $arr_value['text'] != '')
 								{
@@ -349,7 +348,7 @@ class mf_navigation
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
 									{
-										$style .= "@media screen and (max-width: ".($setting_breakpoint_mobile - 1).$setting_breakpoint_suffix.")
+										$style .= "@media screen and (max-width: ".($arr_breakpoints['mobile'] - 1).$arr_breakpoints['suffix'].")
 										{
 											#".$widget_id." .toggle_hamburger > div
 											{
@@ -388,7 +387,7 @@ class mf_navigation
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
 									{
-										$style .= "@media screen and (max-width: ".($setting_breakpoint_mobile - 1).$setting_breakpoint_suffix.")
+										$style .= "@media screen and (max-width: ".($arr_breakpoints['mobile'] - 1).$arr_breakpoints['suffix'].")
 										{
 											.menu_is_open header figure.wp-block-image img
 											{
@@ -666,19 +665,12 @@ class mf_navigation
 
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		//$arr_settings'['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
-		delete_option('setting_navigation_dim_content');
 
-		if(apply_filters('get_styles_content', '', 'max_width') == '')
+		/*if(apply_filters('get_styles_content', '', 'max_width') == '')
 		{
 			$arr_settings['setting_navigation_breakpoint_tablet'] = __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")";
 			$arr_settings['setting_navigation_breakpoint_mobile'] = __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
-		}
-
-		else
-		{
-			delete_option('setting_navigation_breakpoint_tablet');
-			delete_option('setting_navigation_breakpoint_mobile');
-		}
+		}*/
 
 		if(count(get_option_or_default('option_navigation_logged_in_cookies', [])) > 0)
 		{
@@ -788,7 +780,7 @@ class mf_navigation
 		echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
 	}*/
 
-	function setting_navigation_breakpoint_tablet_callback()
+	/*function setting_navigation_breakpoint_tablet_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
 		$option = get_option_or_default($setting_key, 1200);
@@ -802,7 +794,7 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, 930);
 
 		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
-	}
+	}*/
 
 	function get_logged_in_cookies_for_select()
 	{

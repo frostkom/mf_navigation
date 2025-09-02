@@ -21,28 +21,7 @@ $setting_navigation_item_padding_vertical = get_option('setting_navigation_item_
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
 //$setting_navigation_dim_content = get_option_or_default('setting_navigation_dim_content', 'yes');
 
-// Same as in News and Social Feed
-##########################
-$setting_breakpoint_tablet = apply_filters('get_styles_content', '', 'max_width');
-
-if($setting_breakpoint_tablet != '')
-{
-	preg_match('/^([0-9]*\.?[0-9]+)([a-zA-Z%]+)$/', $setting_breakpoint_tablet, $matches);
-
-	$setting_breakpoint_tablet = $matches[1];
-	$setting_breakpoint_suffix = $matches[2];
-
-	$setting_breakpoint_mobile = ($setting_breakpoint_tablet * .775);
-}
-
-else
-{
-	$setting_breakpoint_tablet = get_option_or_default('setting_navigation_breakpoint_tablet', 1200);
-	$setting_breakpoint_mobile = get_option_or_default('setting_navigation_breakpoint_mobile', 930);
-
-	$setting_breakpoint_suffix = "px";
-}
-##########################
+$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
 
 $transition = "transition: all .5s ease;";
 
@@ -320,9 +299,9 @@ echo "@media all
 
 echo "}";
 
-if($setting_breakpoint_tablet > 0)
+if($arr_breakpoints['tablet'] > 0)
 {
-	echo "@media screen and (min-width: ".$setting_breakpoint_tablet.$setting_breakpoint_suffix.")
+	echo "@media screen and (min-width: ".$arr_breakpoints['tablet'].$arr_breakpoints['suffix'].")
 	{
 		.widget.navigation .wp-block-navigation__responsive-container
 		{
@@ -352,9 +331,9 @@ if($setting_breakpoint_tablet > 0)
 	}";
 }
 
-if($setting_breakpoint_mobile > 0 && $setting_breakpoint_tablet > $setting_breakpoint_mobile)
+if($arr_breakpoints['mobile'] > 0 && $arr_breakpoints['tablet'] > $arr_breakpoints['mobile'])
 {
-	echo "@media screen and (min-width: ".$setting_breakpoint_mobile.$setting_breakpoint_suffix.") and (max-width: ".($setting_breakpoint_tablet - 1).$setting_breakpoint_suffix.")
+	echo "@media screen and (min-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].") and (max-width: ".($arr_breakpoints['tablet'] - 1).$arr_breakpoints['suffix'].")
 	{
 		.widget.navigation .wp-block-navigation__responsive-container-open
 		{
@@ -368,9 +347,9 @@ if($setting_breakpoint_mobile > 0 && $setting_breakpoint_tablet > $setting_break
 	}";
 }
 
-if($setting_breakpoint_mobile > 0)
+if($arr_breakpoints['mobile'] > 0)
 {
-	echo "@media screen and (max-width: ".$setting_breakpoint_mobile.$setting_breakpoint_suffix.")
+	echo "@media screen and (max-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].")
 	{
 		.menu_is_open header .wp-block-site-title a
 		{"
