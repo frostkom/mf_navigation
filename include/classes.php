@@ -666,12 +666,6 @@ class mf_navigation
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 		//$arr_settings'['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
 
-		/*if(apply_filters('get_styles_content', '', 'max_width') == '')
-		{
-			$arr_settings['setting_navigation_breakpoint_tablet'] = __("Breakpoint", 'lang_navigation')." (".__("Tablet", 'lang_navigation').")";
-			$arr_settings['setting_navigation_breakpoint_mobile'] = __("Breakpoint", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
-		}*/
-
 		if(count(get_option_or_default('option_navigation_logged_in_cookies', [])) > 0)
 		{
 			$arr_settings['setting_navigation_logged_in_cookies'] = __("Logged in Cookies", 'lang_navigation');
@@ -778,22 +772,6 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, 'yes');
 
 		echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
-	}*/
-
-	/*function setting_navigation_breakpoint_tablet_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, 1200);
-
-		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
-	}
-
-	function setting_navigation_breakpoint_mobile_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, 930);
-
-		echo show_textfield(array('type' => 'number', 'name' => $setting_key, 'value' => $option, 'suffix' => "px"));
 	}*/
 
 	function get_logged_in_cookies_for_select()
