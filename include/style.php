@@ -79,7 +79,7 @@ echo "@media all
 			position: relative;
 		}
 
-		.widget.navigation.is_vertical .wp-block-navigation__responsive-container, .widget.navigation.is_vertical .wp-block-navigation-item, .widget.navigation.is_vertical .wp-block-navigation-item > a
+		.widget.navigation.is_vertical .wp-block-navigation__responsive-container, .widget.navigation.is_vertical .wp-block-navigation-item, .widget.navigation.is_vertical .wp-block-navigation-item > a, .widget.navigation.is_vertical .wp-block-navigation-item > .wp-block-button
 		{
 			width: 100%;
 		}
