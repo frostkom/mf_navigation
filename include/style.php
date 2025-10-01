@@ -70,6 +70,7 @@ echo "@media all
 		.widget.navigation .wp-block-navigation
 		{
 			color: ".$setting_navigation_text_color.";
+			gap: inherit;
 			z-index: 1000;
 		}
 
