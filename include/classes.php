@@ -569,7 +569,7 @@ class mf_navigation
 
 		foreach($arr_ids as $post_id)
 		{
-			$post_content = mf_get_post_content($post_id);
+			$post_content = get_post_field('post_content', $post_id);
 
 			if(preg_match('/<!--\s*wp:mf\/navigation\s*(\{.*?\})\s*\/-->/s', $post_content, $matches))
 			{
@@ -606,7 +606,7 @@ class mf_navigation
 
 		foreach($arr_ids as $post_id)
 		{
-			$post_content = mf_get_post_content($post_id);
+			$post_content = get_post_field('post_content', $post_id);
 
 			if(preg_match('/<!--\s*wp:mf\/navigation-link\s*(\{.*?\})\s*\/-->/s', $post_content, $matches))
 			{
