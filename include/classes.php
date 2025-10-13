@@ -547,6 +547,8 @@ class mf_navigation
 
 	function init()
 	{
+		load_plugin_textdomain('lang_navigation', false, str_replace("/include", "", dirname(plugin_basename(__FILE__)))."/lang/");
+
 		register_block_type('mf/navigation', array(
 			'editor_script' => 'script_navigation_block_wp',
 			'editor_style' => 'style_base_block_wp',

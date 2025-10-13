@@ -3,7 +3,7 @@
 Plugin Name: MF Navigation+
 Plugin URI: https://github.com/frostkom/mf_navigation
 Description:
-Version: 1.5.5
+Version: 1.5.6
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -30,8 +30,6 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 	}
 
 	add_filter('filter_cache_logged_in_cookies', array($obj_navigation, 'filter_cache_logged_in_cookies'), 10);
-
-	load_plugin_textdomain('lang_navigation', false, dirname(plugin_basename(__FILE__))."/lang/");
 
 	function uninstall_navigation()
 	{
