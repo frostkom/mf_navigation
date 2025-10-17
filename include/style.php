@@ -129,6 +129,9 @@ echo "@media all
 			echo ".widget.navigation .wp-block-navigation-item > a
 			{
 				border-radius: ".$setting_navigation_item_border_radius.";
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}";
 
 				if($setting_navigation_item_padding != '')
