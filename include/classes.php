@@ -108,94 +108,112 @@ class mf_navigation
 		return $menu_items;
 	}
 
-	function loop_through_menu($arr_menu)
-	{
-		$out = "";
-
-		$arr_menu = apply_filters('filter_navigation_menu', $arr_menu);
-
-		foreach($arr_menu as $arr_submenu_object)
-		{
-			$out .= $this->get_menu_children($arr_submenu_object);
-		}
-
-		return $out;
-	}
-
-	function get_menu_children($arr_menu_object)
+	function loop_through_menu($data)
 	{
 		global $post;
 
-		if(!isset($arr_menu_object['id'])){			$arr_menu_object['id'] = "";}
-		if(!isset($arr_menu_object['className'])){	$arr_menu_object['className'] = "";}
-		if(!isset($arr_menu_object['children'])){	$arr_menu_object['children'] = [];}
+		if(!isset($data['follow'])){	$data['follow'] = true;}
 
-		$has_children = (count($arr_menu_object['children']) > 0);
-		$is_button = (strpos($arr_menu_object['className'], 'button') !== false);
+		$out = "";
 
-		$out = "<li class='wp-block-navigation-item";
+		$data['menu'] = apply_filters('filter_navigation_menu', $data['menu']);
 
-			if($arr_menu_object['className'] != '')
-			{
-				$out .= " ".$arr_menu_object['className'];
-			}
+		foreach($data['menu'] as $arr_menu_object)
+		{
+			if(!isset($arr_menu_object['id'])){			$arr_menu_object['id'] = "";}
+			if(!isset($arr_menu_object['className'])){	$arr_menu_object['className'] = "";}
+			if(!isset($arr_menu_object['children'])){	$arr_menu_object['children'] = [];}
 
-			$http_protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
-			$http_host = (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : remove_protocol(array('url' => get_site_url(), 'clean' => true)));
-			$http_request = (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
+			$has_children = (count($arr_menu_object['children']) > 0);
+			$is_button = (strpos($arr_menu_object['className'], 'button') !== false);
 
-			if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == $http_protocol."://".$http_host.$http_request))
-			{
-				$out .= " current_menu_item";
-			}
+			$out .= "<li class='wp-block-navigation-item";
 
-			if($has_children)
-			{
-				$out .= " has-child";
-
-				foreach($arr_menu_object['children'] as $key_temp => $arr_value_temp)
+				if($arr_menu_object['className'] != '')
 				{
-					if(isset($post->ID) && isset($arr_value_temp['id']) && $arr_value_temp['id'] == $post->ID)
+					$out .= " ".$arr_menu_object['className'];
+				}
+
+				$follow_link = $data['follow'];
+
+				$out .= " follow_before_".$follow_link;
+				$out .= " follow_id_".$arr_menu_object['id'];
+
+				if($follow_link == true)
+				{
+					if($arr_menu_object['id'] > 0)
 					{
-						$out .= " current_menu_parent";
+						$follow_link = apply_filters('filter_is_indexed', $follow_link, $arr_menu_object['id']);
+					}
+
+					else
+					{
+						$follow_link = false;
+					}
+
+					$out .= " follow_after_".$follow_link;
+				}
+
+				$http_protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+				$http_host = (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : remove_protocol(array('url' => get_site_url(), 'clean' => true)));
+				$http_request = (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
+
+				if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == $http_protocol."://".$http_host.$http_request))
+				{
+					$out .= " current_menu_item";
+				}
+
+				if($has_children)
+				{
+					$out .= " has-child";
+
+					foreach($arr_menu_object['children'] as $key_temp => $arr_value_temp)
+					{
+						if(isset($post->ID) && isset($arr_value_temp['id']) && $arr_value_temp['id'] == $post->ID)
+						{
+							$out .= " current_menu_parent";
+						}
 					}
 				}
-			}
 
-		$out .= "'>";
+			$out .= "'>";
 
-			if($is_button)
-			{
-				$out .= "<div class='wp-block-button'>";
-			}
+				if($is_button)
+				{
+					$out .= "<div class='wp-block-button'>";
+				}
 
-				$out .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'>"
-					.$arr_menu_object['label'];
+					$out .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'".($follow_link == true ? "" : " rel='nofollow'").">"
+						.$arr_menu_object['label'];
 
-					if($has_children)
-					{
-						$out .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
-							<svg xmlns='https://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
-								<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
-							</svg>
-						</button>";
-					}
+						if($has_children)
+						{
+							$out .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
+								<svg xmlns='https://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
+									<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
+								</svg>
+							</button>";
+						}
 
-				$out .= "</a>";
+					$out .= "</a>";
 
-			if($is_button)
-			{
-				$out .= "</div>";
-			}
+				if($is_button)
+				{
+					$out .= "</div>";
+				}
 
-			if($has_children)
-			{
-				$out .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>"
-					.$this->loop_through_menu($arr_menu_object['children'])
-				."</ul>";
-			}
+				if($has_children)
+				{
+					$data_temp = $data;
+					$data_temp['menu'] = $arr_menu_object['children'];
 
-		$out .= "</li>";
+					$out .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>"
+						.$this->loop_through_menu($data_temp)
+					."</ul>";
+				}
+
+			$out .= "</li>";
+		}
 
 		return $out;
 	}
@@ -250,7 +268,7 @@ class mf_navigation
 
 				$arr_menu = $this->parse_navigation_menu($post_content);
 
-				$menu_items_public .= $this->loop_through_menu($arr_menu);
+				$menu_items_public .= $this->loop_through_menu(array('menu' => $arr_menu));
 			}
 
 			if($menu_items_public != '')
@@ -267,7 +285,7 @@ class mf_navigation
 
 						$arr_menu = $this->parse_navigation_menu($post_content);
 
-						$menu_items_logged_in .= $this->loop_through_menu($arr_menu);
+						$menu_items_logged_in .= $this->loop_through_menu(array('menu' => $arr_menu, 'follow' => true));
 					}
 
 					if($attributes['navigation_id_logged_in_cookie'] != '')
