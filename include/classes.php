@@ -136,9 +136,6 @@ class mf_navigation
 
 				$follow_link = $data['follow'];
 
-				$out .= " follow_before_".$follow_link;
-				$out .= " follow_id_".$arr_menu_object['id'];
-
 				if($follow_link == true)
 				{
 					if($arr_menu_object['id'] > 0)
@@ -150,8 +147,6 @@ class mf_navigation
 					{
 						$follow_link = false;
 					}
-
-					$out .= " follow_after_".$follow_link;
 				}
 
 				$http_protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");

@@ -145,6 +145,11 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 				echo ".widget.navigation.is_vertical .wp-block-navigation-item > a
 				{
 					padding: ".$setting_navigation_item_padding_vertical.";
+				}
+				
+				.widget.navigation.is_vertical .wp-block-navigation-item > .wp-block-button
+				{
+					margin: ".$setting_navigation_item_padding_vertical.";
 				}";
 			}
 
