@@ -639,7 +639,7 @@ class mf_navigation
 		######################
 
 		$arr_settings = [];
-		$arr_settings['setting_navigation_background_color'] = __("Background Color", 'lang_navigation');
+		//$arr_settings['setting_navigation_background_color'] = __("Background Color", 'lang_navigation');
 		$arr_settings['setting_navigation_text_color'] = __("Text Color", 'lang_navigation');
 		$arr_settings['setting_navigation_container_padding_mobile'] = __("Container Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 
@@ -701,13 +701,13 @@ class mf_navigation
 		echo settings_header($setting_key, "Navigation+");
 	}
 
-	function setting_navigation_background_color_callback()
+	/*function setting_navigation_background_color_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
 		$option = get_option_or_default($setting_key, "#ffffff");
 
 		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
-	}
+	}*/
 
 	function setting_navigation_text_color_callback()
 	{

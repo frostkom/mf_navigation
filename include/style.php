@@ -9,7 +9,7 @@ if(!defined('ABSPATH'))
 	require_once($folder."wp-load.php");
 }
 
-$setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#ffffff");
+$setting_navigation_background_color = "var(--wp--preset--color--base)"; //get_option_or_default('setting_navigation_background_color', "#ffffff")
 $setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000000");
 $setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
 $setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1em");
