@@ -126,10 +126,11 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 
 		echo ".widget.navigation .wp-block-navigation-item > a
 		{
-			border-radius: ".$setting_navigation_item_border_radius.";
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
+			border-radius: ".$setting_navigation_item_border_radius.";";
+			/* This will add ... instead of arrow it has children */
+			/*overflow: hidden;
+			text-overflow: ellipsis;*/
+			echo "white-space: nowrap;
 		}";
 
 			if($setting_navigation_item_padding != '')
