@@ -205,7 +205,7 @@ class mf_navigation
 					$data_temp = $data;
 					$data_temp['menu'] = $arr_menu_object['children'];
 
-					$out .= "<ul class='wp-block-navigation__submenu-container has-text-color has-base-color has-background has-main-background-color wp-block-navigation-submenu'>"
+					$out .= "<ul class='wp-block-navigation__submenu-container has-text-color has-background has-main-background-color wp-block-navigation-submenu'>" // has-base-color
 						.$this->loop_through_menu($data_temp)
 					."</ul>";
 				}

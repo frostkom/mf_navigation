@@ -127,9 +127,11 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		echo ".widget.navigation .wp-block-navigation-item > a
 		{
 			border-radius: ".$setting_navigation_item_border_radius.";";
-			/* This will add ... instead of arrow it has children */
-			/*overflow: hidden;
-			text-overflow: ellipsis;*/
+
+			// This will add ... instead of arrow it has children
+			/*echo "overflow: hidden;
+			text-overflow: ellipsis;";*/
+
 			echo "white-space: nowrap;
 		}";
 
@@ -208,9 +210,12 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 
 			.widget.navigation .has-child .wp-block-navigation-item
 			{
-				border-radius: .5em;
-				color: ".$setting_navigation_text_color.";
-			}
+				border-radius: .5em;";
+
+				// This will make the submenu white on white
+				//echo "color: ".$setting_navigation_text_color.";
+
+			echo "}
 
 /* Invert / Border */";
 
