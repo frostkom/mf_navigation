@@ -175,6 +175,9 @@ class mf_navigation
 
 				if($is_button)
 				{
+					$plugin_base_include_url = plugins_url()."/mf_base/include/";
+					mf_enqueue_style('style_base_form', $plugin_base_include_url."style_form.css");
+
 					$out .= "<div class='wp-block-button'>";
 				}
 
