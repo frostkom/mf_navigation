@@ -212,12 +212,9 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 
 			.widget.navigation .has-child .wp-block-navigation-item
 			{
-				border-radius: .5em;";
-
-				// This will make the submenu white on white
-				//echo "color: ".$setting_navigation_text_color.";
-
-			echo "}
+				border-radius: .5em;
+				color: ".$setting_navigation_text_color.";
+			}
 
 /* Invert / Border */";
 

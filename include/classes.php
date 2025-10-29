@@ -187,7 +187,7 @@ class mf_navigation
 						if($has_children)
 						{
 							$out .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
-								<svg xmlns='https://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'>
+								<svg viewBox='0 0 12 12' fill='none'>
 									<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
 								</svg>
 							</button>";
@@ -205,7 +205,7 @@ class mf_navigation
 					$data_temp = $data;
 					$data_temp['menu'] = $arr_menu_object['children'];
 
-					$out .= "<ul class='wp-block-navigation__submenu-container has-text-color has-background has-main-background-color wp-block-navigation-submenu'>" // has-base-color
+					$out .= "<ul class='wp-block-navigation__submenu-container wp-block-navigation-submenu'>" // has-base-color has-main-background-color has-background has-text-color
 						.$this->loop_through_menu($data_temp)
 					."</ul>";
 				}
@@ -327,8 +327,6 @@ class mf_navigation
 
 				if(isset($attributes['style']) && is_array($attributes['style']))
 				{
-					//$out .= var_export($attributes, true);
-
 					foreach($attributes['style'] as $key_parent => $arr_value)
 					{
 						switch($key_parent)
@@ -438,8 +436,6 @@ class mf_navigation
 										}";
 									}
 								}
-
-								//$style .= $key_parent.": ".$arr_value['text'].";";
 							break;
 
 							case 'elements':
@@ -467,8 +463,6 @@ class mf_navigation
 				{
 					$out .= "<style>".$style."</style>";
 				}
-
-				//$out .= var_export($attributes, true);
 
 				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : "")." ".($attributes['navigation_orientation'] == 'vertical' ? "is_vertical" : "is_horizontal"), 'attributes' => $attributes)).">";
 
@@ -709,7 +703,7 @@ class mf_navigation
 		$setting_key = get_setting_key(__FUNCTION__);
 		$option = get_option_or_default($setting_key, "#ffffff");
 
-		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
+		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
 	}
 
 	function setting_navigation_text_color_callback()
@@ -717,7 +711,7 @@ class mf_navigation
 		$setting_key = get_setting_key(__FUNCTION__);
 		$option = get_option_or_default($setting_key, "#000000");
 
-		echo show_textfield(array('type' => 'color', 'name' => $setting_key, 'value' => $option));
+		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
 	}
 
 	function setting_navigation_container_padding_mobile_callback()
