@@ -3,6 +3,8 @@
 class mf_navigation
 {
 	var $post_type = 'wp_navigation';
+	var $has_separator;
+	var $has_item_border;
 
 	function __construct(){}
 
@@ -114,7 +116,7 @@ class mf_navigation
 
 		if(!isset($data['follow'])){	$data['follow'] = true;}
 
-		$out = "";
+		$html = "";
 
 		$data['menu'] = apply_filters('filter_navigation_menu', $data['menu']);
 
@@ -127,11 +129,21 @@ class mf_navigation
 			$has_children = (count($arr_menu_object['children']) > 0);
 			$is_button = (strpos($arr_menu_object['className'], 'button') !== false);
 
-			$out .= "<li class='wp-block-navigation-item";
+			$html .= "<li class='wp-block-navigation-item";
 
 				if($arr_menu_object['className'] != '')
 				{
-					$out .= " ".$arr_menu_object['className'];
+					if(strpos($arr_menu_object['className'], "separator") !== false)
+					{
+						$this->has_separator = true;
+					}
+
+					if(strpos($arr_menu_object['className'], "border") !== false || strpos($arr_menu_object['className'], "invert") !== false)
+					{
+						$this->has_item_border = true;
+					}
+
+					$html .= " ".$arr_menu_object['className'];
 				}
 
 				$follow_link = $data['follow'];
@@ -155,49 +167,49 @@ class mf_navigation
 
 				if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == $http_protocol."://".$http_host.$http_request))
 				{
-					$out .= " current_menu_item";
+					$html .= " current_menu_item";
 				}
 
 				if($has_children)
 				{
-					$out .= " has-child";
+					$html .= " has-child";
 
 					foreach($arr_menu_object['children'] as $key_temp => $arr_value_temp)
 					{
 						if(isset($post->ID) && isset($arr_value_temp['id']) && $arr_value_temp['id'] == $post->ID)
 						{
-							$out .= " current_menu_parent";
+							$html .= " current_menu_parent";
 						}
 					}
 				}
 
-			$out .= "'>";
+			$html .= "'>";
 
 				if($is_button)
 				{
 					$plugin_base_include_url = plugins_url()."/mf_base/include/";
 					mf_enqueue_style('style_base_button', $plugin_base_include_url."style_button.css");
 
-					$out .= "<div class='wp-block-button'>";
+					$html .= "<div class='wp-block-button'>";
 				}
 
-					$out .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'".($follow_link == true ? "" : " rel='nofollow'").">"
+					$html .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'".($follow_link == true ? "" : " rel='nofollow'").">"
 						.$arr_menu_object['label'];
 
 						if($has_children)
 						{
-							$out .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
+							$html .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
 								<svg viewBox='0 0 12 12' fill='none'>
 									<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
 								</svg>
 							</button>";
 						}
 
-					$out .= "</a>";
+					$html .= "</a>";
 
 				if($is_button)
 				{
-					$out .= "</div>";
+					$html .= "</div>";
 				}
 
 				if($has_children)
@@ -205,15 +217,15 @@ class mf_navigation
 					$data_temp = $data;
 					$data_temp['menu'] = $arr_menu_object['children'];
 
-					$out .= "<ul class='wp-block-navigation__submenu-container wp-block-navigation-submenu'>" // has-base-color has-main-background-color has-background has-text-color
+					$html .= "<ul class='wp-block-navigation__submenu-container wp-block-navigation-submenu'>" // has-base-color has-main-background-color has-background has-text-color
 						.$this->loop_through_menu($data_temp)
 					."</ul>";
 				}
 
-			$out .= "</li>";
+			$html .= "</li>";
 		}
 
-		return $out;
+		return $html;
 	}
 
 	function is_cookie_in_htaccess($cookie)
@@ -257,6 +269,7 @@ class mf_navigation
 			$widget_id = "widget_navigation_".md5(var_export($attributes, true));
 
 			$menu_items_public = $menu_items_logged_in = "";
+			$this->has_separator = $this->has_item_border = false;
 
 			$result = $wpdb->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = '%d'", $this->post_type, $attributes['navigation_id']));
 
@@ -453,6 +466,88 @@ class mf_navigation
 					}
 				}
 
+				if($this->has_separator == true)
+				{
+					$setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
+
+					$style .= ".widget.navigation.is_horizontal .wp-block-navigation-item.separator
+					{
+						padding-left: 2em;
+					}
+
+					.widget.navigation.is_vertical .wp-block-navigation-item.separator
+					{
+						padding-top: 1em;
+					}
+
+					.widget.navigation .wp-block-navigation-item.separator:before
+					{
+						background: #ccc;
+						content: '';
+						margin: ".$setting_navigation_item_padding.";
+						position: absolute;
+						top: 0;
+						right: 0;
+						bottom: 0;
+						left: 0;
+					}
+
+						.widget.navigation.is_horizontal .wp-block-navigation-item.separator:before
+						{
+							height: auto;
+							width: .05em;
+						}
+
+						.widget.navigation.is_vertical .wp-block-navigation-item.separator:before
+						{
+							height: .05em;
+							width: auto;
+						}";
+				}
+
+				if($this->has_item_border == true)
+				{
+					$setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#fff");
+					$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
+
+					$setting_navigation_item_border_margin_left = get_option_or_default('setting_navigation_item_border_margin_left', "1em");
+					$setting_navigation_item_border_margin_right = get_option_or_default('setting_navigation_item_border_margin_right', "1em");
+
+					if($setting_navigation_item_border_margin_left != '' && $setting_navigation_item_border_margin_right != '')
+					{
+						$style .= ".widget.navigation .wp-block-navigation-item.border:not(:last-of-type), .widget.navigation .wp-block-navigation-item.invert:not(:last-of-type)
+						{";
+
+							if($setting_navigation_item_border_margin_left != '')
+							{
+								$style .= "margin-left: ".$setting_navigation_item_border_margin_left.";";
+							}
+
+							if($setting_navigation_item_border_margin_right != '')
+							{
+								$style .= "margin-right: ".$setting_navigation_item_border_margin_right.";";
+							}
+
+						$style .= "}";
+					}
+
+						$style .= ".widget.navigation .wp-block-navigation-item.border a
+						{
+							border: .1em solid ".$setting_navigation_text_color.";
+						}
+
+						.widget.navigation .wp-block-navigation-item.invert
+						{
+							color: ".$setting_navigation_background_color.";
+						}
+
+							.widget.navigation .wp-block-navigation-item.invert a
+							{
+								background-color: ".$setting_navigation_text_color." !important;
+								border: .1em solid ".$setting_navigation_text_color." !important;
+							}";
+				}
+
 				$plugin_include_url = plugin_dir_url(__FILE__);
 
 				wp_enqueue_style('wp-block-navigation');
@@ -464,6 +559,11 @@ class mf_navigation
 					$out .= "<style>".$style."</style>";
 				}
 
+				if(isset($attributes['class']) && $attributes['class'] != '')
+				{
+					$data['class'] = str_replace("is_centered", "aligncenter", $attributes['class']);
+				}
+
 				$out .= "<div id='".$widget_id."'".parse_block_attributes(array('class' => "widget navigation".($attributes['navigation_mobile_ready'] == 'yes' ? " mobile_ready" : "")." ".($attributes['navigation_orientation'] == 'vertical' ? "is_vertical" : "is_horizontal"), 'attributes' => $attributes)).">";
 
 					if($attributes['navigation_mobile_ready'] == 'yes')
@@ -472,10 +572,11 @@ class mf_navigation
 					}
 
 					$out .= "<nav class='wp-block-navigation is-layout-flex'>"
-						."<div class='wp-block-navigation__responsive-container'>
-							<div class='wp-block-navigation__responsive-close'>
-								<div class='wp-block-navigation__responsive-dialog'>
-									<div class='wp-block-navigation__responsive-container-content'>";
+						."<div class='wp-block-navigation__responsive-container'>";
+
+							//$out .= "<div class='wp-block-navigation__responsive-close'>";
+								//$out .= "<div class='wp-block-navigation__responsive-dialog'>";
+									//$out .= "<div class='wp-block-navigation__responsive-container-content'>";
 
 										if($menu_items_logged_in != '' && $this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
 										{
@@ -508,10 +609,11 @@ class mf_navigation
 											}
 										}
 
-									$out .= "</div>
-								</div>
-							</div>
-						</div>
+									//$out .= "</div>";
+								//$out .= "</div>";
+							//$out .= "</div>";
+
+						$out .= "</div>
 					</nav>
 				</div>";
 
@@ -676,7 +778,6 @@ class mf_navigation
 		}
 
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
-		//$arr_settings'['setting_navigation_dim_content'] = __("Dim Content on Hover", 'lang_navigation');
 
 		if(count(get_option_or_default('option_navigation_logged_in_cookies', [])) > 0)
 		{
@@ -777,14 +878,6 @@ class mf_navigation
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
-
-	/*function setting_navigation_dim_content_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, 'yes');
-
-		echo show_select(array('data' => get_yes_no_for_select(), 'name' => $setting_key, 'value' => $option));
-	}*/
 
 	function get_logged_in_cookies_for_select()
 	{
