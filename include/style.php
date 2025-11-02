@@ -204,6 +204,12 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 			border-radius: .5em;
 			overflow: hidden;
 		}
+		
+			.widget.navigation.is_vertical .has-child .wp-block-navigation__submenu-container
+			{
+				left: 50%;
+				transform: translateX(-50%);
+			}
 
 			.widget.navigation .has-child .wp-block-navigation-item
 			{
