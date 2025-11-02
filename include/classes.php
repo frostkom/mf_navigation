@@ -500,7 +500,7 @@ class mf_navigation
 
 						.widget.navigation.is_vertical .wp-block-navigation-item.separator:before
 						{
-							height: .05em;
+							height: .06em;
 							width: auto;
 						}";
 				}
