@@ -16,7 +16,7 @@ $setting_navigation_container_padding_mobile = get_option_or_default('setting_na
 $setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
 $setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left');
 $setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
-$setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical');
+$setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical', ".6em 0");
 $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
 
 $arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
@@ -129,8 +129,10 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 			/*echo "overflow: hidden;
 			text-overflow: ellipsis;";*/
 
-			echo "white-space: nowrap;
-		}";
+			// This will overflow into next column
+			//echo "white-space: nowrap;";
+
+		echo "}";
 
 			if($setting_navigation_item_padding != '')
 			{
@@ -142,7 +144,7 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 
 			if($setting_navigation_item_padding_vertical != '')
 			{
-				echo ".widget.navigation.is_vertical .wp-block-navigation-item > a
+				echo ".widget.navigation.is_vertical .wp-block-navigation > .wp-block-navigation-item > a
 				{
 					padding: ".$setting_navigation_item_padding_vertical.";
 				}
