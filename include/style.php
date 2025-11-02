@@ -66,9 +66,12 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 	.widget.navigation .wp-block-navigation
 	{
 		color: ".$setting_navigation_text_color.";
-		gap: inherit;
-		overflow: hidden;
-		z-index: 1000;
+		gap: inherit;";
+
+		// Submenu will not display then
+		/*overflow: hidden;*/
+
+		echo "z-index: 1000;
 	}
 
 	.widget.navigation .wp-block-navigation__responsive-container
