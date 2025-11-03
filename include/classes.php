@@ -165,7 +165,13 @@ class mf_navigation
 				$http_host = (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : remove_protocol(array('url' => get_site_url(), 'clean' => true)));
 				$http_request = (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
 
-				if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == $http_protocol."://".$http_host.$http_request))
+				$http_current_url = $http_protocol."://".$http_host.$http_request;
+
+				if(
+					(isset($post->ID) && $arr_menu_object['id'] == $post->ID) // Same ID
+					|| ($arr_menu_object['url'] == $http_current_url) // Same URL
+					|| ($arr_menu_object['url']."&" == substr($http_current_url, 0, strlen($arr_menu_object['url']) + 1)) // Similar URL + & at the end
+				)
 				{
 					$html .= " current_menu_item";
 				}
