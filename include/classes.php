@@ -170,7 +170,7 @@ class mf_navigation
 				if(
 					(isset($post->ID) && $arr_menu_object['id'] == $post->ID) // Same ID
 					|| ($arr_menu_object['url'] == $http_current_url) // Same URL
-					|| ($arr_menu_object['url']."&" == substr($http_current_url, 0, strlen($arr_menu_object['url']) + 1)) // Similar URL + & at the end
+					//|| ($arr_menu_object['url']."&" == substr($http_current_url, 0, strlen($arr_menu_object['url']) + 1)) // Similar URL + & at the end // This won't work since multiple items will be marked as current
 				)
 				{
 					$html .= " current_menu_item";
