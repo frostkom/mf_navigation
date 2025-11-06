@@ -21,34 +21,34 @@
 			},
 			'navigation_is_in_header':
 			{
-                'type': 'string',
-                'default': ''
-            },
+				'type': 'string',
+				'default': ''
+			},
 			'navigation_id':
 			{
-                'type': 'string',
-                'default': ''
-            },
+				'type': 'string',
+				'default': ''
+			},
 			'navigation_id_logged_in':
 			{
-                'type': 'string',
-                'default': ''
-            },
+				'type': 'string',
+				'default': ''
+			},
 			'navigation_id_logged_in_cookie':
 			{
-                'type': 'string',
-                'default': ''
-            },
+				'type': 'string',
+				'default': ''
+			},
 			'navigation_mobile_ready':
 			{
-                'type': 'string',
-                'default': ''
-            },
+				'type': 'string',
+				'default': ''
+			},
 			'navigation_orientation':
 			{
-                'type': 'string',
-                'default': ''
-            }
+				'type': 'string',
+				'default': ''
+			}
 		},
 		'supports':
 		{
