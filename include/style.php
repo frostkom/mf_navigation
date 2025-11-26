@@ -155,15 +155,14 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 				}";
 			}
 
-			echo ".widget.navigation .wp-block-navigation-item > a img
+			/*echo ".widget.navigation .wp-block-navigation-item > a img
 			{
-				display: inline-block;
 				margin-right: .3em;
 				margin-bottom: -.2em;
 				max-width: 1.2em;
-			}
+			}";*/
 
-			.widget.navigation:not(.aligncenter).is_vertical > .wp-block-navigation-item.invert
+			echo ".widget.navigation:not(.aligncenter).is_vertical > .wp-block-navigation-item.invert
 			{
 				margin-left: 0 !important;
 			}
