@@ -684,8 +684,7 @@ class mf_navigation
 
 		// Check if there are horizontal or vertical menus
 		######################
-		$block_code = '<!-- wp:mf/navigation {%} /-->';
-		$arr_ids = apply_filters('get_page_from_block_code', [], $block_code);
+		$arr_ids = apply_filters('get_page_from_block_code', [], '<!-- wp:mf/navigation {%} /-->');
 
 		foreach($arr_ids as $post_id)
 		{
@@ -721,8 +720,7 @@ class mf_navigation
 
 		// Check if there are menu items with border as class
 		######################
-		$block_code = '<!-- wp:navigation-link {%} /-->';
-		$arr_ids = apply_filters('get_page_from_block_code', [], $block_code);
+		$arr_ids = apply_filters('get_page_from_block_code', [], '<!-- wp:navigation-link {%} /-->');
 
 		foreach($arr_ids as $post_id)
 		{
