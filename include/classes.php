@@ -259,7 +259,7 @@ class mf_navigation
 
 	function block_render_callback($attributes)
 	{
-		global $wpdb, $post;
+		global $wpdb, $post, $obj_base;
 
 		if(!isset($attributes['navigation_is_in_header'])){			$attributes['navigation_is_in_header'] = 'yes';}
 		if(!isset($attributes['navigation_id'])){					$attributes['navigation_id'] = 0;}
@@ -277,7 +277,7 @@ class mf_navigation
 			$menu_items_public = $menu_items_logged_in = "";
 			$this->has_separator = $this->has_item_border = false;
 
-			$result = $wpdb->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = '%d'", $this->post_type, $attributes['navigation_id']));
+			$result = $obj_base->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = '%d'", $this->post_type, $attributes['navigation_id']));
 
 			foreach($result as $r)
 			{
