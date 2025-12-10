@@ -267,6 +267,7 @@ class mf_navigation
 		if(!isset($attributes['navigation_id_logged_in_cookie'])){	$attributes['navigation_id_logged_in_cookie'] = 'wp-settings-time';}
 		if(!isset($attributes['navigation_mobile_ready'])){			$attributes['navigation_mobile_ready'] = 'yes';}
 		if(!isset($attributes['navigation_orientation'])){			$attributes['navigation_orientation'] = 'horizontal';}
+		if(!isset($attributes['navigation_search'])){				$attributes['navigation_search'] = 'no';}
 
 		$out = "";
 
@@ -554,6 +555,119 @@ class mf_navigation
 							}";
 				}
 
+				if($attributes['navigation_search'] == 'yes')
+				{
+					$setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#fff");
+					$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
+
+					$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
+
+					$style .= ".widget.navigation .mf_form
+					{
+						position: relative;
+					}
+
+						.widget.navigation .mf_form input
+						{
+							background: ".$setting_navigation_background_color.";
+							border: 0 solid ".$setting_navigation_text_color.";
+							color: ".$setting_navigation_text_color.";
+							margin: -.5em -1em 0 0;
+							padding-right: 2em;
+							position: absolute;
+							right: .2em;
+							top: 0;
+							transition: all .5s ease;
+							width: 0;
+							z-index: 1000;
+						}
+
+							.widget.navigation .mf_form:hover input, .widget.navigation .mf_form.hover input
+							{
+								border-width: .1em;
+								width: 50vw;
+							}
+
+					.widget.navigation .mf_form button
+					{
+						background: none;
+						border: .2em solid ".$setting_navigation_text_color.";
+						border-radius: 100%;
+						box-sizing: border-box;
+						cursor: pointer;
+						display: block;
+						position: relative;
+						width: 1.4em;
+						height: 1.4em;
+						z-index: 1000;
+					}
+
+						.widget.navigation .mf_form button:after
+						{
+							background: ".$setting_navigation_text_color.";
+							border-radius: .3em;
+							box-sizing: border-box;
+							content: '';
+							display: block;
+							height: .8em;
+							position: absolute;
+							left: 1.2em;
+							top: 1em;
+							transform: rotate(-45deg);
+							width: .2em;
+						}";
+
+					if($arr_breakpoints['mobile'] > 0)
+					{
+						$style .= "@media screen and (max-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].")
+						{
+							.widget.navigation .mf_form
+							{
+								position: relative;
+							}
+
+								.widget.navigation .mf_form input
+								{
+									background: ".$setting_navigation_text_color.";
+									margin: 0;
+									width: 100% !important;
+								}
+
+									.widget.navigation .mf_form:hover input, .widget.navigation .mf_form.hover input
+									{
+										background: ".$setting_navigation_text_color.";
+										border-color: ".$setting_navigation_background_color.";
+										color: ".$setting_navigation_background_color.";
+									}
+
+								.widget.navigation .mf_form button
+								{
+									border-color: ".$setting_navigation_background_color.";
+									display: inline-block;
+									margin-top: .5em;
+								}
+
+									.widget.navigation .mf_form:hover button, .widget.navigation .mf_form.hover button
+									{
+										position: absolute;
+										right: 1.5em;
+									}
+
+									.widget.navigation .mf_form button:after
+									{
+										background: ".$setting_navigation_background_color.";
+									}
+						}";
+					}
+
+					$menu_items_public .= "<li>
+						<form".apply_filters('get_form_attr', "").">"
+							.show_textfield(array('type' => 'search', 'name' => 's', 'placeholder' => __("Search", 'lang_navigation')))
+							."<button type='submit'></button>"
+						."</form>
+					</li>";
+				}
+
 				$plugin_include_url = plugin_dir_url(__FILE__);
 
 				wp_enqueue_style('wp-block-navigation');
@@ -580,44 +694,36 @@ class mf_navigation
 					$out .= "<nav class='wp-block-navigation is-layout-flex'>"
 						."<div class='wp-block-navigation__responsive-container'>";
 
-							//$out .= "<div class='wp-block-navigation__responsive-close'>";
-								//$out .= "<div class='wp-block-navigation__responsive-dialog'>";
-									//$out .= "<div class='wp-block-navigation__responsive-container-content'>";
+							if($menu_items_logged_in != '' && $this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
+							{
+								$out .= "<ul class='wp-block-navigation__container wp-block-navigation'>";
 
-										if($menu_items_logged_in != '' && $this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
-										{
-											$out .= "<ul class='wp-block-navigation__container wp-block-navigation'>";
+									if($this->does_cookie_exist($attributes['navigation_id_logged_in_cookie']) == false)
+									{
+										$out .= $menu_items_public;
+									}
 
-												if($this->does_cookie_exist($attributes['navigation_id_logged_in_cookie']) == false)
-												{
-													$out .= $menu_items_public;
-												}
+									else
+									{
+										$out .= $menu_items_logged_in;
+									}
 
-												else
-												{
-													$out .= $menu_items_logged_in;
-												}
+								$out .= "</ul>";
+							}
 
-											$out .= "</ul>";
-										}
+							else
+							{
+								$out .= "<ul class='wp-block-navigation__container wp-block-navigation".($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
+									.$menu_items_public
+								."</ul>";
 
-										else
-										{
-											$out .= "<ul class='wp-block-navigation__container wp-block-navigation".($menu_items_logged_in != '' ? " menu_items_public" : "")."'>"
-												.$menu_items_public
-											."</ul>";
-
-											if($menu_items_logged_in != '')
-											{
-												$out .= "<ul class='wp-block-navigation__container wp-block-navigation menu_items_logged_in'>"
-													.$menu_items_logged_in
-												."</ul>";
-											}
-										}
-
-									//$out .= "</div>";
-								//$out .= "</div>";
-							//$out .= "</div>";
+								if($menu_items_logged_in != '')
+								{
+									$out .= "<ul class='wp-block-navigation__container wp-block-navigation menu_items_logged_in'>"
+										.$menu_items_logged_in
+									."</ul>";
+								}
+							}
 
 						$out .= "</div>
 					</nav>
@@ -660,6 +766,7 @@ class mf_navigation
 			'yes_no_for_select' => get_yes_no_for_select(),
 			'navigation_orientation_label' => __("Orientation", 'lang_navigation'),
 			'navigation_orientation_for_select' => array('horizontal' => __("Horizontal", 'lang_navigation'), 'vertical' => __("Vertical", 'lang_navigation')),
+			'navigation_search_label' => __("Display Search", 'lang_navigation'),
 		));
 	}
 

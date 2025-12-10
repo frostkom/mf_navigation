@@ -48,6 +48,11 @@
 			{
 				'type': 'string',
 				'default': ''
+			},
+			'navigation_search':
+			{
+				'type': 'string',
+				'default': 'no'
 			}
 		},
 		'supports':
@@ -156,6 +161,18 @@
 								onChange: function(value)
 								{
 									props.setAttributes({navigation_orientation: value});
+								}
+							}
+						),
+						el(
+							SelectControl,
+							{
+								label: script_navigation_block_wp.navigation_search_label,
+								value: props.attributes.navigation_search,
+								options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
+								onChange: function(value)
+								{
+									props.setAttributes({navigation_search: value});
 								}
 							}
 						)
