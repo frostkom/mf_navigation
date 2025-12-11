@@ -867,6 +867,7 @@ class mf_navigation
 
 		$arr_settings['setting_navigation_item_vertical_padding_left'] = __("Item Vertical Padding", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
 		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
+		$arr_settings['setting_navigation_active_text_color'] = __("Text Color", 'lang_navigation')." (".__("Current Page", 'lang_navigation').")";
 
 		if($has_horizontal_menu == true)
 		{
@@ -964,6 +965,14 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, ".33em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_active_text_color_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option($setting_key);
+
+		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
 	}
 
 	function setting_navigation_item_padding_callback()

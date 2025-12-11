@@ -11,9 +11,9 @@ if(!defined('ABSPATH'))
 
 $setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#fff");
 $setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
-
 $setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
 $setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
+$setting_navigation_active_text_color = get_option('setting_navigation_active_text_color');
 $setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left');
 $setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
 $setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical', ".6em 0");
@@ -119,7 +119,7 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		{
 			text-align: center;
 		}
-		
+
 			.widget.navigation .wp-block-navigation-item > .wp-block-button .wp-block-button__link
 			{
 				display: block;
@@ -178,8 +178,14 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		}
 
 			.widget.navigation .wp-block-navigation-item.current_menu_item > a
-			{
-				font-weight: bold;
+			{";
+
+				if($setting_navigation_active_text_color != '' && $setting_navigation_active_text_color != $setting_navigation_text_color)
+				{
+					echo "color: ".$setting_navigation_active_text_color.";";
+				}
+
+				echo "font-weight: bold;
 			}
 
 		.widget.navigation .has-child.current_menu_parent > a
