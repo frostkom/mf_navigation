@@ -661,7 +661,7 @@ class mf_navigation
 					}
 
 					$menu_items_public .= "<li>
-						<form".apply_filters('get_form_attr', "").">"
+						<form".apply_filters('get_form_attr', " action='".get_site_url()."'").">"
 							.show_textfield(array('type' => 'search', 'name' => 's', 'placeholder' => __("Search", 'lang_navigation')))
 							."<button type='submit'></button>"
 						."</form>
