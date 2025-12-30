@@ -84,6 +84,103 @@
 		},
 		edit: function(props)
 		{
+			var inspectorControlsChildren = [
+				el(
+					SelectControl,
+					{
+						label: script_navigation_block_wp.navigation_is_in_header_label,
+						value: props.attributes.navigation_is_in_header,
+						options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
+						onChange: function(value)
+						{
+							props.setAttributes({navigation_is_in_header: value});
+						}
+					}
+				),
+				el(
+					SelectControl,
+					{
+						label: script_navigation_block_wp.navigation_id_label,
+						value: props.attributes.navigation_id,
+						options: convert_php_array_to_block_js(script_navigation_block_wp.arr_navigation),
+						onChange: function(value)
+						{
+							props.setAttributes({navigation_id: value});
+						}
+					}
+				),
+				el(
+					SelectControl,
+					{
+						label: script_navigation_block_wp.navigation_id_logged_in_label,
+						value: props.attributes.navigation_id_logged_in,
+						options: convert_php_array_to_block_js(script_navigation_block_wp.arr_navigation),
+						onChange: function(value)
+						{
+							props.setAttributes({navigation_id_logged_in: value});
+						}
+					}
+				)
+			];
+
+			if(props.attributes.navigation_id_logged_in > 0)
+			{
+				inspectorControlsChildren.push(
+					el(
+						TextControl,
+						{
+							label: script_navigation_block_wp.navigation_id_logged_in_cookie_label,
+							type: 'text',
+							value: props.attributes.navigation_id_logged_in_cookie,
+							onChange: function(value)
+							{
+								props.setAttributes({navigation_id_logged_in_cookie: value});
+							},
+							placeholder: 'wp-settings-time'
+						}
+					)
+				);
+			}
+
+			inspectorControlsChildren.push(
+				el(
+					SelectControl,
+					{
+						label: script_navigation_block_wp.navigation_mobile_ready_label,
+						value: props.attributes.navigation_mobile_ready,
+						options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
+						onChange: function(value)
+						{
+							props.setAttributes({navigation_mobile_ready: value});
+						}
+					}
+				),
+				el(
+					SelectControl,
+					{
+						label: script_navigation_block_wp.navigation_orientation_label,
+						value: props.attributes.navigation_orientation,
+						options: convert_php_array_to_block_js(script_navigation_block_wp.navigation_orientation_for_select, false),
+						onChange: function(value)
+						{
+							props.setAttributes({navigation_orientation: value});
+						}
+					}
+				),
+				el(
+					SelectControl,
+					{
+						label: script_navigation_block_wp.navigation_search_label,
+						value: props.attributes.navigation_search,
+						options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
+						onChange: function(value)
+						{
+							props.setAttributes({navigation_search: value});
+						}
+					}
+				)
+			);
+
 			return el(
 				'div',
 				{className: 'wp_mf_block_container'},
@@ -91,91 +188,7 @@
 					el(
 						InspectorControls,
 						'div',
-						el(
-							SelectControl,
-							{
-								label: script_navigation_block_wp.navigation_is_in_header_label,
-								value: props.attributes.navigation_is_in_header,
-								options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_is_in_header: value});
-								}
-							}
-						),
-						el(
-							SelectControl,
-							{
-								label: script_navigation_block_wp.navigation_id_label,
-								value: props.attributes.navigation_id,
-								options: convert_php_array_to_block_js(script_navigation_block_wp.arr_navigation),
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_id: value});
-								}
-							}
-						),
-						el(
-							SelectControl,
-							{
-								label: script_navigation_block_wp.navigation_id_logged_in_label,
-								value: props.attributes.navigation_id_logged_in,
-								options: convert_php_array_to_block_js(script_navigation_block_wp.arr_navigation),
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_id_logged_in: value});
-								}
-							}
-						),
-						el(
-							TextControl,
-							{
-								label: script_navigation_block_wp.navigation_id_logged_in_cookie_label,
-								type: 'text',
-								value: props.attributes.navigation_id_logged_in_cookie,
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_id_logged_in_cookie: value});
-								},
-								placeholder: 'wp-settings-time'
-							}
-						),
-						el(
-							SelectControl,
-							{
-								label: script_navigation_block_wp.navigation_mobile_ready_label,
-								value: props.attributes.navigation_mobile_ready,
-								options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_mobile_ready: value});
-								}
-							}
-						),
-						el(
-							SelectControl,
-							{
-								label: script_navigation_block_wp.navigation_orientation_label,
-								value: props.attributes.navigation_orientation,
-								options: convert_php_array_to_block_js(script_navigation_block_wp.navigation_orientation_for_select, false),
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_orientation: value});
-								}
-							}
-						),
-						el(
-							SelectControl,
-							{
-								label: script_navigation_block_wp.navigation_search_label,
-								value: props.attributes.navigation_search,
-								options: convert_php_array_to_block_js(script_navigation_block_wp.yes_no_for_select, false),
-								onChange: function(value)
-								{
-									props.setAttributes({navigation_search: value});
-								}
-							}
-						)
+						inspectorControlsChildren
 					),
 					el(
 						'strong',
