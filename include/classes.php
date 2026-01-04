@@ -167,11 +167,7 @@ class mf_navigation
 
 				$http_current_url = $http_protocol."://".$http_host.$http_request;
 
-				if(
-					(isset($post->ID) && $arr_menu_object['id'] == $post->ID) // Same ID
-					|| ($arr_menu_object['url'] == $http_current_url) // Same URL
-					//|| ($arr_menu_object['url']."&" == substr($http_current_url, 0, strlen($arr_menu_object['url']) + 1)) // Similar URL + & at the end // This won't work since multiple items will be marked as current
-				)
+				if((isset($post->ID) && $arr_menu_object['id'] == $post->ID) || ($arr_menu_object['url'] == $http_current_url))
 				{
 					$html .= " current_menu_item";
 				}
@@ -223,7 +219,7 @@ class mf_navigation
 					$data_temp = $data;
 					$data_temp['menu'] = $arr_menu_object['children'];
 
-					$html .= "<ul class='wp-block-navigation__submenu-container wp-block-navigation-submenu'>" // has-base-color has-main-background-color has-background has-text-color
+					$html .= "<ul class='wp-block-navigation__submenu-container wp-block-navigation-submenu'>"
 						.$this->loop_through_menu($data_temp)
 					."</ul>";
 				}
@@ -567,55 +563,61 @@ class mf_navigation
 						position: relative;
 					}
 
-						.widget.navigation .mf_form input
+						.widget.navigation .wp-block-search
 						{
-							background: ".$setting_navigation_background_color.";
-							border: 0 solid ".$setting_navigation_text_color.";
-							color: ".$setting_navigation_text_color.";
-							margin: -.5em -1em 0 0;
-							padding-right: 2em;
-							position: absolute;
-							right: .2em;
-							top: 0;
-							transition: all .5s ease;
-							width: 0;
+							margin-left: 1em;	
+						}
+
+							.widget.navigation .mf_form .wp-block-search__input
+							{
+								background: ".$setting_navigation_background_color.";
+								border: 0 solid ".$setting_navigation_text_color.";
+								color: ".$setting_navigation_text_color.";
+								margin: -.5em -1em 0 0;
+								padding-right: 2em;
+								position: absolute;
+								right: .2em;
+								top: 0;
+								transition: all .5s ease;
+								width: 0;
+								min-width: auto;
+								z-index: 1000;
+							}
+
+								.widget.navigation .mf_form:hover .wp-block-search__input, .widget.navigation .mf_form.hover .wp-block-search__input
+								{
+									border-width: .1em;
+									width: 50vw;
+								}
+
+						.widget.navigation .mf_form button
+						{
+							background: none;
+							border: .2em solid ".$setting_navigation_text_color.";
+							border-radius: 100%;
+							box-sizing: border-box;
+							cursor: pointer;
+							display: block;
+							position: relative;
+							width: 1.4em;
+							height: 1.4em;
 							z-index: 1000;
 						}
 
-							.widget.navigation .mf_form:hover input, .widget.navigation .mf_form.hover input
+							.widget.navigation .mf_form button:after
 							{
-								border-width: .1em;
-								width: 50vw;
-							}
-
-					.widget.navigation .mf_form button
-					{
-						background: none;
-						border: .2em solid ".$setting_navigation_text_color.";
-						border-radius: 100%;
-						box-sizing: border-box;
-						cursor: pointer;
-						display: block;
-						position: relative;
-						width: 1.4em;
-						height: 1.4em;
-						z-index: 1000;
-					}
-
-						.widget.navigation .mf_form button:after
-						{
-							background: ".$setting_navigation_text_color.";
-							border-radius: .3em;
-							box-sizing: border-box;
-							content: '';
-							display: block;
-							height: .8em;
-							position: absolute;
-							left: 1.2em;
-							top: 1em;
-							transform: rotate(-45deg);
-							width: .2em;
-						}";
+								background: ".$setting_navigation_text_color.";
+								border-radius: .3em;
+								box-sizing: border-box;
+								content: '';
+								display: block;
+								height: .8em;
+								position: absolute;
+								left: 1.2em;
+								top: 1em;
+								transform: rotate(-45deg);
+								width: .2em;
+							}";
 
 					if($arr_breakpoints['mobile'] > 0)
 					{
@@ -626,14 +628,14 @@ class mf_navigation
 								position: relative;
 							}
 
-								.widget.navigation .mf_form input
+								.widget.navigation .mf_form .wp-block-search__input
 								{
 									background: ".$setting_navigation_text_color.";
 									margin: 0;
 									width: 100% !important;
 								}
 
-									.widget.navigation .mf_form:hover input, .widget.navigation .mf_form.hover input
+									.widget.navigation .mf_form:hover .wp-block-search__input, .widget.navigation .mf_form.hover .wp-block-search__input
 									{
 										background: ".$setting_navigation_text_color.";
 										border-color: ".$setting_navigation_background_color.";
@@ -660,9 +662,9 @@ class mf_navigation
 						}";
 					}
 
-					$menu_items_public .= "<li>
+					$menu_items_public .= "<li class='wp-block-navigation-item wp-block-search'>
 						<form".apply_filters('get_form_attr', " action='".get_site_url()."'").">"
-							.show_textfield(array('type' => 'search', 'name' => 's', 'placeholder' => __("Search", 'lang_navigation')))
+							.show_textfield(array('type' => 'search', 'name' => 's', 'field_class' => "mf_form_field wp-block-search__input", 'placeholder' => __("Search", 'lang_navigation')))
 							."<button type='submit'></button>"
 						."</form>
 					</li>";

@@ -21,8 +21,6 @@ $setting_navigation_item_padding_mobile = get_option_or_default('setting_navigat
 
 $arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
 
-$transition = "transition: all .5s ease;";
-
 echo "body .menu_items_public, body .menu_items_logged_in
 {
 	display: none;
@@ -48,9 +46,9 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 	header .wp-block-group-is-layout-flex .wp-block-image img
 	{
 		border-radius: ".$setting_navigation_item_border_radius.";
-		padding: 0;"
-		.$transition
-	."}
+		padding: 0;
+		transition: all .5s ease;
+	}
 
 	header .wp-block-site-title a
 	{
@@ -196,9 +194,9 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		.widget.navigation .has-child > a > button.wp-block-navigation__submenu-icon
 		{
 			margin-left: .25em !important;
-			transform: rotate(0deg) translateX(0);"
-			.$transition
-		."}
+			transform: rotate(0deg) translateX(0);
+			transition: all .5s ease;
+		}
 
 			.widget.navigation .has-child.current_menu_parent > a > button
 			{
@@ -282,9 +280,9 @@ if($arr_breakpoints['mobile'] > 0)
 	echo "@media screen and (max-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].")
 	{
 		.menu_is_open header .wp-block-site-title a
-		{"
-			.$transition
-		."}
+		{
+			transition: all .5s ease;
+		}
 
 			.menu_is_open header .wp-block-group-is-layout-flex figure.wp-block-image img
 			{
@@ -316,9 +314,9 @@ if($arr_breakpoints['mobile'] > 0)
 					border-radius: 2em;
 					display: block;
 					height: .15em;
-					margin: .4em 0;"
-					.$transition
-					."width: 1.6em;
+					margin: .4em 0;
+					transition: all .5s ease;
+					width: 1.6em;
 				}
 
 					.widget.navigation:not(.is_open) .toggle_hamburger > div:nth-child(2)
@@ -431,9 +429,9 @@ if($arr_breakpoints['mobile'] > 0)
 				left: 0;
 				opacity: 0;
 				position: absolute;
-				top: 0;"
-				.$transition
-				."transform: translate(0%, -100%);
+				top: 0;
+				transition: all .5s ease;
+				transform: translate(0%, -100%);
 				width: 100%;
 				z-index: 0;
 			}
