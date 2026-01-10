@@ -2,8 +2,8 @@
 /*
 Plugin Name: MF Navigation+
 Plugin URI: https://github.com/frostkom/mf_navigation
-Description:
-Version: 1.6.18
+Description: Adds a block to display an enhanced version of navigation
+Version: 1.6.19
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
