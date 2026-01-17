@@ -291,7 +291,7 @@ class mf_navigation
 
 				if($attributes['navigation_id_logged_in'] > 0 && $attributes['navigation_id_logged_in'] != $attributes['navigation_id'])
 				{
-					$result = $wpdb->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = %d", $this->post_type, $attributes['navigation_id_logged_in']));
+					$result = $wpdb->get_results($wpdb->prepare("SELECT post_content FROM ".$wpdb->prefix."posts WHERE post_type = %s AND ID = '%d'", $this->post_type, $attributes['navigation_id_logged_in']));
 
 					foreach($result as $r)
 					{
