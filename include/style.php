@@ -9,11 +9,8 @@ if(!defined('ABSPATH'))
 	require_once($folder."wp-load.php");
 }
 
-$setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#fff");
-$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
 $setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
 $setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
-$setting_navigation_active_text_color = get_option('setting_navigation_active_text_color');
 $setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left');
 $setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
 $setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical', ".6em 0");
@@ -50,11 +47,6 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		transition: all .5s ease;
 	}
 
-	header .wp-block-site-title a
-	{
-		color: ".$setting_navigation_text_color.";
-	}
-
 	header .widget.navigation + wp-block-search
 	{
 		position: absolute;
@@ -70,7 +62,6 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 	.widget.navigation .wp-block-navigation
 	{
 		align-items: baseline;
-		color: ".$setting_navigation_text_color.";
 		gap: inherit;";
 
 		// Submenu will not display then
@@ -176,14 +167,8 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		}
 
 			.widget.navigation .wp-block-navigation-item.current_menu_item > a
-			{";
-
-				if($setting_navigation_active_text_color != '' && $setting_navigation_active_text_color != $setting_navigation_text_color)
-				{
-					echo "color: ".$setting_navigation_active_text_color.";";
-				}
-
-				echo "font-weight: bold;
+			{
+				font-weight: bold;
 			}
 
 		.widget.navigation .has-child.current_menu_parent > a
@@ -210,7 +195,6 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 
 		.widget.navigation .has-child .wp-block-navigation__submenu-container
 		{
-			background-color: ".$setting_navigation_background_color.";
 			border-radius: .5em;
 			overflow: hidden;
 		}
@@ -224,7 +208,6 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 			.widget.navigation .has-child .wp-block-navigation-item
 			{
 				border-radius: .5em;
-				color: ".$setting_navigation_text_color.";
 			}";
 
 if($arr_breakpoints['tablet'] > 0)
@@ -286,13 +269,7 @@ if($arr_breakpoints['mobile'] > 0)
 
 			.menu_is_open header .wp-block-group-is-layout-flex figure.wp-block-image img
 			{
-				background-color: ".$setting_navigation_background_color.";
 				padding: .2em;
-			}
-
-			.menu_is_open header .wp-block-site-title a
-			{
-				color: ".$setting_navigation_background_color.";
 			}
 
 			.widget.navigation .toggle_hamburger
@@ -310,7 +287,6 @@ if($arr_breakpoints['mobile'] > 0)
 
 				.widget.navigation .toggle_hamburger > div
 				{
-					background-color: ".$setting_navigation_text_color.";
 					border-radius: 2em;
 					display: block;
 					height: .15em;
@@ -337,11 +313,6 @@ if($arr_breakpoints['mobile'] > 0)
 						.widget.navigation:not(.is_open):hover .toggle_hamburger > div:nth-child(3)
 						{
 							width: 1.6em;
-						}
-
-						.widget.navigation.is_open .toggle_hamburger > div
-						{
-							background-color: ".$setting_navigation_background_color.";
 						}";
 
 						// Original
@@ -422,8 +393,6 @@ if($arr_breakpoints['mobile'] > 0)
 
 			echo ".widget.navigation.mobile_ready .wp-block-navigation
 			{
-				background: ".$setting_navigation_text_color.";
-				color: ".$setting_navigation_background_color.";
 				display: block;
 				height: 100vh;
 				left: 0;
@@ -491,13 +460,6 @@ if($arr_breakpoints['mobile'] > 0)
 								padding: ".$setting_navigation_item_padding_mobile." !important;
 							}
 
-								.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
-								{
-									background-color: ".$setting_navigation_background_color." !important;
-									border: .1em solid ".$setting_navigation_background_color." !important;
-									color: ".$setting_navigation_text_color." !important;
-								}
-
 								.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item img
 								{
 									display: inline;
@@ -519,8 +481,6 @@ if($arr_breakpoints['mobile'] > 0)
 							.widget.navigation.mobile_ready .has-child:hover .wp-block-navigation-item, .widget.navigation.mobile_ready .has-child.is_open .wp-block-navigation-item
 							{
 								border-radius: none;
-								background-color: ".$setting_navigation_text_color." !important;
-								color: ".$setting_navigation_background_color." !important;
 							}
 
 								.widget.navigation.mobile_ready .has-child:hover .wp-block-navigation-item > a, .widget.navigation.mobile_ready .has-child.is_open .wp-block-navigation-item > a
