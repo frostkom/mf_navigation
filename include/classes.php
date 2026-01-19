@@ -37,7 +37,7 @@ class mf_navigation
 		{
 			$is_end = ($arr_matches[$i][1] == "/");
 			$type = $arr_matches[$i][2];
-			$data = json_decode($arr_matches[$i][3], true);
+			$arr_json = json_decode($arr_matches[$i][3], true);
 			$is_single = ($arr_matches[$i][4] == "/");
 
 			$current_level = count($current_menu);
@@ -68,15 +68,15 @@ class mf_navigation
 						switch($current_level)
 						{
 							case 0:
-								$menu_items[$i] = $data;
+								$menu_items[$i] = $arr_json;
 							break;
 
 							case 1:
-								$menu_items[$current_menu[0]]['children'][$i] = $data;
+								$menu_items[$current_menu[0]]['children'][$i] = $arr_json;
 							break;
 
 							case 2:
-								$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $data;
+								$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $arr_json;
 							break;
 						}
 
@@ -88,15 +88,15 @@ class mf_navigation
 					switch($current_level)
 					{
 						case 0:
-							$menu_items[$i] = $data;
+							$menu_items[$i] = $arr_json;
 						break;
 
 						case 1:
-							$menu_items[$current_menu[0]]['children'][$i] = $data;
+							$menu_items[$current_menu[0]]['children'][$i] = $arr_json;
 						break;
 
 						case 2:
-							$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $data;
+							$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $arr_json;
 						break;
 					}
 				break;
@@ -347,14 +347,6 @@ class mf_navigation
 					}
 				}
 
-				if($attributes['navigation_is_in_header'] == 'yes')
-				{
-					$style .= "header .wp-block-site-title a
-					{
-						color: ".$setting_navigation_text_color.";
-					}";
-				}
-
 				if(isset($attributes['backgroundColor']) && $attributes['backgroundColor'] != '')
 				{
 					$setting_navigation_background_color = $attributes['backgroundColor'];
@@ -379,12 +371,15 @@ class mf_navigation
 
 				$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
 
-				$style .= "header .wp-block-site-title a
+				if($attributes['navigation_is_in_header'] == 'yes')
 				{
-					color: ".$setting_navigation_text_color.";
+					$style .= "header .wp-block-site-title a
+					{
+						color: ".$setting_navigation_text_color.";
+					}";
 				}
 
-				#".$widget_id." .wp-block-navigation
+				$style .= "#".$widget_id." .wp-block-navigation
 				{
 					color: ".$setting_navigation_text_color.";
 				}
