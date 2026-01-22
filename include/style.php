@@ -112,6 +112,7 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 			.widget.navigation .wp-block-navigation-item > .wp-block-button .wp-block-button__link
 			{
 				display: block;
+				font-size: inherit;
 			}";
 
 			if($setting_navigation_item_vertical_padding_left != '')
