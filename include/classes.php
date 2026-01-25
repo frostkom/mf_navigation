@@ -387,6 +387,7 @@ class mf_navigation
 					#".$widget_id." .has-child .wp-block-navigation__submenu-container
 					{
 						background-color: ".$setting_navigation_background_color.";
+						color: ".$setting_navigation_text_color.";
 					}";
 
 						if($setting_navigation_active_text_color != '' && $setting_navigation_active_text_color != $setting_navigation_text_color)
