@@ -664,7 +664,7 @@ class mf_navigation
 
 							#".$widget_id." .mf_form .wp-block-search__input
 							{
-								background: ".$setting_navigation_background_color.";
+								background: transparent;
 								border: 0 solid ".$setting_navigation_text_color.";
 								color: ".$setting_navigation_text_color.";
 								margin: -.5em -1em 0 0;
@@ -680,6 +680,7 @@ class mf_navigation
 
 								#".$widget_id." .mf_form:hover .wp-block-search__input, #".$widget_id." .mf_form.hover .wp-block-search__input
 								{
+									background: ".$setting_navigation_background_color.";
 									border-width: .1em;
 									width: 50vw;
 								}
