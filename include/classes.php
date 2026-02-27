@@ -666,6 +666,7 @@ class mf_navigation
 							{
 								background: transparent;
 								border: 0 solid ".$setting_navigation_text_color.";
+								border-radius: .5em;
 								color: ".$setting_navigation_text_color.";
 								margin: -.5em -1em 0 0;
 								padding-right: 2em;
@@ -759,7 +760,7 @@ class mf_navigation
 
 					$menu_items_public .= "<li class='wp-block-navigation-item wp-block-search'>
 						<form".apply_filters('get_form_attr', " action='".get_site_url()."'").">"
-							.show_textfield(array('type' => 'search', 'name' => 's', 'field_class' => "mf_form_field wp-block-search__input", 'placeholder' => __("Search", 'lang_navigation')))
+							.show_textfield(array('type' => 'search', 'name' => 's', 'field_class' => "mf_form_field wp-block-search__input", 'placeholder' => __("Search", 'lang_navigation'), 'required' => true))
 							."<button type='submit'></button>"
 						."</form>
 					</li>";
