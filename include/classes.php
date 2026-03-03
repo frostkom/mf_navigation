@@ -367,6 +367,14 @@ class mf_navigation
 					$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
 				}
 
+				if(isset($attributes['fontSize']) && $attributes['fontSize'] != '')
+				{
+					$style .= "#".$widget_id." .wp-block-navigation-item a
+					{
+						font-size: ".filter_style_font_size($attributes['fontSize']).";
+					}";
+				}
+
 				$setting_navigation_active_text_color = get_option('setting_navigation_active_text_color');
 
 				$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
@@ -447,35 +455,35 @@ class mf_navigation
 
 				if(isset($attributes['style']) && is_array($attributes['style']))
 				{
-					foreach($attributes['style'] as $key_parent => $arr_value)
+					foreach($attributes['style'] as $key_parent => $arr_value_parent)
 					{
 						switch($key_parent)
 						{
 							case 'color':
-								if(isset($arr_value['text']) && $arr_value['text'] != '')
+								if(isset($arr_value_parent['text']) && $arr_value_parent['text'] != '')
 								{
 									if($attributes['navigation_is_in_header'] == 'yes')
 									{
 										$style .= "header .wp-block-site-title a
 										{
-											color: ".$arr_value['text'].";
+											color: ".$arr_value_parent['text'].";
 										}";
 									}
 
 									$style .= "#".$widget_id." .wp-block-navigation, #".$widget_id." .has-child .wp-block-navigation-item
 									{
-										color: ".$arr_value['text'].";
+										color: ".$arr_value_parent['text'].";
 									}
 
 									#".$widget_id." .wp-block-navigation-item.border a
 									{
-										border-color: ".$arr_value['text'].";
+										border-color: ".$arr_value_parent['text'].";
 									}
 
 									#".$widget_id." .wp-block-navigation-item.invert a
 									{
-										background-color: ".$arr_value['text']." !important;
-										border-color: ".$arr_value['text']." !important;
+										background-color: ".$arr_value_parent['text']." !important;
+										border-color: ".$arr_value_parent['text']." !important;
 									}";
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
@@ -484,37 +492,37 @@ class mf_navigation
 										{
 											#".$widget_id." .toggle_hamburger > div
 											{
-												background-color: ".$arr_value['text'].";
+												background-color: ".$arr_value_parent['text'].";
 											}
 
 											#".$widget_id.".mobile_ready .wp-block-navigation
 											{
-												background: ".$arr_value['text'].";
+												background: ".$arr_value_parent['text'].";
 											}
 
 											#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
 											{
-												color: ".$arr_value['text']." !important;
+												color: ".$arr_value_parent['text']." !important;
 											}
 
 											#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
 											{
-												background-color: ".$arr_value['text']." !important;
+												background-color: ".$arr_value_parent['text']." !important;
 											}
 										}";
 									}
 								}
 
-								if(isset($arr_value['background']) && $arr_value['background'] != '')
+								if(isset($arr_value_parent['background']) && $arr_value_parent['background'] != '')
 								{
 									$style .= "#".$widget_id." .has-child .wp-block-navigation__submenu-container
 									{
-										background-color: ".$arr_value['background'].";
+										background-color: ".$arr_value_parent['background'].";
 									}
 
 									#".$widget_id." .wp-block-navigation-item.invert
 									{
-										color: ".$arr_value['background'].";
+										color: ".$arr_value_parent['background'].";
 									}";
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
@@ -523,33 +531,33 @@ class mf_navigation
 										{
 											.menu_is_open header figure.wp-block-image img
 											{
-												background-color: ".$arr_value['background'].";
+												background-color: ".$arr_value_parent['background'].";
 											}
 
 											.menu_is_open header .wp-block-site-title a
 											{
-												color: ".$arr_value['background'].";
+												color: ".$arr_value_parent['background'].";
 											}
 
 											#".$widget_id.".is_open .toggle_hamburger > div
 											{
-												background-color: ".$arr_value['background'].";
+												background-color: ".$arr_value_parent['background'].";
 											}
 
 											#".$widget_id.".mobile_ready .wp-block-navigation
 											{
-												color: ".$arr_value['background'].";
+												color: ".$arr_value_parent['background'].";
 											}
 
 											#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
 											{
-												background-color: ".$arr_value['background']." !important;
-												border-color: ".$arr_value['background']." !important;
+												background-color: ".$arr_value_parent['background']." !important;
+												border-color: ".$arr_value_parent['background']." !important;
 											}
 
 											#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
 											{
-												color: ".$arr_value['background']." !important;
+												color: ".$arr_value_parent['background']." !important;
 											}
 										}";
 									}
@@ -564,8 +572,27 @@ class mf_navigation
 								// Do nothing. Already taken care of in parse_block_attributes()
 							break;
 
+							case 'typography':
+								foreach($arr_value_parent as $key_child => $value)
+								{
+									switch($key_child)
+									{
+										case 'fontSize':
+											$style .= "#".$widget_id." .wp-block-navigation-item a
+											{
+												font-size: ".$value.";
+											}";
+										break;
+
+										default:
+											do_log(__FUNCTION__.": The key child '".$key_parent."->".$key_child."' with value '".var_export($arr_value_parent, true)."' has to be taken care of");
+										break;
+									}
+								}
+							break;
+
 							default:
-								do_log(__FUNCTION__.": The key parent '".$key_parent."' with value '".var_export($arr_value, true)."' has to be taken care of");
+								do_log(__FUNCTION__.": The key parent '".$key_parent."' with value '".var_export($arr_value_parent, true)."' has to be taken care of");
 							break;
 						}
 					}
