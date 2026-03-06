@@ -400,7 +400,7 @@ class mf_navigation
 
 						if($setting_navigation_active_text_color != '' && $setting_navigation_active_text_color != $setting_navigation_text_color)
 						{
-							$style .= "#".$widget_id." .wp-block-navigation-item.current_menu_item > a
+							$style .= "#".$widget_id." .wp-block-navigation-item.current_menu_parent > a, #".$widget_id." .wp-block-navigation-item.current_menu_item > a
 							{
 								color: ".$setting_navigation_active_text_color.";
 							}";
@@ -570,6 +570,10 @@ class mf_navigation
 
 							case 'border':
 								// Do nothing. Already taken care of in parse_block_attributes()
+							break;
+
+							case 'spacing':
+								// array ( 'padding' => array ( 'top' => '0', 'bottom' => '0', 'left' => '0', 'right' => '0', ), 'margin' => array ( 'top' => '0', 'bottom' => '0', 'left' => '0', 'right' => '0', ), )
 							break;
 
 							case 'typography':
