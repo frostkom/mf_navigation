@@ -178,7 +178,7 @@ class mf_navigation
 
 					foreach($arr_menu_object['children'] as $key_temp => $arr_value_temp)
 					{
-						if(isset($post->ID) && isset($arr_value_temp['id']) && $arr_value_temp['id'] == $post->ID)
+						if(isset($post->ID) && isset($arr_value_temp['id']) && $arr_value_temp['id'] == $post->ID || ($arr_value_temp['url'] == $http_current_url))
 						{
 							$html .= " current_menu_parent";
 						}
