@@ -349,7 +349,7 @@ class mf_navigation
 
 				if(isset($attributes['backgroundColor']) && $attributes['backgroundColor'] != '')
 				{
-					$setting_navigation_background_color = $attributes['backgroundColor'];
+					$setting_navigation_background_color = filter_style_color($attributes['backgroundColor']);
 				}
 
 				else
@@ -359,7 +359,7 @@ class mf_navigation
 
 				if(isset($attributes['textColor']) && $attributes['textColor'] != '')
 				{
-					$setting_navigation_text_color = $attributes['textColor'];
+					$setting_navigation_text_color = filter_style_color($attributes['textColor']);
 				}
 
 				else
