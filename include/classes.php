@@ -141,6 +141,11 @@ class mf_navigation
 					if(strpos($arr_menu_object['className'], "border") !== false || strpos($arr_menu_object['className'], "invert") !== false)
 					{
 						$this->has_item_border = true;
+
+						if(strpos($arr_menu_object['className'], "invert") !== false)
+						{
+							do_log(__FUNCTION__.": Convert from invert to button and remove all CSS");
+						}
 					}
 
 					$html .= " ".$arr_menu_object['className'];
@@ -286,14 +291,30 @@ class mf_navigation
 			if($menu_items_public != '')
 			{
 				$widget_id = "widget_navigation_".md5(var_export($attributes, true));
+				$style = $script = "";
+
+				$setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
+				$setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
+				$setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left');
+				$setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
+				$setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical', ".6em 0");
+				$setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
+
+				$style .= ":root
+				{
+					--navigation-container-padding-mobile: ".$setting_navigation_container_padding_mobile.";
+					--navigation-item-border-radius: ".$setting_navigation_item_border_radius.";
+					--navigation-item-vertical-padding-left: ".$setting_navigation_item_vertical_padding_left.";
+					--navigation-item-padding: ".$setting_navigation_item_padding.";
+					--navigation-item-padding-vertical: ".$setting_navigation_item_padding_vertical.";
+					--navigation-item-padding-mobile: ".$setting_navigation_item_padding_mobile.";
+				}";
 
 				$plugin_include_url = plugin_dir_url(__FILE__);
 
 				wp_enqueue_style('wp-block-navigation');
 				mf_enqueue_style('style_navigation', $plugin_include_url."style.php");
 				mf_enqueue_script('script_navigation', $plugin_include_url."script.js");
-
-				$style = $script = "";
 
 				if($attributes['navigation_id_logged_in'] > 0 && $attributes['navigation_id_logged_in'] != $attributes['navigation_id'])
 				{
