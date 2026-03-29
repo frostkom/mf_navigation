@@ -158,12 +158,12 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 
 			.widget.navigation .has-child.current_menu_parent > a > button
 			{
-				transform: rotate(-".(360 + 90)."deg) translateY(-20%);
+				transform: rotate(-450deg) translateY(-20%);
 			}
 
 			.widget.navigation .has-child:hover > a > button, .widget.navigation .has-child.is_open > a > button
 			{
-				transform: rotate(-".(360 + 180)."deg) translateY(-20%);
+				transform: rotate(-540deg) translateY(-20%);
 			}
 
 		.widget.navigation .has-child .wp-block-navigation__submenu-container
