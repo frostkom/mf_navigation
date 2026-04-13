@@ -313,7 +313,8 @@ class mf_navigation
 				$plugin_include_url = plugin_dir_url(__FILE__);
 
 				wp_enqueue_style('wp-block-navigation');
-				mf_enqueue_style('style_navigation', $plugin_include_url."style.php");
+				//mf_enqueue_style('style_navigation', $plugin_include_url."style.php");
+				mf_enqueue_style('style_navigation', $plugin_include_url."style.css");
 				mf_enqueue_script('script_navigation', $plugin_include_url."script.js");
 
 				if($attributes['navigation_id_logged_in'] > 0 && $attributes['navigation_id_logged_in'] != $attributes['navigation_id'])
@@ -430,49 +431,215 @@ class mf_navigation
 						$style .= "#".$widget_id."s .has-child .wp-block-navigation-item
 						{
 							color: ".$setting_navigation_text_color.";
-						}
+						}";
 
-				@media screen and (max-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].")
+				if($arr_breakpoints['mobile'] > 0)
 				{
-					.menu_is_open header .wp-block-group-is-layout-flex figure.wp-block-image img
+					$style .= "@media screen and (max-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].")
 					{
-						background-color: ".$setting_navigation_background_color.";
-					}
-
-					.menu_is_open header .wp-block-site-title a
-					{
-						color: ".$setting_navigation_background_color.";
-					}
-
-					#".$widget_id." .toggle_hamburger > div
-					{
-						background-color: ".$setting_navigation_text_color.";
-					}
-
-						#".$widget_id.".is_open .toggle_hamburger > div
+						.menu_is_open header .wp-block-group-is-layout-flex figure.wp-block-image img
 						{
 							background-color: ".$setting_navigation_background_color.";
 						}
 
-					#".$widget_id.".mobile_ready .wp-block-navigation
-					{
-						background: ".$setting_navigation_text_color.";
-						color: ".$setting_navigation_background_color.";
-					}
+						.menu_is_open header .wp-block-site-title a
+						{
+							color: ".$setting_navigation_background_color.";
+						}
 
-					#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
-					{
-						background-color: ".$setting_navigation_background_color." !important;
-						border: .1em solid ".$setting_navigation_background_color." !important;
-						color: ".$setting_navigation_text_color." !important;
-					}
+						#".$widget_id." .toggle_hamburger > div
+						{
+							background-color: ".$setting_navigation_text_color.";
+						}
 
-					#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+							#".$widget_id.".is_open .toggle_hamburger > div
+							{
+								background-color: ".$setting_navigation_background_color.";
+							}
+
+						#".$widget_id.".mobile_ready .wp-block-navigation
+						{
+							background: ".$setting_navigation_text_color.";
+							color: ".$setting_navigation_background_color.";
+						}
+
+						#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+						{
+							background-color: ".$setting_navigation_background_color." !important;
+							border: .1em solid ".$setting_navigation_background_color." !important;
+							color: ".$setting_navigation_text_color." !important;
+						}
+
+						#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+						{
+							background-color: ".$setting_navigation_text_color." !important;
+							color: ".$setting_navigation_background_color." !important;
+						}
+					}";
+				}
+
+				// From style.php
+				######################
+				if($arr_breakpoints['tablet'] > 0)
+				{
+					$style .= "@media screen and (min-width: ".$arr_breakpoints['tablet'].$arr_breakpoints['suffix'].")
 					{
-						background-color: ".$setting_navigation_text_color." !important;
-						color: ".$setting_navigation_background_color." !important;
-					}
-				}";
+						.widget.navigation .wp-block-navigation__responsive-container
+						{
+							display: block !important;
+						}
+
+						.has_item_gap
+						{
+							flex-grow: 1;
+						}
+
+							.has_item_gap .widget.navigation
+							{
+								width: 100%;
+							}
+
+								.has_item_gap .widget.navigation .wp-block-navigation__container
+								{
+									flex-grow: 1;
+								}
+
+									.has_item_gap .widget.navigation .wp-block-navigation-item.item_gap
+									{
+										margin-left: auto;
+									}
+					}";
+				}
+
+				if($arr_breakpoints['mobile'] > 0 && $arr_breakpoints['tablet'] > $arr_breakpoints['mobile'])
+				{
+					$style .= "@media screen and (min-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].") and (max-width: ".($arr_breakpoints['tablet'] - 1).$arr_breakpoints['suffix'].")
+					{
+						.widget.navigation .wp-block-navigation__responsive-container-open
+						{
+							display: none !important;
+						}
+
+							.widget.navigation .wp-block-navigation__responsive-container
+							{
+								display: block !important;
+							}
+					}";
+				}
+
+				if($arr_breakpoints['mobile'] > 0)
+				{
+					$style .= "@media screen and (max-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].")
+					{
+						.menu_is_open header .wp-block-group-is-layout-flex figure.wp-block-image img
+						{
+							padding: .2em;
+						}
+
+						.widget.navigation .toggle_hamburger
+						{
+							display: block;
+						}
+
+						.widget.navigation.mobile_ready .wp-block-navigation
+						{
+							display: block;
+							height: 100vh;
+							left: 0;
+							opacity: 0;
+							position: absolute;
+							top: 0;
+							transition: all .5s ease;
+							transform: translate(0%, -100%);
+							width: 100%;
+							z-index: 0;
+						}
+
+							.widget.navigation.is_open .wp-block-navigation
+							{
+								opacity: 1;
+								transform: translate(0%, 0%);
+								z-index: 1000;
+							}
+
+						.widget.navigation.mobile_ready .wp-block-navigation__responsive-container-open
+						{
+							border-radius: var(--navigation-item-border-radius);
+							padding: var(--navigation-item-padding-mobile) !important;
+						}
+
+							.widget.navigation.mobile_ready .wp-block-navigation__responsive-container
+							{
+								display: none;
+								position: fixed;
+							}
+
+								.widget.navigation.mobile_ready .wp-block-navigation__container
+								{
+									box-sizing: border-box;
+									display: block;
+									padding: var(--navigation-container-padding-mobile);
+									text-align: center;
+									width: 100%;
+								}
+
+									body:not(.logged-in) .widget.navigation.mobile_ready .menu_items_logged_in
+									{
+										display: none;
+									}
+
+									body.logged-in .widget.navigation.mobile_ready .menu_items_public
+									{
+										display: none;
+									}
+
+									.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item
+									{
+										display: block;
+										float: none;
+									}
+
+										.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item + .wp-block-navigation-item
+										{
+											margin-top: .2em;
+										}
+
+										.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item a
+										{
+											border-radius: var(--navigation-item-border-radius);
+											padding: var(--navigation-item-padding-mobile) !important;
+										}
+
+											.widget.navigation.mobile_ready .wp-block-navigation .wp-block-navigation-item img
+											{
+												display: inline;
+											}
+
+									.widget.navigation.mobile_ready .has-child:hover > .wp-block-navigation__submenu-container, .widget.navigation.mobile_ready .has-child.is_open > .wp-block-navigation__submenu-container
+									{
+										background-color: transparent !important;
+										border: none;
+										display: block;
+										height: auto;
+										left: 0;
+										opacity: 1;
+										position: relative;
+										visibility: visible;
+										width: 100%;
+									}
+
+										.widget.navigation.mobile_ready .has-child:hover .wp-block-navigation-item, .widget.navigation.mobile_ready .has-child.is_open .wp-block-navigation-item
+										{
+											border-radius: none;
+										}
+
+											.widget.navigation.mobile_ready .has-child:hover .wp-block-navigation-item > a, .widget.navigation.mobile_ready .has-child.is_open .wp-block-navigation-item > a
+											{
+												display: block;
+											}
+					}";
+				}
+				######################
 
 				if(isset($attributes['style']) && is_array($attributes['style']))
 				{
@@ -488,6 +655,7 @@ class mf_navigation
 										$style .= "header .wp-block-site-title a
 										{
 											color: ".$arr_value_parent['text'].";
+											transition: all .5s ease;
 										}";
 									}
 
@@ -625,41 +793,14 @@ class mf_navigation
 
 				if($this->has_separator == true)
 				{
+					mf_enqueue_style('style_navigation_separator', $plugin_include_url."style_separator.css");
+
 					$setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
 
-					$style .= "#".$widget_id.".is_horizontal .wp-block-navigation-item.separator
+					$style .= "#".$widget_id." .wp-block-navigation-item.separator:before
 					{
-						padding-left: 2em;
-					}
-
-					#".$widget_id.".is_vertical .wp-block-navigation-item.separator
-					{
-						padding-top: 1em;
-					}
-
-					#".$widget_id." .wp-block-navigation-item.separator:before
-					{
-						background: #ccc;
-						content: '';
 						margin: ".$setting_navigation_item_padding.";
-						position: absolute;
-						top: 0;
-						right: 0;
-						bottom: 0;
-						left: 0;
-					}
-
-						#".$widget_id.".is_horizontal .wp-block-navigation-item.separator:before
-						{
-							height: auto;
-							width: .05em;
-						}
-
-						#".$widget_id.".is_vertical .wp-block-navigation-item.separator:before
-						{
-							height: .06em;
-							width: auto;
-						}";
+					}";
 				}
 
 				if($this->has_item_border == true)
@@ -704,109 +845,64 @@ class mf_navigation
 
 				if($attributes['navigation_search'] == 'yes')
 				{
-					$style .= "#".$widget_id." .mf_form
+					mf_enqueue_style('style_navigation_search', $plugin_include_url."style_search.css");
+
+					$style .= "#".$widget_id." .mf_form .wp-block-search__input
 					{
-						position: relative;
+						border: 0 solid ".$setting_navigation_text_color.";
+						color: ".$setting_navigation_text_color.";
 					}
 
-						#".$widget_id." .wp-block-search
+						#".$widget_id." .mf_form:hover .wp-block-search__input, #".$widget_id." .mf_form.hover .wp-block-search__input
 						{
-							margin-left: 1em;
+							background: ".$setting_navigation_background_color.";
 						}
 
-							#".$widget_id." .mf_form .wp-block-search__input
-							{
-								background: transparent;
-								border: 0 solid ".$setting_navigation_text_color.";
-								border-radius: .5em;
-								color: ".$setting_navigation_text_color.";
-								margin: -.5em -1em 0 0;
-								padding-right: 2em;
-								position: absolute;
-								right: .2em;
-								top: 0;
-								transition: all .5s ease;
-								width: 0;
-								min-width: auto;
-								z-index: 1000;
-							}
+					#".$widget_id." .mf_form button
+					{
+						border: .2em solid ".$setting_navigation_text_color.";
+					}
 
-								#".$widget_id." .mf_form:hover .wp-block-search__input, #".$widget_id." .mf_form.hover .wp-block-search__input
-								{
-									background: ".$setting_navigation_background_color.";
-									border-width: .1em;
-									width: 50vw;
-								}
-
-						#".$widget_id." .mf_form button
+						#".$widget_id." .mf_form button:after
 						{
-							background: none;
-							border: .2em solid ".$setting_navigation_text_color.";
-							border-radius: 100%;
-							box-sizing: border-box;
-							cursor: pointer;
-							display: block;
-							position: relative;
-							width: 1.4em;
-							height: 1.4em;
-							z-index: 1000;
-						}
-
-							#".$widget_id." .mf_form button:after
-							{
-								background: ".$setting_navigation_text_color.";
-								border-radius: .3em;
-								box-sizing: border-box;
-								content: '';
-								display: block;
-								height: .8em;
-								position: absolute;
-								left: 1.2em;
-								top: 1em;
-								transform: rotate(-45deg);
-								width: .2em;
-							}";
+							background: ".$setting_navigation_text_color.";
+						}";
 
 					if($arr_breakpoints['mobile'] > 0)
 					{
 						$style .= "@media screen and (max-width: ".$arr_breakpoints['mobile'].$arr_breakpoints['suffix'].")
 						{
-							#".$widget_id." .mf_form
+							#".$widget_id." .mf_form .wp-block-search__input
 							{
-								position: relative;
+								background: ".$setting_navigation_text_color.";
+								margin: 0;
+								width: 100% !important;
 							}
 
-								#".$widget_id." .mf_form .wp-block-search__input
+								#".$widget_id." .mf_form:hover .wp-block-search__input, #".$widget_id." .mf_form.hover .wp-block-search__input
 								{
 									background: ".$setting_navigation_text_color.";
-									margin: 0;
-									width: 100% !important;
-								}
-
-									#".$widget_id." .mf_form:hover .wp-block-search__input, #".$widget_id." .mf_form.hover .wp-block-search__input
-									{
-										background: ".$setting_navigation_text_color.";
-										border-color: ".$setting_navigation_background_color.";
-										color: ".$setting_navigation_background_color.";
-									}
-
-								#".$widget_id." .mf_form button
-								{
 									border-color: ".$setting_navigation_background_color.";
-									display: inline-block;
-									margin-top: .5em;
+									color: ".$setting_navigation_background_color.";
 								}
 
-									#".$widget_id." .mf_form:hover button, #".$widget_id." .mf_form.hover button
-									{
-										position: absolute;
-										right: 1.5em;
-									}
+							#".$widget_id." .mf_form button
+							{
+								border-color: ".$setting_navigation_background_color.";
+								display: inline-block;
+								margin-top: .5em;
+							}
 
-									#".$widget_id." .mf_form button:after
-									{
-										background: ".$setting_navigation_background_color.";
-									}
+								#".$widget_id." .mf_form:hover button, #".$widget_id." .mf_form.hover button
+								{
+									position: absolute;
+									right: 1.5em;
+								}
+
+								#".$widget_id." .mf_form button:after
+								{
+									background: ".$setting_navigation_background_color.";
+								}
 						}";
 					}
 

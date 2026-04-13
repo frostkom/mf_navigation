@@ -1,0 +1,52 @@
+.widget.navigation .mf_form
+{
+	position: relative;
+}
+
+	.widget.navigation .mf_form .wp-block-search__input
+	{
+		background: transparent;
+		border-radius: .5em;
+		margin: -.5em -1em 0 0;
+		padding-right: 2em;
+		position: absolute;
+		right: .2em;
+		top: 0;
+		transition: all .5s ease;
+		width: 0;
+		min-width: auto;
+		z-index: 1000;
+	}
+
+		.widget.navigation .mf_form:hover .wp-block-search__input, .widget.navigation .mf_form.hover .wp-block-search__input
+		{
+			border-width: .1em !important;
+			width: 50vw;
+		}
+
+	.widget.navigation .mf_form button
+	{
+		background: none;
+		border-radius: 100%;
+		box-sizing: border-box;
+		cursor: pointer;
+		display: block;
+		position: relative;
+		width: 1.4em;
+		height: 1.4em;
+		z-index: 1000;
+	}
+
+		.widget.navigation .mf_form button:after
+		{
+			border-radius: .3em;
+			box-sizing: border-box;
+			content: '';
+			display: block;
+			height: .8em;
+			position: absolute;
+			left: 1.2em;
+			top: 1em;
+			transform: rotate(-45deg);
+			width: .2em;
+		}

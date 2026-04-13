@@ -1,0 +1,32 @@
+.widget.navigation.is_horizontal .wp-block-navigation-item.separator
+{
+	padding-left: 2em;
+}
+
+.widget.navigation.is_vertical .wp-block-navigation-item.separator
+{
+	padding-top: 1em;
+}
+
+.widget.navigation .wp-block-navigation-item.separator:before
+{
+	background: #ccc;
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+	.widget.navigation.is_horizontal .wp-block-navigation-item.separator:before
+	{
+		height: auto;
+		width: .05em;
+	}
+
+	.widget.navigation.is_vertical .wp-block-navigation-item.separator:before
+	{
+		height: .06em;
+		width: auto;
+	}
