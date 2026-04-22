@@ -1261,6 +1261,48 @@ class mf_navigation
 		echo show_select(array('data' => $this->get_logged_in_cookies_for_select(), 'name' => $setting_key."[]", 'value' => $option));
 	}
 
+	function filter_navigation_menu($arr_menu)
+	{
+		foreach($arr_menu as $key => $arr_menu_object)
+		{
+			if(isset($arr_menu[$key]['className']))
+			{
+				switch($arr_menu[$key]['className'])
+				{
+					case 'hide_if_editor':
+						if(IS_EDITOR)
+						{
+							unset($arr_menu[$key]);
+						}
+					break;
+
+					case 'display_if_editor':
+						if(!IS_EDITOR)
+						{
+							unset($arr_menu[$key]);
+						}
+					break;
+					
+					case 'hide_if_admin':
+						if(IS_ADMINISTRATOR)
+						{
+							unset($arr_menu[$key]);
+						}
+					break;
+
+					case 'display_if_admin':
+						if(!IS_ADMINISTRATOR)
+						{
+							unset($arr_menu[$key]);
+						}
+					break;
+				}
+			}
+		}
+
+		return $arr_menu;
+	}
+
 	function filter_cache_logged_in_cookies($arr_cookies)
 	{
 		$setting_navigation_logged_in_cookies = get_option_or_default('setting_navigation_logged_in_cookies', []);

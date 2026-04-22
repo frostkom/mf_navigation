@@ -3,7 +3,7 @@
 Plugin Name: MF Navigation+
 Plugin URI: https://github.com/frostkom/mf_navigation
 Description: Adds a block to display an enhanced version of navigation
-Version: 1.7.12
+Version: 1.7.13
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -27,6 +27,11 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		register_uninstall_hook(__FILE__, 'uninstall_navigation');
 
 		add_action('admin_init', array($obj_navigation, 'settings_navigation'));
+	}
+
+	else
+	{
+		add_filter('filter_navigation_menu', array($obj_navigation, 'filter_navigation_menu'), 10);
 	}
 
 	add_filter('filter_cache_logged_in_cookies', array($obj_navigation, 'filter_cache_logged_in_cookies'), 10);
