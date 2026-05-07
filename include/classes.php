@@ -293,6 +293,8 @@ class mf_navigation
 				$widget_id = "widget_navigation_".md5(var_export($attributes, true));
 				$style = $script = "";
 
+				$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
+
 				$setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
 				$setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
 				$setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left');
@@ -402,8 +404,6 @@ class mf_navigation
 				}
 
 				$setting_navigation_active_text_color = get_option('setting_navigation_active_text_color');
-
-				$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
 
 				if($attributes['navigation_is_in_header'] == 'yes')
 				{
