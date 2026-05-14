@@ -31,12 +31,16 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		transition: all .5s ease;
 	}
 
-	header .widget.navigation + wp-block-search
+	header .widget.navigation .wp-block-search
 	{
-		margin-left: 1em;
-		position: absolute;
-		z-index: 1000;
+		margin-top: -.3em;
+		margin-right: .9em;
 	}
+
+.widget.navigation
+{
+	z-index: 1000;
+}
 
 .widget.navigation .toggle_hamburger
 {
@@ -45,7 +49,7 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 	padding: .3em 1em;
 	position: relative;
 	width: 1.5em;
-	z-index: 10000;
+	z-index: 1001;
 }
 
 	.widget.navigation .toggle_hamburger > div
