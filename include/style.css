@@ -31,12 +31,6 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 		transition: all .5s ease;
 	}
 
-	header .widget.navigation .wp-block-search
-	{
-		margin-top: -.3em;
-		margin-right: .9em;
-	}
-
 .widget.navigation
 {
 	z-index: 1000;

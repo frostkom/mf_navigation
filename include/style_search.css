@@ -1,9 +1,20 @@
-.widget.navigation .mf_form
+header .widget.navigation .wp-block-search
+{
+	margin-top: -.3em;
+	margin-right: .9em;
+}
+
+	header .widget.navigation .button + .wp-block-search
+	{
+		margin-left: 1em;
+	}
+
+.widget.navigation .wp-block-search/* .mf_form*/
 {
 	position: relative;
 }
 
-	.widget.navigation .mf_form .wp-block-search__input
+	.widget.navigation .wp-block-search .wp-block-search__input
 	{
 		background: transparent;
 		border-radius: .5em;
@@ -18,13 +29,13 @@
 		z-index: 1000;
 	}
 
-		.widget.navigation .mf_form:hover .wp-block-search__input, .widget.navigation .mf_form.hover .wp-block-search__input
+		.widget.navigation .wp-block-search:hover .wp-block-search__input, .widget.navigation .wp-block-search.hover .wp-block-search__input
 		{
 			border-width: .1em !important;
 			width: 50vw;
 		}
 
-	.widget.navigation .mf_form button
+	.widget.navigation .wp-block-search button
 	{
 		background: none;
 		border-radius: 100%;
@@ -37,7 +48,7 @@
 		z-index: 1000;
 	}
 
-		.widget.navigation .mf_form button:after
+		.widget.navigation .wp-block-search button:after
 		{
 			border-radius: .3em;
 			box-sizing: border-box;
