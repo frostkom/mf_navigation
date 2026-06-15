@@ -182,8 +182,9 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 
 		.widget.navigation.aligncenter.is_horizontal .wp-block-navigation__container
 		{
-			flex-grow: unset;
+			/*flex-grow: unset;*/
 			margin: 0 auto;
+			width: fit-content;
 		}
 
 		.widget.navigation.alignwide.is_horizontal .wp-block-navigation__container
