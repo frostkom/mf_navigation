@@ -939,7 +939,14 @@ class mf_navigation
 					$out .= "<nav class='wp-block-navigation is-layout-flex'>"
 						."<div class='wp-block-navigation__responsive-container'>";
 
-							if($menu_items_logged_in != '' && $this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
+							if(is_user_logged_in() && $menu_items_logged_in != '')
+							{
+								$out .= "<ul class='wp-block-navigation__container wp-block-navigation'>"
+									.$menu_items_logged_in
+								."</ul>";
+							}
+
+							else if($menu_items_logged_in != '' && $this->is_cookie_in_htaccess($attributes['navigation_id_logged_in_cookie']))
 							{
 								$out .= "<ul class='wp-block-navigation__container wp-block-navigation'>";
 
