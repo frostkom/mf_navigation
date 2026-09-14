@@ -44,6 +44,19 @@ class mf_navigation
 
 			switch($type)
 			{
+				case 'buttons':
+					if($is_end == false)
+					{
+						do_log(__FUNCTION__.": ".$type." (".var_export($arr_matches[$i], true).")");
+						// <!-- wp:buttons {"metadata":{"blockVisibility":false}} --> <div class="wp-block-buttons"><!-- wp:button --> <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://dealonbydillon.se/besok-natverket/">Besök nätverket</a></div> <!-- /wp:button --></div> <!-- /wp:buttons -->
+					}
+				break;
+
+				case 'button':
+					do_log(__FUNCTION__.": ".$type." (".var_export($arr_matches[$i], true).")");
+					//<!-- wp:navigation-link {"label":"Om Deal On","type":"page","id":16,"url":"https://dealonbydillon.se/om-deal-on/","kind":"post-type"} /--> <!-- wp:navigation-link {"label":"Medlemmar","type":"page","id":74,"url":"https://dealonbydillon.se/medlemmar","kind":"post-type"} /--> <!-- wp:navigation-link {"label":"Ledning","type":"page","id":154,"url":"https://dealonbydillon.se/ledning/","kind":"post-type"} /--> <!-- wp:navigation-link {"label":"Bli medlem","type":"page","id":18,"url":"https://dealonbydillon.se/bli-medlem/","kind":"post-type"} /--> <!-- wp:buttons {"metadata":{"blockVisibility":false}} --> <div class="wp-block-buttons"><!-- wp:button --> <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://dealonbydillon.se/besok-natverket/">Besök nätverket</a></div> <!-- /wp:button --></div> <!-- /wp:buttons --> <!-- wp:navigation-link {"label":"Besök nätverket","type":"page","id":14,"url":"https://dealonbydillon.se/besok-natverket/","kind":"post-type","metadata":{"bindings":{"url":{"source":"core/post-data","args":{"field":"link"}}}},"className":"button"} /--> -> array ( 0 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Om Deal On","type":"page","id":16,"url":"https://dealonbydillon.se/om-deal-on/","kind":"post-type"} ', 4 => '/', ), 1 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Medlemmar","type":"page","id":74,"url":"https://dealonbydillon.se/medlemmar","kind":"post-type"} ', 4 => '/', ), 2 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Ledning","type":"page","id":154,"url":"https://dealonbydillon.se/ledning/","kind":"post-type"} ', 4 => '/', ), 3 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Bli medlem","type":"page","id":18,"url":"https://dealonbydillon.se/bli-medlem/","kind":"post-type"} ', 4 => '/', ), 4 => array ( 0 => '', 1 => '', 2 => 'buttons', 3 => '{"metadata":{"blockVisibility":false}} ', 4 => '', ), 5 => array ( 0 => '', 1 => '', 2 => 'button', 3 => '', 4 => '', ), 6 => array ( 0 => '', 1 => '/', 2 => 'button', 3 => '', 4 => '', ), 7 => array ( 0 => '', 1 => '/', 2 => 'buttons', 3 => '', 4 => '', ), 8 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Besök nätverket","type":"page","id":14,"url":"https://dealonbydillon.se/besok-natverket/","kind":"post-type","metadata":{"bindings":{"url":{"source":"core/post-data","args":{"field":"link"}}}},"className":"button"} ', 4 => '/', ), )
+				break;
+
 				case 'page-list':
 					$arr_data = [];
 					get_post_children(array('add_choose_here' => false), $arr_data);
@@ -939,7 +952,7 @@ class mf_navigation
 					$out .= "<nav class='wp-block-navigation is-layout-flex'>"
 						."<div class='wp-block-navigation__responsive-container'>";
 
-							if(is_user_logged_in() && $menu_items_logged_in != '')
+							if(is_user_logged_in() && $menu_items_logged_in != '' && $attributes['navigation_id_logged_in_cookie'] == 'wp-settings-time')
 							{
 								$out .= "<ul class='wp-block-navigation__container wp-block-navigation'>"
 									.$menu_items_logged_in
