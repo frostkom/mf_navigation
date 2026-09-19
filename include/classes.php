@@ -213,7 +213,7 @@ class mf_navigation
 					$html .= "<div class='wp-block-button'>";
 				}
 
-					$html .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'".($follow_link == true ? "" : " rel='nofollow'").">"
+					$html .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'".($follow_link == true ? "" : " rel='nofollow'").(isset($arr_menu_object['opensInNewTab']) && $arr_menu_object['opensInNewTab'] == true ? " target='_blank'" : "").">"
 						.$arr_menu_object['label'];
 
 						if($has_children)
