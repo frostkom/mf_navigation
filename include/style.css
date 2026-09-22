@@ -215,6 +215,11 @@ header .wp-block-group-is-layout-flex .wp-block-image, header .wp-block-site-log
 				font-size: inherit;
 			}
 
+				.widget.navigation .wp-block-navigation-item > .wp-block-button .wp-block-button__link:hover
+				{
+					text-decoration: none;
+				}
+
 				.widget.navigation:not(.aligncenter).is_vertical > .wp-block-navigation-item:not(.invert) > a
 				{
 					padding-left: var(--navigation-item-vertical-padding-left, 0);
