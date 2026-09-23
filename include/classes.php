@@ -29,32 +29,73 @@ class mf_navigation
 	{
 		$menu_items = $current_menu = [];
 
-		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $arr_matches, PREG_SET_ORDER);
+		preg_match_all('/<!-- (\/*)wp:(.*?) (.*?)(\/*)-->/', $markup, $arr_matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
 		$count_temp = count($arr_matches);
 
 		for($i = 0; $i < $count_temp; $i++)
 		{
-			$is_end = ($arr_matches[$i][1] == "/");
-			$type = $arr_matches[$i][2];
-			$arr_json = json_decode($arr_matches[$i][3], true);
-			$is_single = ($arr_matches[$i][4] == "/");
+			$is_end     = ($arr_matches[$i][1][0] == "/");
+			$type       = $arr_matches[$i][2][0];
+			$arr_json   = json_decode($arr_matches[$i][3][0], true);
+			$is_single  = ($arr_matches[$i][4][0] == "/");
 
 			$current_level = count($current_menu);
 
 			switch($type)
 			{
 				case 'buttons':
-					if($is_end == false)
+					if($is_end == false && !empty($arr_json['metadata']['blockVisibility']) === false && isset($arr_json['metadata']['blockVisibility']) && $arr_json['metadata']['blockVisibility'] === false)
 					{
-						do_log(__FUNCTION__.": ".$type." (".var_export($arr_matches[$i], true).")");
-						// <!-- wp:buttons {"metadata":{"blockVisibility":false}} --> <div class="wp-block-buttons"><!-- wp:button --> <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://dealonbydillon.se/besok-natverket/">Besök nätverket</a></div> <!-- /wp:button --></div> <!-- /wp:buttons -->
+						// Hidden block — skip forward to its matching "/wp:buttons" comment so nothing nested inside it (including any "button" children) gets processed at all.
+						for($j = $i + 1; $j < $count_temp; $j++)
+						{
+							if($arr_matches[$j][2][0] == 'buttons' && $arr_matches[$j][1][0] == '/')
+							{
+								$i = $j;
+								break;
+							}
+						}
 					}
 				break;
 
 				case 'button':
-					do_log(__FUNCTION__.": ".$type." (".var_export($arr_matches[$i], true).")");
-					//<!-- wp:navigation-link {"label":"Om Deal On","type":"page","id":16,"url":"https://dealonbydillon.se/om-deal-on/","kind":"post-type"} /--> <!-- wp:navigation-link {"label":"Medlemmar","type":"page","id":74,"url":"https://dealonbydillon.se/medlemmar","kind":"post-type"} /--> <!-- wp:navigation-link {"label":"Ledning","type":"page","id":154,"url":"https://dealonbydillon.se/ledning/","kind":"post-type"} /--> <!-- wp:navigation-link {"label":"Bli medlem","type":"page","id":18,"url":"https://dealonbydillon.se/bli-medlem/","kind":"post-type"} /--> <!-- wp:buttons {"metadata":{"blockVisibility":false}} --> <div class="wp-block-buttons"><!-- wp:button --> <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://dealonbydillon.se/besok-natverket/">Besök nätverket</a></div> <!-- /wp:button --></div> <!-- /wp:buttons --> <!-- wp:navigation-link {"label":"Besök nätverket","type":"page","id":14,"url":"https://dealonbydillon.se/besok-natverket/","kind":"post-type","metadata":{"bindings":{"url":{"source":"core/post-data","args":{"field":"link"}}}},"className":"button"} /--> -> array ( 0 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Om Deal On","type":"page","id":16,"url":"https://dealonbydillon.se/om-deal-on/","kind":"post-type"} ', 4 => '/', ), 1 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Medlemmar","type":"page","id":74,"url":"https://dealonbydillon.se/medlemmar","kind":"post-type"} ', 4 => '/', ), 2 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Ledning","type":"page","id":154,"url":"https://dealonbydillon.se/ledning/","kind":"post-type"} ', 4 => '/', ), 3 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Bli medlem","type":"page","id":18,"url":"https://dealonbydillon.se/bli-medlem/","kind":"post-type"} ', 4 => '/', ), 4 => array ( 0 => '', 1 => '', 2 => 'buttons', 3 => '{"metadata":{"blockVisibility":false}} ', 4 => '', ), 5 => array ( 0 => '', 1 => '', 2 => 'button', 3 => '', 4 => '', ), 6 => array ( 0 => '', 1 => '/', 2 => 'button', 3 => '', 4 => '', ), 7 => array ( 0 => '', 1 => '/', 2 => 'buttons', 3 => '', 4 => '', ), 8 => array ( 0 => '', 1 => '', 2 => 'navigation-link', 3 => '{"label":"Besök nätverket","type":"page","id":14,"url":"https://dealonbydillon.se/besok-natverket/","kind":"post-type","metadata":{"bindings":{"url":{"source":"core/post-data","args":{"field":"link"}}}},"className":"button"} ', 4 => '/', ), )
+					if($is_end == false)
+					{
+						// Grab the raw HTML between this "wp:button" comment and the next comment (which should be the matching "/wp:button").
+						$start = $arr_matches[$i][0][1] + strlen($arr_matches[$i][0][0]);
+						$end   = isset($arr_matches[$i + 1]) ? $arr_matches[$i + 1][0][1] : strlen($markup);
+						$inner = substr($markup, $start, $end - $start);
+
+						if(preg_match('/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/is', $inner, $btn_match))
+						{
+							$btn_data = array(
+								'url'   => html_entity_decode($btn_match[1]),
+								'label' => trim(strip_tags($btn_match[2])),
+								'html' => $inner,
+							);
+
+							switch($current_level)
+							{
+								case 0:
+									$menu_items[$i] = $btn_data;
+								break;
+
+								case 1:
+									$menu_items[$current_menu[0]]['children'][$i] = $btn_data;
+								break;
+
+								case 2:
+									$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $btn_data;
+								break;
+							}
+						}
+
+						else
+						{
+							do_log(__FUNCTION__.": button with no <a href> found (".htmlspecialchars($inner).")");
+						}
+					}
 				break;
 
 				case 'page-list':
@@ -64,7 +105,7 @@ class mf_navigation
 					foreach($arr_data as $key => $value)
 					{
 						$menu_items[$key] = array(
-							'url' => get_permalink($key),
+							'url'   => get_permalink($key),
 							'label' => $value,
 						);
 					}
@@ -75,7 +116,6 @@ class mf_navigation
 					{
 						unset($current_menu[$current_level - 1]);
 					}
-
 					else
 					{
 						switch($current_level)
@@ -136,6 +176,7 @@ class mf_navigation
 		foreach($data['menu'] as $arr_menu_object)
 		{
 			if(!isset($arr_menu_object['id'])){			$arr_menu_object['id'] = "";}
+			if(!isset($arr_menu_object['html'])){		$arr_menu_object['html'] = "";}
 			if(!isset($arr_menu_object['className'])){	$arr_menu_object['className'] = "";}
 			if(!isset($arr_menu_object['children'])){	$arr_menu_object['children'] = [];}
 
@@ -205,31 +246,41 @@ class mf_navigation
 
 			$html .= "'>";
 
-				if($is_button)
+				if($arr_menu_object['html'] != '')
 				{
-					/*$plugin_base_include_url = plugins_url()."/mf_base/include/";
-					mf_enqueue_style('style_base_button', $plugin_base_include_url."style_button.css");*/
-
-					$html .= "<div class='wp-block-button'>";
+					$html .= $arr_menu_object['html'];
 				}
 
-					$html .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'".($follow_link == true ? "" : " rel='nofollow'").(isset($arr_menu_object['opensInNewTab']) && $arr_menu_object['opensInNewTab'] == true ? " target='_blank'" : "").">"
-						.$arr_menu_object['label'];
-
-						if($has_children)
-						{
-							$html .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
-								<svg viewBox='0 0 12 12' fill='none'>
-									<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
-								</svg>
-							</button>";
-						}
-
-					$html .= "</a>";
-
-				if($is_button)
+				else
 				{
-					$html .= "</div>";
+					if($is_button)
+					{
+						do_log(__FUNCTION__.": Convert .button to proper buttons and remove style for buttons");
+
+						/*$plugin_base_include_url = plugins_url()."/mf_base/include/";
+						mf_enqueue_style('style_base_button', $plugin_base_include_url."style_button.css");*/
+
+						$html .= "<div class='wp-block-button'>";
+					}
+
+						$html .= "<a class='".($is_button ? "wp-block-button__link" : "wp-block-navigation-item__content")."' href='".$arr_menu_object['url']."'".($follow_link == true ? "" : " rel='nofollow'").(isset($arr_menu_object['opensInNewTab']) && $arr_menu_object['opensInNewTab'] == true ? " target='_blank'" : "").">"
+							.$arr_menu_object['label'];
+
+							if($has_children)
+							{
+								$html .= "<button class='wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle' aria-label='".__("An icon to display if the submenu is open or not", 'lang_navigation')."'>
+									<svg viewBox='0 0 12 12' fill='none'>
+										<path d='M1.50002 4L6.00002 8L10.5 4' stroke-width='1.5'></path>
+									</svg>
+								</button>";
+							}
+
+						$html .= "</a>";
+
+					if($is_button)
+					{
+						$html .= "</div>";
+					}
 				}
 
 				if($has_children)
@@ -478,16 +529,16 @@ class mf_navigation
 						{
 							background: ".$setting_navigation_text_color.";
 							color: ".$setting_navigation_background_color.";
-						}
+						}";
 
-						#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+						/*#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
 						{
 							background-color: ".$setting_navigation_background_color." !important;
 							border: .1em solid ".$setting_navigation_background_color." !important;
 							color: ".$setting_navigation_text_color." !important;
-						}
+						}*/
 
-						#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+						$style .= "#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
 						{
 							background-color: ".$setting_navigation_text_color." !important;
 							color: ".$setting_navigation_background_color." !important;
@@ -685,13 +736,13 @@ class mf_navigation
 									#".$widget_id." .wp-block-navigation-item.border a
 									{
 										border-color: ".$arr_value_parent['text'].";
-									}
+									}";
 
-									#".$widget_id." .wp-block-navigation-item.invert a
+									/*#".$widget_id." .wp-block-navigation-item.invert a
 									{
 										background-color: ".$arr_value_parent['text']." !important;
 										border-color: ".$arr_value_parent['text']." !important;
-									}";
+									}";*/
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
 									{
@@ -705,14 +756,14 @@ class mf_navigation
 											#".$widget_id.".mobile_ready .wp-block-navigation
 											{
 												background: ".$arr_value_parent['text'].";
-											}
+											}";
 
-											#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+											/*#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
 											{
 												color: ".$arr_value_parent['text']." !important;
-											}
+											}*/
 
-											#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+											$style .= "#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
 											{
 												background-color: ".$arr_value_parent['text']." !important;
 											}
@@ -725,12 +776,12 @@ class mf_navigation
 									$style .= "#".$widget_id." .has-child .wp-block-navigation__submenu-container
 									{
 										background-color: ".$arr_value_parent['background'].";
-									}
+									}";
 
-									#".$widget_id." .wp-block-navigation-item.invert
+									/*$style .= "#".$widget_id." .wp-block-navigation-item.invert
 									{
 										color: ".$arr_value_parent['background'].";
-									}";
+									}";*/
 
 									if($attributes['navigation_mobile_ready'] == 'yes')
 									{
@@ -754,15 +805,15 @@ class mf_navigation
 											#".$widget_id.".mobile_ready .wp-block-navigation
 											{
 												color: ".$arr_value_parent['background'].";
-											}
+											}";
 
-											#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
+											/*#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
 											{
 												background-color: ".$arr_value_parent['background']." !important;
 												border-color: ".$arr_value_parent['background']." !important;
-											}
+											}*/
 
-											#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+											$style .= "#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
 											{
 												color: ".$arr_value_parent['background']." !important;
 											}
@@ -828,7 +879,8 @@ class mf_navigation
 
 					if($setting_navigation_item_border_margin_left != '' && $setting_navigation_item_border_margin_right != '')
 					{
-						$style .= "#".$widget_id." .wp-block-navigation-item.border:not(:last-of-type), #".$widget_id." .wp-block-navigation-item.invert:not(:last-of-type)
+						//, #".$widget_id." .wp-block-navigation-item.invert:not(:last-of-type)
+						$style .= "#".$widget_id." .wp-block-navigation-item.border:not(:last-of-type)
 						{";
 
 							if($setting_navigation_item_border_margin_left != '')
@@ -847,9 +899,9 @@ class mf_navigation
 						$style .= "#".$widget_id." .wp-block-navigation-item.border a
 						{
 							border: .1em solid ".$setting_navigation_text_color.";
-						}
+						}";
 
-						#".$widget_id." .wp-block-navigation-item.invert
+						/*#".$widget_id." .wp-block-navigation-item.invert
 						{
 							color: ".$setting_navigation_background_color.";
 						}
@@ -858,7 +910,7 @@ class mf_navigation
 							{
 								background-color: ".$setting_navigation_text_color." !important;
 								border: .1em solid ".$setting_navigation_text_color." !important;
-							}";
+							}*/
 				}
 
 				if($attributes['navigation_search'] == 'yes')
