@@ -35,10 +35,10 @@ class mf_navigation
 
 		for($i = 0; $i < $count_temp; $i++)
 		{
-			$is_end     = ($arr_matches[$i][1][0] == "/");
-			$type       = $arr_matches[$i][2][0];
-			$arr_json   = json_decode($arr_matches[$i][3][0], true);
-			$is_single  = ($arr_matches[$i][4][0] == "/");
+			$is_end = ($arr_matches[$i][1][0] == "/");
+			$type = $arr_matches[$i][2][0];
+			$arr_json = json_decode($arr_matches[$i][3][0], true);
+			$is_single = ($arr_matches[$i][4][0] == "/");
 
 			$current_level = count($current_menu);
 
@@ -70,7 +70,7 @@ class mf_navigation
 						if(preg_match('/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/is', $inner, $btn_match))
 						{
 							$btn_data = array(
-								'url'   => html_entity_decode($btn_match[1]),
+								'url' => html_entity_decode($btn_match[1]),
 								'label' => trim(strip_tags($btn_match[2])),
 								'html' => $inner,
 							);
@@ -93,7 +93,7 @@ class mf_navigation
 
 						else
 						{
-							do_log(__FUNCTION__.": button with no <a href> found (".htmlspecialchars($inner).")");
+							do_log(__FUNCTION__.": button with no link found (".htmlspecialchars($inner).")");
 						}
 					}
 				break;
