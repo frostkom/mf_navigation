@@ -616,6 +616,7 @@ class mf_navigation
 								left: 0;
 								opacity: 0;
 								padding-bottom: 5em;
+								pointer-events: none;
 								position: absolute;
 								top: 0;
 								transition: all .5s ease;
@@ -627,6 +628,7 @@ class mf_navigation
 								.widget.navigation.is_open .wp-block-navigation
 								{
 									opacity: 1;
+									pointer-events: all;
 									transform: translate(0%, 0%);
 									z-index: 1000;
 								}

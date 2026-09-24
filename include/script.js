@@ -13,13 +13,13 @@ jQuery(function($)
 
 	function open_nav(parent_nav)
 	{
-		parent_nav.addClass('is_open').find(".wp-block-navigation__responsive-container").fadeIn();
+		parent_nav.addClass('is_open').find(".wp-block-navigation__responsive-container").fadeIn().parent(".wp-block-navigation").fadeIn();
 		$("body").addClass('menu_is_open');
 	}
 
 	function close_nav(parent_nav)
 	{
-		parent_nav.removeClass('is_open').find(".wp-block-navigation__responsive-container").fadeOut();
+		parent_nav.removeClass('is_open').find(".wp-block-navigation__responsive-container").fadeOut().parent(".wp-block-navigation").fadeOut();
 		$("body").removeClass('menu_is_open');
 	}
 
