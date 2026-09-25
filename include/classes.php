@@ -63,8 +63,8 @@ class mf_navigation
 					if($is_end == false)
 					{
 						// Grab the raw HTML between this "wp:button" comment and the next comment (which should be the matching "/wp:button").
-						$start = $arr_matches[$i][0][1] + strlen($arr_matches[$i][0][0]);
-						$end   = isset($arr_matches[$i + 1]) ? $arr_matches[$i + 1][0][1] : strlen($markup);
+						$start = ($arr_matches[$i][0][1] + strlen($arr_matches[$i][0][0]));
+						$end = isset($arr_matches[$i + 1]) ? $arr_matches[$i + 1][0][1] : strlen($markup);
 						$inner = substr($markup, $start, $end - $start);
 
 						if(preg_match('/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/is', $inner, $btn_match))
@@ -72,6 +72,7 @@ class mf_navigation
 							$btn_data = array(
 								'url' => html_entity_decode($btn_match[1]),
 								'label' => trim(strip_tags($btn_match[2])),
+								'className' => (isset($arr_json['className']) ? $arr_json['className'] : ''),
 								'html' => $inner,
 							);
 
@@ -105,7 +106,7 @@ class mf_navigation
 					foreach($arr_data as $key => $value)
 					{
 						$menu_items[$key] = array(
-							'url'   => get_permalink($key),
+							'url' => get_permalink($key),
 							'label' => $value,
 						);
 					}
@@ -256,9 +257,6 @@ class mf_navigation
 					if($is_button)
 					{
 						do_log(__FUNCTION__.": Convert .button to proper buttons and remove style for buttons");
-
-						/*$plugin_base_include_url = plugins_url()."/mf_base/include/";
-						mf_enqueue_style('style_base_button', $plugin_base_include_url."style_button.css");*/
 
 						$html .= "<div class='wp-block-button'>";
 					}
