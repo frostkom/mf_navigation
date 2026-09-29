@@ -478,13 +478,14 @@ class mf_navigation
 				$style .= "#".$widget_id." .wp-block-navigation
 				{
 					color: ".$setting_navigation_text_color.";
-				}
+				}";
 
-					#".$widget_id." .has-child .wp-block-navigation__submenu-container
+					// This might create white on white
+					/*$style .= "#".$widget_id." .has-child .wp-block-navigation__submenu-container
 					{
 						background-color: ".$setting_navigation_background_color.";
 						color: ".$setting_navigation_text_color.";
-					}";
+					}";*/
 
 						if($setting_navigation_active_text_color != '' && $setting_navigation_active_text_color != $setting_navigation_text_color)
 						{
@@ -494,10 +495,11 @@ class mf_navigation
 							}";
 						}
 
-						$style .= "#".$widget_id."s .has-child .wp-block-navigation-item
+						// This might create white on white
+						/*$style .= "#".$widget_id." .has-child .wp-block-navigation-item
 						{
 							color: ".$setting_navigation_text_color.";
-						}";
+						}";*/
 
 				if($arr_breakpoints['mobile'] > 0)
 				{
