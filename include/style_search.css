@@ -4,12 +4,12 @@ header .widget.navigation .wp-block-search
 	margin-right: .9em;
 }
 
-	header .widget.navigation .button + .wp-block-search
+	header .widget.navigation .wp-block-search
 	{
 		margin-left: 1em;
 	}
 
-.widget.navigation .wp-block-search/* .mf_form*/
+.widget.navigation .wp-block-search
 {
 	position: relative;
 }
