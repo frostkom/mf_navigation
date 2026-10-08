@@ -1,6 +1,5 @@
 jQuery(function($)
 {
-	/* Menu */
 	$(".widget.navigation .wp-block-navigation-item.item_gap").each(function()
 	{
 		var dom_obj = $(this).parents(".widget.navigation").parent(".wp-block-group");
@@ -13,13 +12,21 @@ jQuery(function($)
 
 	function open_nav(parent_nav)
 	{
-		parent_nav.addClass('is_open').find(".wp-block-navigation__responsive-container").fadeIn().parent(".wp-block-navigation").fadeIn();
+		var container = parent_nav.find(".wp-block-navigation__responsive-container"),
+			nav = container.parent(".wp-block-navigation");
+
+		nav.stop(true, true).show();
+		container.stop(true, true).show();
+
+		container[0].offsetHeight; /* Force reflow so the CSS transition starts from the closed state */
+
+		parent_nav.addClass('is_open');
 		$("body").addClass('menu_is_open');
 	}
 
 	function close_nav(parent_nav)
 	{
-		parent_nav.removeClass('is_open').find(".wp-block-navigation__responsive-container").fadeOut().parent(".wp-block-navigation").fadeOut();
+		parent_nav.removeClass('is_open').find(".wp-block-navigation__responsive-container").stop(true, true).fadeOut().parent(".wp-block-navigation").stop(true, true).fadeOut();
 		$("body").removeClass('menu_is_open');
 	}
 
