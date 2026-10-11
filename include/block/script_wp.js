@@ -4,6 +4,7 @@
 		registerBlockType = wp.blocks.registerBlockType,
 		SelectControl = wp.components.SelectControl,
 		TextControl = wp.components.TextControl,
+		PanelBody = wp.components.PanelBody,
 		InspectorControls = wp.blockEditor.InspectorControls;
 
 	registerBlockType('mf/navigation',
@@ -187,8 +188,12 @@
 				[
 					el(
 						InspectorControls,
-						'div',
-						inspectorControlsChildren
+						{key: 'inspector'},
+						el(
+							PanelBody,
+							{title: script_navigation_block_wp.block_title, initialOpen: true},
+							inspectorControlsChildren
+						)
 					),
 					el(
 						'strong',
