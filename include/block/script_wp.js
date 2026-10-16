@@ -75,8 +75,10 @@
 			'defaultStylePicker': true,
 			'typography':
 			{
-				'fontSize': true,
-				'lineHeight': true
+				__experimentalFontFamily: true,
+				fontFamily: true,
+				fontSize: true,
+				lineHeight: true
 			},
 			"__experimentalBorder":
 			{

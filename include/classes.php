@@ -457,6 +457,14 @@ class mf_navigation
 					$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
 				}
 
+				if(isset($attributes['fontFamily']) && $attributes['fontFamily'] != '')
+				{
+					$style .= "#".$widget_id." .wp-block-navigation-item a
+					{
+						font-family: var(--wp--preset--font-family--".$attributes['fontFamily'].");
+					}";
+				}
+
 				if(isset($attributes['fontSize']) && $attributes['fontSize'] != '')
 				{
 					$style .= "#".$widget_id." .wp-block-navigation-item a
