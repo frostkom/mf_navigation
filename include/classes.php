@@ -39,13 +39,14 @@ class mf_navigation
 			$type = $arr_matches[$i][2][0];
 			$arr_json = json_decode($arr_matches[$i][3][0], true);
 			$is_single = ($arr_matches[$i][4][0] == "/");
+			$is_hidden = (!empty($arr_json['metadata']['blockVisibility']) === false && isset($arr_json['metadata']['blockVisibility']) && $arr_json['metadata']['blockVisibility'] === false);
 
 			$current_level = count($current_menu);
 
 			switch($type)
 			{
 				case 'buttons':
-					if($is_end == false && !empty($arr_json['metadata']['blockVisibility']) === false && isset($arr_json['metadata']['blockVisibility']) && $arr_json['metadata']['blockVisibility'] === false)
+					if($is_end == false && $is_hidden == true)
 					{
 						// Hidden block — skip forward to its matching "/wp:buttons" comment so nothing nested inside it (including any "button" children) gets processed at all.
 						for($j = $i + 1; $j < $count_temp; $j++)
@@ -117,6 +118,7 @@ class mf_navigation
 					{
 						unset($current_menu[$current_level - 1]);
 					}
+
 					else
 					{
 						switch($current_level)
@@ -139,19 +141,22 @@ class mf_navigation
 				break;
 
 				case 'navigation-link':
-					switch($current_level)
+					if($is_hidden == false)
 					{
-						case 0:
-							$menu_items[$i] = $arr_json;
-						break;
+						switch($current_level)
+						{
+							case 0:
+								$menu_items[$i] = $arr_json;
+							break;
 
-						case 1:
-							$menu_items[$current_menu[0]]['children'][$i] = $arr_json;
-						break;
+							case 1:
+								$menu_items[$current_menu[0]]['children'][$i] = $arr_json;
+							break;
 
-						case 2:
-							$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $arr_json;
-						break;
+							case 2:
+								$menu_items[$current_menu[0]]['children'][$current_menu[1]]['children'][$i] = $arr_json;
+							break;
+						}
 					}
 				break;
 
