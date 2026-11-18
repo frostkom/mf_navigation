@@ -3,7 +3,7 @@
 Plugin Name: MF Navigation+
 Plugin URI: https://github.com/frostkom/mf_navigation
 Description: Adds a block to display an enhanced version of navigation
-Version: 1.8.9
+Version: 1.8.10
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://martinfors.se
@@ -43,7 +43,7 @@ if(!function_exists('is_plugin_active') || function_exists('is_plugin_active') &
 		$obj_navigation = new mf_navigation();
 
 		mf_uninstall_plugin(array(
-			'options' => array('setting_navigation_background_color', 'setting_navigation_text_color', 'setting_navigation_container_padding_mobile', 'setting_navigation_item_border_margin_left', 'setting_navigation_item_border_margin_right', 'setting_navigation_item_vertical_padding_left', 'setting_navigation_item_border_radius', 'setting_navigation_active_text_color', 'setting_navigation_item_padding', 'setting_navigation_item_padding_vertical', 'setting_navigation_item_padding_mobile', 'option_navigation_logged_in_cookies', 'setting_navigation_logged_in_cookies'),
+			'options' => array('setting_navigation_background_color', 'setting_navigation_text_color', 'setting_navigation_container_padding_mobile', 'setting_navigation_item_border_margin_left', 'setting_navigation_item_border_margin_right', 'setting_navigation_item_border_radius', 'setting_navigation_active_text_color', 'setting_navigation_item_padding', 'setting_navigation_item_padding_vertical', 'setting_navigation_item_padding_mobile', 'setting_navigation_submenu_background_color', 'setting_navigation_submenu_text_color', 'option_navigation_logged_in_cookies', 'setting_navigation_logged_in_cookies'),
 		));
 	}
 }

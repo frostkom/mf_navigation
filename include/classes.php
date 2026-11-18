@@ -18,7 +18,7 @@ class mf_navigation
 		if($obj_cron->is_running == false)
 		{
 			mf_uninstall_plugin(array(
-				'options' => array('setting_navigation_dim_content', 'setting_navigation_breakpoint_tablet', 'setting_navigation_breakpoint_mobile'),
+				'options' => array('setting_navigation_dim_content', 'setting_navigation_breakpoint_tablet', 'setting_navigation_breakpoint_mobile', 'setting_navigation_item_vertical_padding_left'),
 			));
 		}
 
@@ -362,21 +362,43 @@ class mf_navigation
 
 				$arr_breakpoints = apply_filters('get_layout_breakpoints', ['tablet' => 1200, 'mobile' => 930, 'suffix' => "px"]);
 
+				if(isset($attributes['backgroundColor']) && $attributes['backgroundColor'] != '')
+				{
+					$setting_navigation_background_color = filter_style_color($attributes['backgroundColor']);
+				}
+
+				else
+				{
+					$setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#fff");
+				}
+
+				if(isset($attributes['textColor']) && $attributes['textColor'] != '')
+				{
+					$setting_navigation_text_color = filter_style_color($attributes['textColor']);
+				}
+
+				else
+				{
+					$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
+				}
+
 				$setting_navigation_container_padding_mobile = get_option_or_default('setting_navigation_container_padding_mobile', "6em 2em 2em");
-				$setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', ".33em");
-				$setting_navigation_item_vertical_padding_left = get_option('setting_navigation_item_vertical_padding_left');
+				$setting_navigation_item_border_radius = get_option('setting_navigation_item_border_radius', "0");
 				$setting_navigation_item_padding = get_option('setting_navigation_item_padding', ".6em 1em");
 				$setting_navigation_item_padding_vertical = get_option('setting_navigation_item_padding_vertical', ".6em 0");
 				$setting_navigation_item_padding_mobile = get_option_or_default('setting_navigation_item_padding_mobile', ".3em .6em");
+				$setting_navigation_submenu_background_color = get_option_or_default('setting_navigation_submenu_background_color', "#ffffff");
+				$setting_navigation_submenu_text_color = get_option_or_default('setting_navigation_submenu_text_color', "#000000");
 
 				$style .= ":root
 				{
 					--navigation-container-padding-mobile: ".$setting_navigation_container_padding_mobile.";
 					--navigation-item-border-radius: ".$setting_navigation_item_border_radius.";
-					--navigation-item-vertical-padding-left: ".$setting_navigation_item_vertical_padding_left.";
 					--navigation-item-padding: ".$setting_navigation_item_padding.";
 					--navigation-item-padding-vertical: ".$setting_navigation_item_padding_vertical.";
 					--navigation-item-padding-mobile: ".$setting_navigation_item_padding_mobile.";
+					--setting_navigation_submenu_background_color: ".$setting_navigation_submenu_background_color.";
+					--setting_navigation_submenu_text_color: ".$setting_navigation_submenu_text_color.";
 				}";
 
 				$plugin_include_url = plugin_dir_url(__FILE__);
@@ -442,26 +464,6 @@ class mf_navigation
 					}
 				}
 
-				if(isset($attributes['backgroundColor']) && $attributes['backgroundColor'] != '')
-				{
-					$setting_navigation_background_color = filter_style_color($attributes['backgroundColor']);
-				}
-
-				else
-				{
-					$setting_navigation_background_color = get_option_or_default('setting_navigation_background_color', "#fff");
-				}
-
-				if(isset($attributes['textColor']) && $attributes['textColor'] != '')
-				{
-					$setting_navigation_text_color = filter_style_color($attributes['textColor']);
-				}
-
-				else
-				{
-					$setting_navigation_text_color = get_option_or_default('setting_navigation_text_color', "#000");
-				}
-
 				if(isset($attributes['fontFamily']) && $attributes['fontFamily'] != '')
 				{
 					$style .= "#".$widget_id." .wp-block-navigation-item a
@@ -493,26 +495,13 @@ class mf_navigation
 					color: ".$setting_navigation_text_color.";
 				}";
 
-					// This might create white on white
-					/*$style .= "#".$widget_id." .has-child .wp-block-navigation__submenu-container
+					if($setting_navigation_active_text_color != '' && $setting_navigation_active_text_color != $setting_navigation_text_color)
 					{
-						background-color: ".$setting_navigation_background_color.";
-						color: ".$setting_navigation_text_color.";
-					}";*/
-
-						if($setting_navigation_active_text_color != '' && $setting_navigation_active_text_color != $setting_navigation_text_color)
+						$style .= "#".$widget_id." .wp-block-navigation-item.current_menu_parent > a, #".$widget_id." .wp-block-navigation-item.current_menu_item > a
 						{
-							$style .= "#".$widget_id." .wp-block-navigation-item.current_menu_parent > a, #".$widget_id." .wp-block-navigation-item.current_menu_item > a
-							{
-								color: ".$setting_navigation_active_text_color.";
-							}";
-						}
-
-						// This might create white on white
-						/*$style .= "#".$widget_id." .has-child .wp-block-navigation-item
-						{
-							color: ".$setting_navigation_text_color.";
-						}";*/
+							color: ".$setting_navigation_active_text_color.";
+						}";
+					}
 
 				if($arr_breakpoints['mobile'] > 0)
 				{
@@ -542,16 +531,9 @@ class mf_navigation
 						{
 							background: ".$setting_navigation_text_color.";
 							color: ".$setting_navigation_background_color.";
-						}";
+						}
 
-						/*#".$widget_id.".mobile_ready .wp-block-navigation .wp-block-navigation-item.invert a
-						{
-							background-color: ".$setting_navigation_background_color." !important;
-							border: .1em solid ".$setting_navigation_background_color." !important;
-							color: ".$setting_navigation_text_color." !important;
-						}*/
-
-						$style .= "#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
+						#".$widget_id.".mobile_ready .has-child:hover .wp-block-navigation-item, #".$widget_id.".mobile_ready .has-child.is_open .wp-block-navigation-item
 						{
 							background-color: ".$setting_navigation_text_color." !important;
 							color: ".$setting_navigation_background_color." !important;
@@ -894,7 +876,6 @@ class mf_navigation
 
 					if($setting_navigation_item_border_margin_left != '' && $setting_navigation_item_border_margin_right != '')
 					{
-						//, #".$widget_id." .wp-block-navigation-item.invert:not(:last-of-type)
 						$style .= "#".$widget_id." .wp-block-navigation-item.border:not(:last-of-type)
 						{";
 
@@ -915,17 +896,6 @@ class mf_navigation
 						{
 							border: .1em solid ".$setting_navigation_text_color.";
 						}";
-
-						/*#".$widget_id." .wp-block-navigation-item.invert
-						{
-							color: ".$setting_navigation_background_color.";
-						}
-
-							#".$widget_id." .wp-block-navigation-item.invert a
-							{
-								background-color: ".$setting_navigation_text_color." !important;
-								border: .1em solid ".$setting_navigation_text_color." !important;
-							}*/
 				}
 
 				if($attributes['navigation_search'] == 'yes')
@@ -1183,6 +1153,7 @@ class mf_navigation
 		$arr_settings = [];
 		$arr_settings['setting_navigation_background_color'] = __("Background Color", 'lang_navigation');
 		$arr_settings['setting_navigation_text_color'] = __("Text Color", 'lang_navigation');
+		$arr_settings['setting_navigation_active_text_color'] = __("Text Color", 'lang_navigation')." (".__("Current Page", 'lang_navigation').")";
 		$arr_settings['setting_navigation_container_padding_mobile'] = __("Container Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
 
 		if($has_item_with_border == true)
@@ -1191,24 +1162,9 @@ class mf_navigation
 			$arr_settings['setting_navigation_item_border_margin_right'] = __("Item Border Margin", 'lang_navigation')." (".__("Right", 'lang_navigation').")";
 		}
 
-		else
-		{
-			delete_option('setting_navigation_item_border_margin_left');
-			delete_option('setting_navigation_item_border_margin_right');
-		}
-
-		$arr_settings['setting_navigation_item_vertical_padding_left'] = __("Item Vertical Padding", 'lang_navigation')." (".__("Left", 'lang_navigation').")";
-		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
-		$arr_settings['setting_navigation_active_text_color'] = __("Text Color", 'lang_navigation')." (".__("Current Page", 'lang_navigation').")";
-
 		if($has_horizontal_menu == true)
 		{
 			$arr_settings['setting_navigation_item_padding'] = __("Item Padding", 'lang_navigation')." (".__("Horizontal", 'lang_navigation').")";
-		}
-
-		else
-		{
-			delete_option('setting_navigation_item_padding');
 		}
 
 		if($has_vertical_menu == true)
@@ -1216,21 +1172,14 @@ class mf_navigation
 			$arr_settings['setting_navigation_item_padding_vertical'] = __("Item Padding", 'lang_navigation')." (".__("Vertical", 'lang_navigation').")";
 		}
 
-		else
-		{
-			delete_option('setting_navigation_item_padding_vertical');
-		}
-
 		$arr_settings['setting_navigation_item_padding_mobile'] = __("Item Padding", 'lang_navigation')." (".__("Mobile", 'lang_navigation').")";
+		$arr_settings['setting_navigation_item_border_radius'] = __("Item Border Radius", 'lang_navigation');
+		$arr_settings['setting_navigation_submenu_background_color'] = __("Background Color", 'lang_navigation')." (".__("Submenu", 'lang_navigation').")";
+		$arr_settings['setting_navigation_submenu_text_color'] = __("Text Color", 'lang_navigation')." (".__("Submenu", 'lang_navigation').")";
 
 		if(count(get_option_or_default('option_navigation_logged_in_cookies', [])) > 0)
 		{
 			$arr_settings['setting_navigation_logged_in_cookies'] = __("Logged in Cookies", 'lang_navigation');
-		}
-
-		else
-		{
-			delete_option('setting_navigation_logged_in_cookies');
 		}
 
 		show_settings_fields(array('area' => $options_area, 'object' => $this, 'settings' => $arr_settings));
@@ -1259,6 +1208,14 @@ class mf_navigation
 		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
 	}
 
+	function setting_navigation_active_text_color_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option($setting_key);
+
+		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
+	}
+
 	function setting_navigation_container_padding_mobile_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
@@ -1283,30 +1240,6 @@ class mf_navigation
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
 	}
 
-	function setting_navigation_item_vertical_padding_left_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
-
-		echo show_textfield(array('name' => $setting_key, 'value' => $option));
-	}
-
-	function setting_navigation_item_border_radius_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option_or_default($setting_key, ".33em");
-
-		echo show_textfield(array('name' => $setting_key, 'value' => $option));
-	}
-
-	function setting_navigation_active_text_color_callback()
-	{
-		$setting_key = get_setting_key(__FUNCTION__);
-		$option = get_option($setting_key);
-
-		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
-	}
-
 	function setting_navigation_item_padding_callback()
 	{
 		$setting_key = get_setting_key(__FUNCTION__);
@@ -1329,6 +1262,30 @@ class mf_navigation
 		$option = get_option_or_default($setting_key, ".3em .6em");
 
 		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_item_border_radius_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option_or_default($setting_key, "0");
+
+		echo show_textfield(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_submenu_background_color_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option_or_default($setting_key, "#ffffff");
+
+		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
+	}
+
+	function setting_navigation_submenu_text_color_callback()
+	{
+		$setting_key = get_setting_key(__FUNCTION__);
+		$option = get_option_or_default($setting_key, "#000000");
+
+		echo get_form_accents(array('name' => $setting_key, 'value' => $option));
 	}
 
 	function get_logged_in_cookies_for_select()
